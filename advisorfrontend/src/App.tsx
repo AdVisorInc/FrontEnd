@@ -5,8 +5,31 @@ import RegisterPage from "./Components/Pages/RegisterPage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme({
-  // Define your theme here
+  palette: {
+    primary: {
+      main: "#007BFF", // Example primary color
+    },
+    secondary: {
+      main: "#F50057", // Example secondary color
+    },
+  },
+  components: {
+    MuiTextField: {
+      defaultProps: {
+        variant: "outlined", // Use outlined variant for text fields by default
+        margin: "normal",
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          margin: "8px",
+        },
+      },
+    },
+  },
 });
+
 const App: React.FC = () => {
   return (
     <GoogleOAuthProvider clientId="22202495353-q4duq21a6saollon2psplpgs5crl5oc4.apps.googleusercontent.com">
