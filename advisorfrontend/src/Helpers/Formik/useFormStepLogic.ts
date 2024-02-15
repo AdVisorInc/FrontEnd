@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useFormik, FormikHelpers } from "formik";
 import { FormValues, validationSchemaArray } from "../../Types/FormTypes";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../Firebase/config";
 
 interface UseFormStepLogicProps {
   initialValues: FormValues;
@@ -22,10 +24,28 @@ const useFormStepLogic = ({
     initialValues,
     validationSchema: validationSchemaArray[currentStep],
     onSubmit: async (values, formikHelpers) => {
-      if (isLastStep) {
-        await onSubmit(values, formikHelpers); // Call the provided onSubmit function
+      if (currentStep === 6) {
+        // Assuming the last step is where the user submits the form
+        try {
+          const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            values.email,
+            values.password
+          );
+          console.log("Account created successfully", userCredential.user);
+          onSubmit(values, formikHelpers); // Proceed with your custom submission logic
+        } catch (error: any) {
+          if (error.code === "auth/email-already-in-use") {
+            formikHelpers.setFieldError(
+              "email",
+              "Email already in use. Please sign in."
+            );
+          } else {
+            console.error("Registration error: ", error);
+          }
+        }
       } else {
-        goToNextStep(); // Move to the next step if not the last
+        setCurrentStep(currentStep + 1); // Proceed to the next step
       }
     },
   });

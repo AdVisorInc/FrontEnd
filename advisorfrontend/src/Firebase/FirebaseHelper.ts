@@ -23,6 +23,7 @@ export const checkEmailExists = async (
 ): Promise<CheckEmailExistsResult> => {
   try {
     await signInWithEmailAndPassword(auth, email, "dummyPassword");
+    console.log(auth);
     return { exists: true, message: "This email is already in use." };
   } catch (error: any) {
     if (error.code === "auth/user-not-found") {
