@@ -1,8 +1,13 @@
 // useFormStepLogic.ts
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik, FormikHelpers } from "formik";
 import { FormValues, validationSchemaArray } from "../../Types/FormTypes";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  AuthError,
+  onAuthStateChanged,
+  sendEmailVerification,
+} from "firebase/auth";
 import { auth } from "../../Firebase/config";
 
 interface UseFormStepLogicProps {
@@ -12,45 +17,95 @@ interface UseFormStepLogicProps {
     formikHelpers: FormikHelpers<FormValues>
   ) => void | Promise<any>;
 }
-
 const useFormStepLogic = ({
   initialValues,
   onSubmit,
 }: UseFormStepLogicProps) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const isLastStep = currentStep === validationSchemaArray.length - 1;
+  const [emailExists, setEmailExists] = useState(false);
+  const [cachedEmails, setCachedEmails] = useState<string[]>([]);
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [emailVerificationSent, setEmailVerificationSent] = useState(false);
 
+  const cacheEmail = (email: string) => {
+    if (!cachedEmails.includes(email)) {
+      setCachedEmails((prevEmails) => [...prevEmails, email]);
+    }
+  };
   const formik = useFormik<FormValues>({
     initialValues,
     validationSchema: validationSchemaArray[currentStep],
     onSubmit: async (values, formikHelpers) => {
-      if (currentStep === 6) {
-        // Assuming the last step is where the user submits the form
+      if (currentStep === 1) {
+        console.log("Step Password");
         try {
           const userCredential = await createUserWithEmailAndPassword(
             auth,
             values.email,
             values.password
           );
-          console.log("Account created successfully", userCredential.user);
-          onSubmit(values, formikHelpers); // Proceed with your custom submission logic
-        } catch (error: any) {
-          if (error.code === "auth/email-already-in-use") {
-            formikHelpers.setFieldError(
-              "email",
-              "Email already in use. Please sign in."
-            );
-          } else {
-            console.error("Registration error: ", error);
+          if (userCredential.user) {
+            await sendEmailVerification(userCredential.user);
+            setEmailVerificationSent(true);
+            formikHelpers.setSubmitting(false);
           }
+          goToNextStep();
+        } catch (error) {
+          const firebaseError = error as { code?: string }; // Type assertion
+          console.log(firebaseError.code);
+          switch (firebaseError.code) {
+            case "auth/email-already-in-use":
+              console.log("Email already in use");
+              formikHelpers.setFieldError(
+                "email",
+                "Email already in use. Please sign in or use a different email."
+              );
+              formikHelpers.setFieldValue("password", "", false); // Clear password field
+              formikHelpers.setFieldValue("confirmPassword", "", false); // Clear confirmPassword field
+              cacheEmail(values.email);
+              setEmailExists(true);
+              setCurrentStep(0); // Go back to the first step
+              break;
+            default:
+              formikHelpers.setFieldError(
+                "email",
+                "An unexpected error occurred. Please try again."
+              );
+              break;
+          }
+          formikHelpers.setSubmitting(false);
+          return;
         }
+      } else if (currentStep === validationSchemaArray.length - 1) {
+        await onSubmit(values, formikHelpers);
       } else {
-        setCurrentStep(currentStep + 1); // Proceed to the next step
+        goToNextStep();
       }
     },
   });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log("User:", user);
+      if (user) {
+        setEmailVerified(user.emailVerified);
+        if (user.emailVerified && emailVerificationSent) {
+          goToNextStep();
+          setEmailVerificationSent(false); // Reset to prevent looping
+        }
+      }
+    });
 
+    return () => unsubscribe();
+  }, [emailVerificationSent]);
   const goToNextStep = async () => {
+    if (currentStep === 0 && cachedEmails.includes(formik.values.email)) {
+      // If trying to proceed with a cached email, block and show an error
+      formik.setFieldError(
+        "email",
+        "This email is already in use. Please sign in or use a different email."
+      );
+      return; // Stop the next step transition
+    }
     // Explicitly mark fields as touched for steps 3 and 4
     if (currentStep === 3) {
       formik.setFieldTouched("marketingPlatforms", true);
@@ -75,10 +130,10 @@ const useFormStepLogic = ({
     });
 
     if (isStepValid) {
-      if (currentStep < validationSchemaArray.length - 1) {
+      if (currentStep < validationSchemaArray.length - 2) {
         setCurrentStep(currentStep + 1);
       } else {
-        formik.handleSubmit();
+        onSubmit(formik.values, formik);
       }
     } else {
       formik.validateForm();
@@ -86,18 +141,20 @@ const useFormStepLogic = ({
   };
   const goToPreviousStep = () =>
     setCurrentStep((prevStep) => Math.max(prevStep - 1, 0));
-  const isFinalStep = () => currentStep === validationSchemaArray.length - 1;
-
-  // Directly use formik's submitForm as handleSubmit to trigger form submission
-  const handleSubmit = () => formik.submitForm();
-
+  const isFinalStep = () => currentStep === validationSchemaArray.length - 2;
   return {
     formik,
     currentStep,
     goToNextStep,
     goToPreviousStep,
     isFinalStep,
-    handleSubmit,
+    handleSubmit: formik.submitForm,
+    setEmailExists,
+    emailExists,
+    cachedEmails,
+    emailVerified,
+    emailVerificationSent,
+    setEmailVerificationSent,
   };
 };
 

@@ -7,9 +7,14 @@ import { checkEmailExists } from "../../../Firebase/FirebaseHelper";
 
 interface EmailStepProps {
   formik: FormikProps<FormValues>;
+  handleEmailChange?: (e: React.ChangeEvent<any>) => void;
+  handleEmailBlur?: (e: React.FocusEvent<any>) => void;
 }
-
-const EmailStep: React.FC<EmailStepProps> = ({ formik }) => {
+const EmailStep: React.FC<EmailStepProps> = ({
+  formik,
+  handleEmailChange,
+  handleEmailBlur,
+}) => {
   return (
     <>
       <Typography variant="h6" sx={{ mb: 2, textAlign: "center" }}>
@@ -21,7 +26,8 @@ const EmailStep: React.FC<EmailStepProps> = ({ formik }) => {
         name="email"
         label="Email"
         value={formik.values.email}
-        onChange={formik.handleChange}
+        onChange={handleEmailChange || formik.handleChange}
+        onBlur={handleEmailBlur} // Use onBlur handler
         error={formik.touched.email && Boolean(formik.errors.email)}
         helperText={formik.touched.email && formik.errors.email}
       />

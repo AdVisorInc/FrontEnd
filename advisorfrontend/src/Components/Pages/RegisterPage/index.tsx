@@ -1,7 +1,5 @@
-// RegisterForm.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, LinearProgress, Typography, styled } from "@mui/material";
-import useFormStepLogic from "../../../Helpers/Formik/useFormStepLogic";
 import { FormValues } from "../../../Types/FormTypes";
 import BusinessGoalsStep from "../../Atoms/BusinessGoalStep";
 import EmailStep from "../../Atoms/EmailStep";
@@ -10,25 +8,23 @@ import MarketingPlatformsStep from "../../Atoms/MarketingPlatformStep";
 import PasswordStep from "../../Atoms/PasswordStep";
 import PhoneNumberAndOTPStep from "../../Atoms/PhoneNumberAndOTPStep";
 import UseCaseStep from "../../Atoms/UseCaseStep";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../Firebase/config";
+import useFormStepLogic from "../../../Helpers/Formik/useFormStepLogic";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 
-const stepTitles = [
-  "Enter Your Email",
-  "Create a Password",
-  "What's Your Intent?",
-  "Choose Marketing Platforms",
-  "Define Your Marketing Goal",
-  "Set Your Business Goal",
-];
 const CustomBox = styled("form")(() => ({
   display: "flex",
   flexDirection: "column",
   gap: "3em",
   padding: "2em",
-  maxWidth: "30em",
+  maxWidth: "100%",
   margin: "2 auto",
 }));
+
 const RegisterForm: React.FC = () => {
   const {
     formik,
@@ -37,6 +33,12 @@ const RegisterForm: React.FC = () => {
     goToPreviousStep,
     isFinalStep,
     handleSubmit,
+    setEmailExists,
+    emailExists,
+    cachedEmails,
+    emailVerified,
+    emailVerificationSent,
+    setEmailVerificationSent,
   } = useFormStepLogic({
     initialValues: {
       email: "",
@@ -50,37 +52,60 @@ const RegisterForm: React.FC = () => {
       marketingPlatforms: [],
       initialMarketingGoal: "",
     },
-    onSubmit: async (values: FormValues) => {
-      if (currentStep === 1) {
-        // Assuming the password step is at index 1
-        try {
-          await createUserWithEmailAndPassword(
-            auth,
-            values.email,
-            values.password
-          );
-          setCurrentStep(currentStep + 1); // Proceed to next step if account creation is successful
-        } catch (error: any) {
-          if (error.code === "auth/email-already-in-use") {
-            setEmailExists(true);
-          } else {
-            console.error("Error creating user: ", error);
-          }
-        }
-      } else {
-        setCurrentStep(currentStep + 1); // Proceed to next step for other steps
-      }
+    onSubmit: (values: FormValues) => {
+      console.log("Form submitted:", values);
+      // Handle form submission (e.g., send data to an API)
     },
   });
-  const [emailExists, setEmailExists] = useState(false);
+  const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false);
 
-  const handleEmailExists = (exists: boolean) => {
-    setEmailExists(exists);
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Directly call Formik's handleChange to ensure the form value is updated
+    formik.handleChange(event);
+
+    // If the email field is being edited and emailExists is true, reset it
+    if (emailExists) {
+      setEmailExists(false);
+    }
+  };
+  const handleEmailBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    // Directly call Formik's handleBlur to manage field touch state
+    formik.handleBlur(event);
+
+    // Check if the current email is in the list of cached emails
+    if (cachedEmails.includes(formik.values.email)) {
+      setEmailExists(true); // Set emailExists to true if the email is cached as existing
+    } else {
+      setEmailExists(false); // Otherwise, ensure emailExists is false
+    }
+  };
+
+  const handleNext = () => {
+    console.log(currentStep, emailVerified, emailVerificationSent);
+    if (currentStep === 1 && !emailVerified && emailVerificationSent) {
+      // Block the next step until the email is verified
+      alert("Please verify your email before continuing.");
+    } else if (currentStep === 1) {
+      console.log("Submitting");
+      formik.handleSubmit();
+    } else {
+      if (isFinalStep()) {
+        formik.handleSubmit();
+      } else {
+        goToNextStep();
+      }
+    }
   };
   const renderStepContent = (step: number) => {
     switch (step) {
       case 0:
-        return <EmailStep formik={formik} />;
+        return (
+          <EmailStep
+            formik={formik}
+            handleEmailChange={handleEmailChange}
+            handleEmailBlur={handleEmailBlur}
+          />
+        );
       case 1:
         return <PasswordStep formik={formik} />;
       case 2:
@@ -119,40 +144,50 @@ const RegisterForm: React.FC = () => {
         sx={{ width: "100%", mb: 2 }}
       />
       <Typography variant="h5" sx={{ mb: 2, textAlign: "center" }}>
-        {stepTitles[currentStep]}
+        Register
       </Typography>
+
       {renderStepContent(currentStep)}
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between", // Adjust this for spacing
+          justifyContent: "space-between",
           alignItems: "center",
-          mt: 2, // Add some margin top for spacing from the content above
+          mt: 2,
           width: "100%",
         }}
       >
         {currentStep > 0 && <Button onClick={goToPreviousStep}>Back</Button>}
-        {!emailExists && (
-          <Button
-            variant="contained"
-            onClick={() => (isFinalStep() ? handleSubmit() : goToNextStep())}
-            sx={{ flex: currentStep > 0 ? 0 : 1, maxWidth: "30%" }}
-          >
-            {isFinalStep() ? "Submit" : "Next"}
-          </Button>
-        )}
+        <Button variant="contained" onClick={handleNext} sx={{ flex: 1 }}>
+          {isFinalStep() ? "Submit" : "Next"}
+        </Button>
         {emailExists && (
           <Button
             variant="contained"
             sx={{ ml: 2 }}
             onClick={() => {
-              /* Handle sign-in logic */
+              // Implement redirection to the sign-in page or modal here
             }}
           >
             Sign In
           </Button>
         )}
       </Box>
+      {emailVerificationSent && !emailVerified && (
+        <Dialog open={true} onClose={() => setEmailVerificationSent(false)}>
+          <DialogTitle>Email Verification Required</DialogTitle>
+          <DialogContent>
+            <Typography>
+              Please check your email to verify your account before proceeding.
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setEmailVerificationSent(false)}>
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </CustomBox>
   );
 };

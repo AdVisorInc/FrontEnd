@@ -95,3 +95,13 @@ export const businessGoalsOptions = [
   "Drive Innovation",
   "Strengthen Brand Recognition",
 ];
+export const getEmailSchema = (cachedEmails: string[]) =>
+  Yup.object({
+    email: Yup.string()
+      .email("Invalid email format")
+      .notOneOf(
+        cachedEmails,
+        "This email is already in use. Please sign in or use a different email."
+      )
+      .required("Email is required"),
+  });
