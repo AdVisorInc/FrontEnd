@@ -7,6 +7,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import ThemeProviderWrapper from "./theme/ThemeProvider";
 import { HelmetProvider } from "react-helmet-async";
 import SidebarLayout from "./SidebarLayout";
+import HomePage from "./Components/Pages/HomePage";
 
 const App: React.FC = () => {
   return (

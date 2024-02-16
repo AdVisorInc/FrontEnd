@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   TextField,
   Button,
@@ -14,7 +14,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  createTheme,
   useMediaQuery,
   ThemeProvider,
 } from "@mui/material";
@@ -32,12 +31,14 @@ import {
 import { auth } from "../../../Firebase/config";
 import Spline from "@splinetool/react-spline";
 import { useNavigate } from "react-router-dom";
+import { ThemeOptions, createTheme } from "@mui/material/styles";
+import { Application, SPEObject } from "@splinetool/runtime";
 
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
   },
-});
+} as ThemeOptions);
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -120,11 +121,23 @@ const LoginPage: React.FC = () => {
                 alignItems="center"
                 justifyContent="center"
               >
-                <Typography variant="h2" align="center" gutterBottom>
+                <Typography
+                  variant="h2"
+                  fontWeight={800}
+                  align="center"
+                  gutterBottom
+                >
                   This is not just a rock,
                 </Typography>
                 <Spline scene="https://prod.spline.design/nTRxHxuH1r-qbFrZ/scene.splinecode" />
-                <Typography variant="h3" align="center" gutterBottom>
+
+                <Typography
+                  variant="h3"
+                  fontWeight={800}
+                  align="center"
+                  letterSpacing={2}
+                  gutterBottom
+                >
                   it's the foundation of your marketing success.
                 </Typography>
               </Box>
@@ -145,6 +158,7 @@ const LoginPage: React.FC = () => {
             width="100%"
             maxWidth="50em"
           >
+            <Typography variant="h5">Login</Typography>
             <form
               onSubmit={handleLogin}
               style={{ maxWidth: "35em", padding: "3em", margin: "auto" }}
