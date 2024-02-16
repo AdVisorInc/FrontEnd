@@ -42,7 +42,6 @@ const App: React.FC = () => {
           </Routes>
         </Router>
       </ThemeProvider>
-      ,
     </GoogleOAuthProvider>
   );
 };
