@@ -20,7 +20,7 @@ const App: React.FC = () => {
               <Route path="/dashboard" element={<SidebarLayout />}>
                 <Route path=":overview" element={<DashboardPage />} />
               </Route>
-              <Route path="/" element={<LoginPage />} />
+              <Route path="/" element={<HomePage />} />
             </Routes>
           </Router>
         </GoogleOAuthProvider>
