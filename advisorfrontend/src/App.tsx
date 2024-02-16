@@ -2,8 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./Components/Pages/LoginPage";
 import RegisterPage from "./Components/Pages/RegisterPage";
+import HomePage from "./Components/Pages/HomePage";
+
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -38,7 +41,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/" element={<LoginPage />} />
+            <Route path="/" element={<HomePage />} />
           </Routes>
         </Router>
       </ThemeProvider>
