@@ -22,7 +22,7 @@ const App: React.FC = () => {
                 <Route path="overview" element={<OverviewPage />} />
                 <Route path="analytics" element={<AnalyticsPage />} />
               </Route>
-              <Route path="/" element={<LoginPage />} />
+              <Route path="/" element={<HomePage />} />
             </Routes>
           </Router>
         </GoogleOAuthProvider>
