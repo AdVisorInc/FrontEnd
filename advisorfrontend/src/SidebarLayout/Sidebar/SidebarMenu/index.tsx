@@ -206,10 +206,21 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/messenger"
+                  to="/dashboard/analytics"
                   startIcon={<MmsTwoToneIcon />}
                 >
-                  Spenidng Summary
+                  Analytics
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/dashboard/overview"
+                  startIcon={<MmsTwoToneIcon />}
+                >
+                  Campaign Manager
                 </Button>
               </ListItem>
             </List>

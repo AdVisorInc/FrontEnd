@@ -15,16 +15,13 @@ import HeaderNav from "../../../SidebarLayout/Header";
 import { useTheme } from "@emotion/react";
 import SidebarLayout from "../../../SidebarLayout";
 
-function DashboardCrypto() {
+function AnalyticsPage() {
   const theme = useTheme();
   return (
     <>
       <Helmet>
-        <title>AdVisor Dashboard</title>
+        <title>Analytics Dashboard</title>
       </Helmet>
-      <PageTitleWrapper>
-        <PageHeader />
-      </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
           container
@@ -49,4 +46,4 @@ function DashboardCrypto() {
   );
 }
 
-export default DashboardCrypto;
+export default AnalyticsPage;

@@ -2,11 +2,12 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./Components/Pages/LoginPage";
 import RegisterPage from "./Components/Pages/RegisterPage";
-import DashboardPage from "./Components/Pages/DashboardPage";
+import OverviewPage from "./Components/Pages/OverviewPage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import ThemeProviderWrapper from "./theme/ThemeProvider";
 import { HelmetProvider } from "react-helmet-async";
 import SidebarLayout from "./SidebarLayout";
+import AnalyticsPage from "./Components/Pages/AnalyticsPage";
 
 const App: React.FC = () => {
   return (
@@ -18,7 +19,8 @@ const App: React.FC = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/dashboard" element={<SidebarLayout />}>
-                <Route path=":overview" element={<DashboardPage />} />
+                <Route path="overview" element={<OverviewPage />} />
+                <Route path="analytics" element={<AnalyticsPage />} />
               </Route>
               <Route path="/" element={<LoginPage />} />
             </Routes>
