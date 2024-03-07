@@ -8,6 +8,8 @@ import ThemeProviderWrapper from "./theme/ThemeProvider";
 import { HelmetProvider } from "react-helmet-async";
 import SidebarLayout from "./SidebarLayout";
 import AnalyticsPage from "./Components/Pages/AnalyticsPage";
+import HomePage from "./Components/Pages/HomePage";
+import ManagerPage from "./Components/Pages/ManagerPage";
 
 const App: React.FC = () => {
   return (
@@ -21,6 +23,7 @@ const App: React.FC = () => {
               <Route path="/dashboard" element={<SidebarLayout />}>
                 <Route path="overview" element={<OverviewPage />} />
                 <Route path="analytics" element={<AnalyticsPage />} />
+                <Route path="manager" element={<ManagerPage />} />
               </Route>
               <Route path="/" element={<HomePage />} />
             </Routes>

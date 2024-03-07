@@ -246,7 +246,7 @@ function Wallets() {
           </Card>
         </Grid>
         <Grid xs={12} sm={6} md={3} item>
-          <Tooltip arrow title="Click to add a new wallet">
+          <Tooltip arrow title="Click to add a new metric">
             <CardAddAction>
               <CardActionArea
                 sx={{

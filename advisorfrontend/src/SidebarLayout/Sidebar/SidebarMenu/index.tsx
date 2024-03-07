@@ -217,7 +217,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboard/overview"
+                  to="/dashboard/manager"
                   startIcon={<MmsTwoToneIcon />}
                 >
                   Campaign Manager

@@ -89,13 +89,6 @@ function Wallets() {
         }}
       >
         <Typography variant="h3">Ad Spend</Typography>
-        <Button
-          size="small"
-          variant="outlined"
-          startIcon={<AddTwoToneIcon fontSize="small" />}
-        >
-          Link new account
-        </Button>
       </Box>
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3} item>
@@ -190,23 +183,6 @@ function Wallets() {
               </Box>
             </CardContent>
           </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={3} item>
-          <Tooltip arrow title="Click to add a new wallet">
-            <CardAddAction>
-              <CardActionArea
-                sx={{
-                  px: 1,
-                }}
-              >
-                <CardContent>
-                  <AvatarAddWrapper>
-                    <AddTwoToneIcon fontSize="large" />
-                  </AvatarAddWrapper>
-                </CardContent>
-              </CardActionArea>
-            </CardAddAction>
-          </Tooltip>
         </Grid>
       </Grid>
     </>
