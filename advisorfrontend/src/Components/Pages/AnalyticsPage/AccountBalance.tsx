@@ -18,9 +18,7 @@ import TrendingUp from "@mui/icons-material/TrendingUp";
 import Text from "../../Text";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
-import GoogleLogo from "../../../assets/google.png";
-import MetaLogo from "../../../assets/meta.png";
-import TiktokLogo from "../../../assets/tiktok.png";
+import { Platform, UserData, UserProfileProps } from "../../../Services";
 
 const AvatarSuccess = styled(Avatar)(
   ({ theme }) => `
@@ -58,8 +56,20 @@ const ListItemAvatarWrapper = styled(ListItemAvatar)(
 `
 );
 
-function AccountBalance() {
+const AccountBalance: React.FC<UserProfileProps> = ({ userData }) => {
   const theme = useTheme();
+
+  const chartLabels = () => {
+    return userData.platforms.map((element) => {
+      return element.name;
+    });
+  };
+
+  const chartLabelColors = () => {
+    return userData.platforms.map((element) => {
+      return element.color;
+    });
+  };
 
   const chartOptions: ApexOptions = {
     chart: {
@@ -76,7 +86,7 @@ function AccountBalance() {
         },
       },
     },
-    colors: ["#ff9900", "#1c81c2", "#333", "#5c6ac0"],
+    colors: chartLabelColors(),
     dataLabels: {
       enabled: true,
       formatter: function (val) {
@@ -113,7 +123,7 @@ function AccountBalance() {
     fill: {
       opacity: 1,
     },
-    labels: ["Meta", "TikTok", "Google"],
+    labels: chartLabels(),
     legend: {
       labels: {
         colors: theme.colors.alpha.trueWhite[100],
@@ -128,7 +138,47 @@ function AccountBalance() {
     },
   };
 
-  const chartSeries = [30, 25, 45];
+  const chartSeries = () => {
+    const arr = userData.platforms.map((element) => {
+      const amoutn = Math.round(element.scoreContribution.total * 100);
+
+      return amoutn;
+    });
+
+    console.log(arr);
+
+    return arr;
+  };
+
+  const accountsListItem = (platform: Platform) => {
+    return (
+      <ListItem disableGutters>
+        <ListItemAvatarWrapper>
+          <img alt={"lol"} src={platform.image} />
+        </ListItemAvatarWrapper>
+        <ListItemText
+          primary={platform.name}
+          primaryTypographyProps={{ variant: "h5", noWrap: true }}
+          secondary={platform.type}
+          secondaryTypographyProps={{
+            variant: "subtitle2",
+            noWrap: true,
+          }}
+        />
+        <Box>
+          <Typography align="right" variant="h4" noWrap>
+            {Math.round(platform.scoreContribution.total * 100)}%
+          </Typography>
+          <Text
+            color={platform.scoreContribution.delta > 0 ? "success" : "error"}
+          >
+            {platform.scoreContribution.delta > 0 ? "+" : ""}
+            {Math.round(platform.scoreContribution.delta * 10000) / 100}%
+          </Text>
+        </Box>
+      </ListItem>
+    );
+  };
 
   return (
     <Card>
@@ -145,7 +195,7 @@ function AccountBalance() {
             </Typography>
             <Box>
               <Typography variant="h1" gutterBottom>
-                536
+                {userData.totalScore}
               </Typography>
               <Typography
                 variant="h4"
@@ -170,7 +220,10 @@ function AccountBalance() {
                   <TrendingUp fontSize="large" />
                 </AvatarSuccess>
                 <Box>
-                  <Typography variant="h4">+ 38</Typography>
+                  <Typography variant="h4">
+                    {userData.totalScoreDelta > 0 ? "+" : "-"}{" "}
+                    {userData.totalScoreDelta}
+                  </Typography>
                   <Typography variant="subtitle2" noWrap>
                     this month
                   </Typography>
@@ -222,7 +275,7 @@ function AccountBalance() {
                 <Chart
                   height={250}
                   options={chartOptions}
-                  series={chartSeries}
+                  series={chartSeries()}
                   type="donut"
                 />
               </Grid>
@@ -233,66 +286,9 @@ function AccountBalance() {
                     width: "100%",
                   }}
                 >
-                  <ListItem disableGutters>
-                    <ListItemAvatarWrapper>
-                      <img src={MetaLogo} />
-                    </ListItemAvatarWrapper>
-                    <ListItemText
-                      primary="Meta"
-                      primaryTypographyProps={{ variant: "h5", noWrap: true }}
-                      secondary="Ads"
-                      secondaryTypographyProps={{
-                        variant: "subtitle2",
-                        noWrap: true,
-                      }}
-                    />
-                    <Box>
-                      <Typography align="right" variant="h4" noWrap>
-                        30%
-                      </Typography>
-                      <Text color="success">+2.54%</Text>
-                    </Box>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <ListItemAvatarWrapper>
-                      <img src={TiktokLogo} />
-                    </ListItemAvatarWrapper>
-                    <ListItemText
-                      primary="TikTok"
-                      primaryTypographyProps={{ variant: "h5", noWrap: true }}
-                      secondary="Ads"
-                      secondaryTypographyProps={{
-                        variant: "subtitle2",
-                        noWrap: true,
-                      }}
-                    />
-                    <Box>
-                      <Typography align="right" variant="h4" noWrap>
-                        10%
-                      </Typography>
-                      <Text color="error">-1.22%</Text>
-                    </Box>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <ListItemAvatarWrapper>
-                      <img src={GoogleLogo} />
-                    </ListItemAvatarWrapper>
-                    <ListItemText
-                      primary="Google"
-                      primaryTypographyProps={{ variant: "h5", noWrap: true }}
-                      secondary="Ads"
-                      secondaryTypographyProps={{
-                        variant: "subtitle2",
-                        noWrap: true,
-                      }}
-                    />
-                    <Box>
-                      <Typography align="right" variant="h4" noWrap>
-                        45%
-                      </Typography>
-                      <Text color="success">+10.50%</Text>
-                    </Box>
-                  </ListItem>
+                  {userData.platforms.map((element) => {
+                    return accountsListItem(element);
+                  })}
                 </List>
               </Grid>
             </Grid>
@@ -301,6 +297,6 @@ function AccountBalance() {
       </Grid>
     </Card>
   );
-}
+};
 
 export default AccountBalance;

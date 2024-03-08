@@ -21,6 +21,7 @@ import TrendingFlatTwoToneIcon from "@mui/icons-material/TrendingFlatTwoTone";
 import GoogleLogo from "../../../assets/google.png";
 import MetaLogo from "../../../assets/meta.png";
 import TiktokLogo from "../../../assets/tiktok.png";
+import { UserProfileProps } from "../../../Services";
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -50,7 +51,7 @@ const AvatarWrapper = styled(Avatar)(
 `
 );
 
-function WatchListRow() {
+const WatchListRow: React.FC<UserProfileProps> = ({ userData }) => {
   const theme = useTheme();
 
   const Box1Options: ApexOptions = {
@@ -369,6 +370,6 @@ function WatchListRow() {
       </CardActions>
     </Card>
   );
-}
+};
 
 export default WatchListRow;

@@ -12,6 +12,7 @@ import ViewWeekTwoToneIcon from "@mui/icons-material/ViewWeekTwoTone";
 import TableRowsTwoToneIcon from "@mui/icons-material/TableRowsTwoTone";
 import WatchListColumn from "./WatchListColumn";
 import WatchListRow from "./WatchListRow";
+import { UserProfileProps } from "../../../Services";
 
 const EmptyResultsWrapper = styled("img")(
   ({ theme }) => `
@@ -21,7 +22,7 @@ const EmptyResultsWrapper = styled("img")(
 `
 );
 
-function WatchList() {
+const WatchList: React.FC<UserProfileProps> = ({ userData }) => {
   const [tabs, setTab] = useState<string | null>("watch_list_columns");
 
   const handleViewOrientation = (
@@ -56,9 +57,9 @@ function WatchList() {
         </ToggleButtonGroup>
       </Box>
 
-      {tabs === "watch_list_columns" && <WatchListColumn />}
+      {tabs === "watch_list_columns" && <WatchListColumn userData={userData} />}
 
-      {tabs === "watch_list_rows" && <WatchListRow />}
+      {tabs === "watch_list_rows" && <WatchListRow userData={userData} />}
 
       {!tabs && (
         <Card
@@ -94,6 +95,6 @@ function WatchList() {
       )}
     </>
   );
-}
+};
 
 export default WatchList;

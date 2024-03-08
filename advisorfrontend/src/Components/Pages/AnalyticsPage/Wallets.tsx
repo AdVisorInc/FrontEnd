@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   Grid,
   Box,
@@ -7,14 +6,9 @@ import {
   Typography,
   Avatar,
   alpha,
-  Tooltip,
-  CardActionArea,
   styled,
 } from "@mui/material";
-import AddTwoToneIcon from "@mui/icons-material/AddTwoTone";
-import GoogleLogo from "../../../assets/google.png";
-import MetaLogo from "../../../assets/meta.png";
-import TiktokLogo from "../../../assets/tiktok.png";
+import { Platform, UserProfileProps } from "../../../Services";
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -77,116 +71,99 @@ const CardAddAction = styled(Card)(
 `
 );
 
-function Wallets() {
+const Wallets: React.FC<UserProfileProps> = ({ userData }) => {
+  const unixTimestampToRelativeTime = (
+    timestamp: number | undefined
+  ): string => {
+    if (!timestamp) {
+      return "Just now";
+    }
+
+    const now = Date.now(); // Current timestamp in milliseconds
+    const secondsPast = (now - timestamp * 1000) / 1000; // Convert input to milliseconds and calculate difference
+
+    if (secondsPast < 60) {
+      // Less than a minute
+      return "Just now";
+    } else if (secondsPast < 3600) {
+      // Less than an hour
+      return `${Math.floor(secondsPast / 60)} minutes ago`;
+    } else if (secondsPast < 86400) {
+      // Less than a day
+      return `${Math.floor(secondsPast / 3600)} hours ago`;
+    } else {
+      return `${Math.floor(secondsPast / 86400)} days ago`;
+    }
+  };
+
+  const platformCard = (platform: Platform) => {
+    return (
+      <Grid xs={12} sm={6} md={4} item>
+        <Card
+          sx={{
+            px: 1,
+          }}
+        >
+          <CardContent>
+            <AvatarWrapper>
+              <img alt="meta" src={platform.image} />
+            </AvatarWrapper>
+            <Typography variant="h5" noWrap>
+              {platform.name}
+            </Typography>
+            <Typography variant="subtitle1" noWrap>
+              {platform.nickname}
+            </Typography>
+            <Box
+              sx={{
+                pt: 3,
+              }}
+            >
+              <Typography variant="h3" gutterBottom noWrap>
+                ${platform.stats.spend.total}
+              </Typography>
+              <Typography variant="subtitle2" noWrap>
+                Updated:{" "}
+                {unixTimestampToRelativeTime(platform.stats.spend.updated)}
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+    );
+  };
+
   return (
     <>
       <Box
         display="flex"
+        flexDirection={"column"}
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent="center"
         sx={{
           pb: 3,
         }}
+        width={"100%"}
       >
-        <Typography variant="h3">Ad Spend</Typography>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="flex-start"
+          sx={{
+            pb: 3,
+          }}
+          width={"100%"}
+        >
+          <Typography variant="h3">Ad Spend</Typography>
+        </Box>
+        <Grid container spacing={3}>
+          {userData.platforms.map((element) => {
+            return platformCard(element);
+          })}
+        </Grid>
       </Box>
-      <Grid container spacing={3}>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1,
-            }}
-          >
-            <CardContent>
-              <AvatarWrapper>
-                <img alt="meta" src={MetaLogo} />
-              </AvatarWrapper>
-              <Typography variant="h5" noWrap>
-                Meta
-              </Typography>
-              <Typography variant="subtitle1" noWrap>
-                Bui's Cupcake Shop
-              </Typography>
-              <Box
-                sx={{
-                  pt: 3,
-                }}
-              >
-                <Typography variant="h3" gutterBottom noWrap>
-                  $3,586.22
-                </Typography>
-                <Typography variant="subtitle2" noWrap>
-                  Updated: just now
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1,
-            }}
-          >
-            <CardContent>
-              <AvatarWrapper>
-                <img alt="tiktok" src={TiktokLogo} />
-              </AvatarWrapper>
-              <Typography variant="h5" noWrap>
-                TikTok
-              </Typography>
-              <Typography variant="subtitle1" noWrap>
-                Bui's Computer Parts
-              </Typography>
-              <Box
-                sx={{
-                  pt: 3,
-                }}
-              >
-                <Typography variant="h3" gutterBottom noWrap>
-                  $586.83
-                </Typography>
-                <Typography variant="subtitle2" noWrap>
-                  Updated: 1 hour
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1,
-            }}
-          >
-            <CardContent>
-              <AvatarWrapper>
-                <img alt="Google" src={GoogleLogo} />
-              </AvatarWrapper>
-              <Typography variant="h5" noWrap>
-                Google
-              </Typography>
-              <Typography variant="subtitle1" noWrap>
-                Ramzi's Pharmacy
-              </Typography>
-              <Box
-                sx={{
-                  pt: 3,
-                }}
-              >
-                <Typography variant="h3" gutterBottom noWrap>
-                  $4,985.00
-                </Typography>
-                <Typography variant="subtitle2" noWrap>
-                  Updated: just now
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
     </>
   );
-}
+};
 
 export default Wallets;

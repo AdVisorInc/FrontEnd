@@ -12,9 +12,7 @@ import Label from "../../Label";
 import Text from "../../Text";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
-import GoogleLogo from "../../../assets/google.png";
-import MetaLogo from "../../../assets/meta.png";
-import TiktokLogo from "../../../assets/tiktok.png";
+import { Platform, UserProfileProps } from "../../../Services";
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -44,7 +42,7 @@ const AvatarWrapper = styled(Avatar)(
 `
 );
 
-function WatchListColumn() {
+const WatchListColumn: React.FC<UserProfileProps> = ({ userData }) => {
   const theme = useTheme();
 
   const chartOptions: ApexOptions = {
@@ -145,14 +143,8 @@ function WatchListColumn() {
     },
   ];
 
-  return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="stretch"
-      spacing={3}
-    >
+  const platformCard = (platform: Platform) => {
+    return (
       <Grid item md={4} xs={12}>
         <Card
           sx={{
@@ -166,14 +158,14 @@ function WatchListColumn() {
           >
             <Box display="flex" alignItems="center">
               <AvatarWrapper>
-                <img alt="meta" src={MetaLogo} />
+                <img alt="meta" src={platform.image} />
               </AvatarWrapper>
               <Box>
                 <Typography variant="h4" noWrap>
-                  Meta
+                  {platform.name}
                 </Typography>
                 <Typography variant="subtitle1" noWrap>
-                  Bui's Cupcake Shop
+                  {platform.nickname}
                 </Typography>
               </Box>
             </Box>
@@ -192,10 +184,21 @@ function WatchListColumn() {
                   mb: 1,
                 }}
               >
-                56,475.99
+                {platform.stats.ctr.total}
               </Typography>
-              <Text color="success">
-                <b>+12.5%</b>
+              <Text
+                color={
+                  (platform.stats.ctr.deltaPercent ?? 0) > 0
+                    ? "success"
+                    : "error"
+                }
+              >
+                <b>
+                  {(platform.stats.ctr.deltaPercent ?? 0) > 0 ? "+" : ""}
+                  {Math.round((platform.stats.ctr.deltaPercent ?? 0) * 10000) /
+                    100}
+                  %
+                </b>
               </Text>
             </Box>
             <Box
@@ -205,7 +208,14 @@ function WatchListColumn() {
                 justifyContent: "flex-start",
               }}
             >
-              <Label color="success">+500</Label>
+              <Label
+                color={
+                  (platform.stats.ctr.deltaUnits ?? 0) > 0 ? "success" : "error"
+                }
+              >
+                {(platform.stats.ctr.deltaUnits ?? 0) > 0 ? "+" : ""}
+                {platform.stats.ctr.deltaUnits}
+              </Label>
               <Typography
                 variant="body2"
                 color="text.secondary"
@@ -225,152 +235,22 @@ function WatchListColumn() {
           />
         </Card>
       </Grid>
-      <Grid item md={4} xs={12}>
-        <Card
-          sx={{
-            overflow: "visible",
-          }}
-        >
-          <Box
-            sx={{
-              p: 3,
-            }}
-          >
-            <Box display="flex" alignItems="center">
-              <AvatarWrapper>
-                <img alt="tiktok" src={TiktokLogo} />
-              </AvatarWrapper>
-              <Box>
-                <Typography variant="h4" noWrap>
-                  TikTok
-                </Typography>
-                <Typography variant="subtitle1" noWrap>
-                  Bui's Computer Parts
-                </Typography>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
-                pt: 3,
-              }}
-            >
-              <Typography
-                variant="h2"
-                sx={{
-                  pr: 1,
-                  mb: 1,
-                }}
-              >
-                1,968.00
-              </Typography>
-              <Text color="error">
-                <b>-3.24%</b>
-              </Text>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Label color="error">-90</Label>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  pl: 1,
-                }}
-              >
-                last 24h
-              </Typography>
-            </Box>
-          </Box>
-          <Chart
-            options={chartOptions}
-            series={chart2Data}
-            type="area"
-            height={200}
-          />
-        </Card>
-      </Grid>
-      <Grid item md={4} xs={12}>
-        <Card
-          sx={{
-            overflow: "visible",
-          }}
-        >
-          <Box
-            sx={{
-              p: 3,
-            }}
-          >
-            <Box display="flex" alignItems="center">
-              <AvatarWrapper>
-                <img alt="Google" src={GoogleLogo} />
-              </AvatarWrapper>
-              <Box>
-                <Typography variant="h4" noWrap>
-                  Google
-                </Typography>
-                <Typography variant="subtitle1" noWrap>
-                  Ramzi's Pharmacy
-                </Typography>
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
-                pt: 3,
-              }}
-            >
-              <Typography
-                variant="h2"
-                sx={{
-                  pr: 1,
-                  mb: 1,
-                }}
-              >
-                23.00
-              </Typography>
-              <Text color="error">
-                <b>-0.33%</b>
-              </Text>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-start",
-              }}
-            >
-              <Label color="error">-5</Label>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  pl: 1,
-                }}
-              >
-                last 24h
-              </Typography>
-            </Box>
-          </Box>
-          <Chart
-            options={chartOptions}
-            series={chart3Data}
-            type="area"
-            height={200}
-          />
-        </Card>
-      </Grid>
+    );
+  };
+
+  return (
+    <Grid
+      container
+      direction="row"
+      justifyContent="center"
+      alignItems="stretch"
+      spacing={3}
+    >
+      {userData.platforms.map((element) => {
+        return platformCard(element);
+      })}
     </Grid>
   );
-}
+};
 
 export default WatchListColumn;
