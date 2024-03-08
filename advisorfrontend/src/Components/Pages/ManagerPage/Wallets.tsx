@@ -27,6 +27,7 @@ import GoogleLogo from "../../../assets/google.png";
 import MetaLogo from "../../../assets/meta.png";
 import TiktokLogo from "../../../assets/tiktok.png";
 import React, { useState } from "react";
+import CampaignManager from "./CampaingManager";
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -88,40 +89,53 @@ const CardAddAction = styled(Card)(
         }
 `
 );
+const WalletCardButton = styled(Button)(({ theme }) => ({
+  width: "100%",
+  textTransform: "none",
+  padding: "0.5em",
+}));
 
 interface WalletCardProps {
   logo: string;
   name: string;
   description: string;
+  onClick: () => void;
 }
 
-const WalletCard: React.FC<WalletCardProps> = ({ logo, name, description }) => (
-  <Grid item xs={12} sm={6} md={3}>
-    <Card sx={{ px: 1 }}>
-      <CardContent>
-        <AvatarWrapper>
-          <img alt={name} src={logo} />
-        </AvatarWrapper>
-        <Typography variant="h5" noWrap>
-          {name}
-        </Typography>
-        <Typography variant="subtitle1" noWrap>
-          {description}
-        </Typography>
-      </CardContent>
-    </Card>
+const WalletCard: React.FC<WalletCardProps> = ({
+  logo,
+  name,
+  description,
+  onClick,
+}) => (
+  <Grid item xs={16} sm={8} md={4}>
+    <WalletCardButton onClick={onClick}>
+      <Card sx={{ px: 1 }}>
+        <CardContent>
+          <AvatarWrapper>
+            <img alt={name} src={logo} />
+          </AvatarWrapper>
+          <Typography variant="h5" noWrap>
+            {name}
+          </Typography>
+          <Typography variant="subtitle1" noWrap>
+            {description}
+          </Typography>
+        </CardContent>
+      </Card>
+    </WalletCardButton>
   </Grid>
 );
-
 function Wallets() {
+  const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [accountName, setAccountName] = useState("");
   const [description, setDescription] = useState("");
 
-  // Array of accounts
-  const [accounts, setAccounts] = useState([
+  const accounts = [
     { logo: MetaLogo, name: "Meta", description: "Bui's Cupcake Shop" },
-  ]);
+    // Add more accounts...
+  ];
 
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -132,15 +146,11 @@ function Wallets() {
   const handleOpenModal = () => setModalOpen(true);
   const handleCloseModal = () => {
     setModalOpen(false);
-    // Reset form fields when closing the modal
     setAccountName("");
     setDescription("");
   };
 
   const handleSubmit = () => {
-    // Here, you can handle the submission of the new account,
-    // For example, adding the new account information to the `accounts` array.
-    // Determine the logo based on the accountName
     let logo = "";
     switch (accountName) {
       case "Meta":
@@ -153,14 +163,11 @@ function Wallets() {
         logo = GoogleLogo;
         break;
       default:
-        // Handle unknown account name or set a default logo
         break;
     }
 
-    // Add the new account information to the accounts array
     const newAccount = { logo, name: accountName, description };
-    setAccounts([...accounts, newAccount]);
-
+    // Add the new account to the accounts array or send it to the backend
     handleCloseModal();
   };
 
@@ -169,27 +176,22 @@ function Wallets() {
       <Dialog open={modalOpen} onClose={handleCloseModal}>
         <DialogTitle>Add New Account</DialogTitle>
         <DialogContent>
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="account-name-label">Account Name</InputLabel>
-            <Select
-              labelId="account-name-label"
-              id="account-name-select"
-              value={accountName}
-              label="Account Name"
-              onChange={(e) => setAccountName(e.target.value)}
-            >
-              <MenuItem value="Meta">Meta</MenuItem>
-              <MenuItem value="TikTok">TikTok</MenuItem>
-              <MenuItem value="Google">Google</MenuItem>
-            </Select>
-          </FormControl>
           <TextField
-            margin="normal"
-            id="description"
-            label="Description"
-            type="text"
+            select
             fullWidth
-            variant="outlined"
+            margin="normal"
+            label="Account Name"
+            value={accountName}
+            onChange={(e) => setAccountName(e.target.value)}
+          >
+            <MenuItem value="Meta">Meta</MenuItem>
+            <MenuItem value="TikTok">TikTok</MenuItem>
+            <MenuItem value="Google">Google</MenuItem>
+          </TextField>
+          <TextField
+            fullWidth
+            margin="normal"
+            label="Description"
             value={description}
             onChange={handleDescriptionChange}
           />
@@ -203,13 +205,14 @@ function Wallets() {
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-        sx={{ pb: 3 }}
+        mb={3}
       >
         <Typography variant="h3">Your Linked Accounts</Typography>
         <Button
           size="small"
           variant="outlined"
-          startIcon={<AddTwoToneIcon fontSize="small" />}
+          startIcon={<AddTwoToneIcon />}
+          onClick={handleOpenModal}
         >
           Link new account
         </Button>
@@ -221,13 +224,13 @@ function Wallets() {
             logo={account.logo}
             name={account.name}
             description={account.description}
+            onClick={() => setSelectedWallet(account.name)}
           />
         ))}
-        {/* Add new account card */}
         <Grid item xs={12} sm={6} md={3}>
           <Tooltip arrow title="Click to add a new account">
-            <CardAddAction onClick={handleOpenModal}>
-              <CardActionArea sx={{ px: 1 }}>
+            <CardAddAction>
+              <CardActionArea onClick={handleOpenModal}>
                 <CardContent>
                   <AvatarAddWrapper>
                     <AddTwoToneIcon fontSize="large" />
@@ -238,6 +241,7 @@ function Wallets() {
           </Tooltip>
         </Grid>
       </Grid>
+      {selectedWallet && <CampaignManager wallet={selectedWallet} />}
     </>
   );
 }
