@@ -16,7 +16,6 @@ import { useTheme } from "@emotion/react";
 import SidebarLayout from "../../../SidebarLayout";
 
 function ManagerPage() {
-  const theme = useTheme();
   return (
     <>
       <Helmet>

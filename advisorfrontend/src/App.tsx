@@ -15,7 +15,7 @@ const App: React.FC = () => {
   return (
     <HelmetProvider>
       <ThemeProviderWrapper>
-        <GoogleOAuthProvider clientId="22202495353-q4duq21a6saollon2psplpgs5crl5oc4.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId="929911323015-uvrc5se8d12gr0a537qo9qo8esce9nj6.apps.googleusercontent.com">
           <Router>
             <Routes>
               <Route path="/login" element={<LoginPage />} />

@@ -28,6 +28,8 @@ import MetaLogo from "../../../assets/meta.png";
 import TiktokLogo from "../../../assets/tiktok.png";
 import React, { useState } from "react";
 
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
     margin: ${theme.spacing(2, 0, 1, -0.5)};
@@ -118,6 +120,10 @@ function Wallets() {
   const [accountName, setAccountName] = useState("");
   const [description, setDescription] = useState("");
 
+  const [googleCredentialToken, setGoogleCredentialToken] = useState<
+    string | undefined
+  >(undefined);
+
   // Array of accounts
   const [accounts, setAccounts] = useState([
     { logo: MetaLogo, name: "Meta", description: "Bui's Cupcake Shop" },
@@ -157,11 +163,54 @@ function Wallets() {
         break;
     }
 
+    const correctDescription =
+      description.length > 0 ? description : "My " + accountName + " Account";
+
     // Add the new account information to the accounts array
-    const newAccount = { logo, name: accountName, description };
+    const newAccount = {
+      logo,
+      name: accountName,
+      description: correctDescription,
+    };
     setAccounts([...accounts, newAccount]);
 
     handleCloseModal();
+  };
+
+  const googleResponseMessage = (response: CredentialResponse) => {
+    console.log(response);
+    setGoogleCredentialToken(response.clientId);
+  };
+  const googleErrorMessage = () => {
+    console.log("GOOGLE SIGN IN ERROR!!!!");
+  };
+
+  const handleNewGoogleAccountAttempt = () => {
+    // import { GoogleLogin } from '@react-oauth/google';
+  };
+
+  const googleSignInButton = () => {
+    if (!googleCredentialToken) {
+      return (
+        <GoogleLogin
+          onSuccess={googleResponseMessage}
+          onError={googleErrorMessage}
+        />
+      );
+    }
+
+    return (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent={"center"}
+        bgcolor="rgb(231 230 221)"
+        borderRadius={"8px"}
+        width="70%"
+      >
+        <Typography paddingY="10px">Account Connected ✓</Typography>
+      </Box>
+    );
   };
 
   return (
@@ -194,9 +243,21 @@ function Wallets() {
             onChange={handleDescriptionChange}
           />
         </DialogContent>
+        {accountName === "Google" ? (
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent={"center"}
+            paddingY={"8px"}
+          >
+            {googleSignInButton()}
+          </Box>
+        ) : (
+          <div></div>
+        )}
         <DialogActions>
           <Button onClick={handleCloseModal}>Cancel</Button>
-          <Button onClick={handleSubmit}>Submit</Button>
+          <Button onClick={handleSubmit}>Connect</Button>
         </DialogActions>
       </Dialog>
       <Box
