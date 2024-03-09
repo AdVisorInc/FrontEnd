@@ -26,10 +26,11 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import GoogleLogo from "../../../assets/google.png";
 import MetaLogo from "../../../assets/meta.png";
 import TiktokLogo from "../../../assets/tiktok.png";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CampaignManager from "./CampaingManager";
 
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { Campaign } from "./CampaignTile";
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -101,6 +102,7 @@ interface WalletCardProps {
   logo: string;
   name: string;
   description: string;
+  isSelected: boolean;
   onClick: () => void;
 }
 
@@ -108,11 +110,14 @@ const WalletCard: React.FC<WalletCardProps> = ({
   logo,
   name,
   description,
+  isSelected,
   onClick,
 }) => (
   <Grid item xs={16} sm={8} md={4}>
     <WalletCardButton onClick={onClick}>
-      <Card sx={{ px: 1 }}>
+      <Card
+        sx={{ px: 1, bgcolor: isSelected ? "rgb(187, 222, 251)" : "clear" }}
+      >
         <CardContent>
           <AvatarWrapper>
             <img alt={name} src={logo} />
@@ -128,6 +133,9 @@ const WalletCard: React.FC<WalletCardProps> = ({
     </WalletCardButton>
   </Grid>
 );
+
+type CampaignsDict = { [key: string]: Array<Campaign> };
+
 function Wallets() {
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -139,11 +147,38 @@ function Wallets() {
   >(undefined);
 
   // Array of accounts
-  // const [accounts, setAccounts] = useState([
-  const accounts = [
-    { logo: MetaLogo, name: "Meta", description: "Bui's Cupcake Shop" },
-    // Add more accounts...
-  ];
+  const [accounts, setAccounts] = useState([
+    {
+      logo: "https://i.ibb.co/2gsZYDg/meta-logo.png",
+      name: "Meta",
+      description: "Bui's Cupcake Shop",
+    },
+  ]);
+  const testCampaigns: CampaignsDict = {
+    Meta: [
+      {
+        id: "1",
+        name: "Campaign 1",
+        objective: "Brand Awareness",
+        budget: 1000,
+        status: "active",
+      },
+      {
+        id: "2",
+        name: "Campaign 2",
+        objective: "Lead Generation",
+        budget: 2000,
+        status: "paused",
+      },
+      {
+        id: "3",
+        name: "Campaign 3",
+        objective: "Sales",
+        budget: 3000,
+        status: "ended",
+      },
+    ],
+  };
 
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -162,13 +197,13 @@ function Wallets() {
     let logo = "";
     switch (accountName) {
       case "Meta":
-        logo = MetaLogo;
+        logo = "https://i.ibb.co/2gsZYDg/meta-logo.png";
         break;
       case "TikTok":
-        logo = TiktokLogo;
+        logo = "https://i.ibb.co/kc5X5xt/tiktok-logo.png";
         break;
       case "Google":
-        logo = GoogleLogo;
+        logo = "https://i.ibb.co/4tMNsRB/google-logo.png";
         break;
       default:
         break;
@@ -184,6 +219,7 @@ function Wallets() {
       description: correctDescription,
     };
 
+    setAccounts([...accounts, newAccount]);
     handleCloseModal();
   };
 
@@ -288,6 +324,7 @@ function Wallets() {
             logo={account.logo}
             name={account.name}
             description={account.description}
+            isSelected={selectedWallet === account.name}
             onClick={() => setSelectedWallet(account.name)}
           />
         ))}
@@ -305,7 +342,17 @@ function Wallets() {
           </Tooltip>
         </Grid>
       </Grid>
-      {selectedWallet && <CampaignManager wallet={selectedWallet} />}
+      {selectedWallet && (
+        <CampaignManager
+          key={selectedWallet}
+          wallet={selectedWallet}
+          initialCampaigns={
+            Object.keys(testCampaigns).includes(selectedWallet)
+              ? testCampaigns[selectedWallet]
+              : []
+          }
+        />
+      )}
     </>
   );
 }

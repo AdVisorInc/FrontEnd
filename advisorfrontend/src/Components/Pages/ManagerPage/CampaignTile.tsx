@@ -12,18 +12,19 @@ import {
 } from "@mui/material";
 
 interface CampaignProps {
-  campaign: {
-    id: string;
-    name: string;
-    objective: string;
-    budget: number;
-    status: string;
-    // Add other relevant properties
-  };
+  campaign: Campaign;
   onUpdate: (updatedCampaign: CampaignProps["campaign"]) => void;
 }
 
-const Campaign: React.FC<CampaignProps> = ({ campaign, onUpdate }) => {
+export interface Campaign {
+  id: string;
+  name: string;
+  objective: string;
+  budget: number;
+  status: string;
+}
+
+const CampaignTile: React.FC<CampaignProps> = ({ campaign, onUpdate }) => {
   const [name, setName] = useState(campaign.name);
   const [objective, setObjective] = useState(campaign.objective);
   const [budget, setBudget] = useState(campaign.budget);
@@ -88,4 +89,4 @@ const Campaign: React.FC<CampaignProps> = ({ campaign, onUpdate }) => {
   );
 };
 
-export default Campaign;
+export default CampaignTile;

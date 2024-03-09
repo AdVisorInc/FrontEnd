@@ -1,19 +1,16 @@
 import { Helmet } from "react-helmet-async";
-import PageHeader from "./PageHeader";
-import PageTitleWrapper from "../../PageTitleWrapper";
-import { Container, Grid, alpha, styled } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import Footer from "../../Footer";
 
-import AccountBalance from "./AccountBalance";
 import Wallets from "./Wallets";
-import AccountSecurity from "./AccountSecurity";
-import WatchList from "./WatchList";
 
-import Sidebar from "../../../SidebarLayout/Sidebar";
-import HeaderNav from "../../../SidebarLayout/Header";
-
-import { useTheme } from "@emotion/react";
-import SidebarLayout from "../../../SidebarLayout";
+export interface Campaign {
+  id: string;
+  name: string;
+  objective: string;
+  budget: number;
+  status: string;
+}
 
 function ManagerPage() {
   return (

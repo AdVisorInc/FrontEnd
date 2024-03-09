@@ -1,6 +1,5 @@
-// NewCampaignForm.tsx
 import React, { useState } from "react";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, CircularProgress, Box } from "@mui/material";
 
 interface NewCampaignFormProps {
   onSubmit: (newCampaign: {
@@ -17,22 +16,30 @@ const NewCampaignForm: React.FC<NewCampaignFormProps> = ({ onSubmit }) => {
   const [objective, setObjective] = useState("");
   const [budget, setBudget] = useState(0);
   const [status, setStatus] = useState("active");
+  const [loading, setLoading] = useState(false); // New state to track loading
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const newCampaign = {
-      id: generateUniqueId(),
-      name,
-      objective,
-      budget,
-      status,
-    };
-    onSubmit(newCampaign);
-    // Reset form fields after submission
-    setName("");
-    setObjective("");
-    setBudget(0);
-    setStatus("active");
+    setLoading(true); // Start loading
+
+    // Simulate an async action with setTimeout
+    setTimeout(() => {
+      const newCampaign = {
+        id: generateUniqueId(),
+        name,
+        objective,
+        budget,
+        status,
+      };
+      onSubmit(newCampaign);
+
+      // Reset form fields and stop loading after submission
+      setName("");
+      setObjective("");
+      setBudget(0);
+      setStatus("active");
+      setLoading(false); // Stop loading
+    }, 3000); // Wait for 3 seconds
   };
 
   return (
@@ -43,6 +50,7 @@ const NewCampaignForm: React.FC<NewCampaignFormProps> = ({ onSubmit }) => {
         onChange={(e) => setName(e.target.value)}
         fullWidth
         margin="normal"
+        disabled={loading}
       />
       <TextField
         label="Objective"
@@ -50,6 +58,7 @@ const NewCampaignForm: React.FC<NewCampaignFormProps> = ({ onSubmit }) => {
         onChange={(e) => setObjective(e.target.value)}
         fullWidth
         margin="normal"
+        disabled={loading}
       />
       <TextField
         label="Budget"
@@ -58,6 +67,7 @@ const NewCampaignForm: React.FC<NewCampaignFormProps> = ({ onSubmit }) => {
         onChange={(e) => setBudget(Number(e.target.value))}
         fullWidth
         margin="normal"
+        disabled={loading}
       />
       <TextField
         label="Status"
@@ -65,10 +75,26 @@ const NewCampaignForm: React.FC<NewCampaignFormProps> = ({ onSubmit }) => {
         onChange={(e) => setStatus(e.target.value)}
         fullWidth
         margin="normal"
+        disabled={loading}
       />
-      <Button type="submit" variant="contained">
-        Create Campaign
+      <Button type="submit" variant="contained" disabled={loading}>
+        {loading ? <CircularProgress size={24} /> : "Create Campaign"}
       </Button>
+      {loading && (
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          bgcolor="rgba(255, 255, 255, 0.7)"
+        >
+          <CircularProgress />
+        </Box>
+      )}
     </form>
   );
 };

@@ -11,40 +11,22 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import Campaign from "./Campaign";
+
 import CampaignList from "./CampaignList";
 import NewCampaignForm from "./NewCampaignForm";
-
+import { Campaign } from "./CampaignTile";
 interface CampaignManagerProps {
   wallet: string;
+  initialCampaigns: Array<Campaign>;
 }
 
-const CampaignManager: React.FC<CampaignManagerProps> = ({ wallet }) => {
+const CampaignManager: React.FC<CampaignManagerProps> = ({
+  wallet,
+  initialCampaigns,
+}) => {
   const [activeTab, setActiveTab] = useState(0);
   const [openNewCampaignDialog, setOpenNewCampaignDialog] = useState(false);
-  const [campaigns, setCampaigns] = useState([
-    {
-      id: "1",
-      name: "Campaign 1",
-      objective: "Brand Awareness",
-      budget: 1000,
-      status: "active",
-    },
-    {
-      id: "2",
-      name: "Campaign 2",
-      objective: "Lead Generation",
-      budget: 2000,
-      status: "paused",
-    },
-    {
-      id: "3",
-      name: "Campaign 3",
-      objective: "Sales",
-      budget: 3000,
-      status: "ended",
-    },
-  ]);
+  const [campaigns, setCampaigns] = useState<Array<Campaign>>(initialCampaigns);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
