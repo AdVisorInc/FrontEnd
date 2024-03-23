@@ -6,6 +6,7 @@ import Footer from "../../Footer";
 
 import AccountBalance from "./AccountBalance";
 import Wallets from "./Wallets";
+import Performance from "./Performance";
 import AccountSecurity from "./AccountSecurity";
 import WatchList from "./WatchList";
 
@@ -33,8 +34,8 @@ function AnalyticsPage() {
           <Grid item xs={12}>
             <AccountBalance />
           </Grid>
-          <Grid item lg={8} xs={12}>
-            <Wallets />
+          <Grid item lg={12} xs={12}>
+            <Performance />
           </Grid>
           <Grid item xs={12}>
             <WatchList />

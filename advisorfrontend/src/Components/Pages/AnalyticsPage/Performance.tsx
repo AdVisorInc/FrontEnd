@@ -77,7 +77,7 @@ const CardAddAction = styled(Card)(
 `
 );
 
-function Wallets() {
+function Performance() {
   return (
     <>
       <Box
@@ -88,96 +88,118 @@ function Wallets() {
           pb: 3,
         }}
       >
-        <Typography variant="h3">Ad Spend</Typography>
+        <Typography variant="h3">Performace (on all accounts)</Typography>
       </Box>
       <Grid container spacing={3}>
-        <Grid xs={12} sm={6} md={4} item>
+        <Grid xs={12} sm={6} md={3} item>
           <Card
             sx={{
               px: 1,
             }}
           >
             <CardContent>
-              <AvatarWrapper>
-                <img alt="meta" src={MetaLogo} />
-              </AvatarWrapper>
-              <Typography variant="h5" noWrap>
-                Meta
-              </Typography>
-              <Typography variant="subtitle1" noWrap>
-                Bui's Cupcake Shop
-              </Typography>
+              <Typography variant="h3">Impressions</Typography>
               <Box
                 sx={{
-                  pt: 3,
+                  pt: 1.5,
                 }}
               >
-                <Typography variant="h3" gutterBottom noWrap>
-                  $3,586.22
+                <Typography variant="h1" gutterBottom noWrap>
+                  18,034
                 </Typography>
-                <Typography variant="subtitle2" noWrap>
+                <Typography variant="subtitle1" noWrap>
                   Updated: just now
                 </Typography>
               </Box>
             </CardContent>
           </Card>
         </Grid>
-        <Grid xs={12} sm={6} md={4} item>
+        <Grid xs={12} sm={6} md={3} item>
           <Card
             sx={{
               px: 1,
             }}
           >
             <CardContent>
-              <AvatarWrapper>
-                <img alt="tiktok" src={TiktokLogo} />
-              </AvatarWrapper>
-              <Typography variant="h5" noWrap>
-                TikTok
-              </Typography>
-              <Typography variant="subtitle1" noWrap>
-                Bui's Computer Parts
-              </Typography>
+              <Typography variant="h3">Cost per Click</Typography>
               <Box
                 sx={{
-                  pt: 3,
+                  pt: 1.5,
                 }}
               >
-                <Typography variant="h3" gutterBottom noWrap>
-                  $586.83
+                <Typography variant="h1" gutterBottom noWrap>
+                  $5.87
                 </Typography>
-                <Typography variant="subtitle2" noWrap>
-                  Updated: 1 hour
+                <Typography variant="subtitle1" noWrap>
+                  Updated: just now
                 </Typography>
               </Box>
             </CardContent>
           </Card>
         </Grid>
-        <Grid xs={12} sm={6} md={4} item>
+        <Grid xs={12} sm={6} md={3} item>
           <Card
             sx={{
               px: 1,
             }}
           >
             <CardContent>
-              <AvatarWrapper>
-                <img alt="Google" src={GoogleLogo} />
-              </AvatarWrapper>
-              <Typography variant="h5" noWrap>
-                Google
-              </Typography>
-              <Typography variant="subtitle1" noWrap>
-                Ramzi's Pharmacy
-              </Typography>
+              <Typography variant="h3">Clicks</Typography>
               <Box
                 sx={{
-                  pt: 3,
+                  pt: 1.5,
                 }}
               >
-                <Typography variant="h3" gutterBottom noWrap>
-                  $4,985.00
+                <Typography variant="h1" gutterBottom noWrap>
+                  224
                 </Typography>
-                <Typography variant="subtitle2" noWrap>
+                <Typography variant="subtitle1" noWrap>
+                  Updated: just now
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid xs={12} sm={6} md={3} item>
+          <Card
+            sx={{
+              px: 1,
+            }}
+          >
+            <CardContent>
+              <Typography variant="h3">Clicks</Typography>
+              <Box
+                sx={{
+                  pt: 1.5,
+                }}
+              >
+                <Typography variant="h1" gutterBottom noWrap>
+                  224
+                </Typography>
+                <Typography variant="subtitle1" noWrap>
+                  Updated: just now
+                </Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid xs={12} sm={6} md={3} item>
+          <Card
+            sx={{
+              px: 1,
+            }}
+          >
+            <CardContent>
+              <Typography variant="h3">Working</Typography>
+              <Box
+                sx={{
+                  pt: 1.5,
+                }}
+              >
+                <Typography variant="h1" gutterBottom noWrap>
+                  224
+                </Typography>
+                <Typography variant="subtitle1" noWrap>
                   Updated: just now
                 </Typography>
               </Box>
@@ -189,4 +211,4 @@ function Wallets() {
   );
 }
 
-export default Wallets;
+export default Performance;

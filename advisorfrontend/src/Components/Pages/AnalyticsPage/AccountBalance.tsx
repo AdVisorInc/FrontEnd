@@ -21,6 +21,7 @@ import type { ApexOptions } from "apexcharts";
 import GoogleLogo from "../../../assets/google.png";
 import MetaLogo from "../../../assets/meta.png";
 import TiktokLogo from "../../../assets/tiktok.png";
+import Wallets from "./Wallets";
 
 const AvatarSuccess = styled(Avatar)(
   ({ theme }) => `
@@ -134,61 +135,8 @@ function AccountBalance() {
     <Card>
       <Grid spacing={0} container>
         <Grid item xs={12} md={6}>
-          <Box p={4}>
-            <Typography
-              sx={{
-                pb: 3,
-              }}
-              variant="h2"
-            >
-              Analytics Dashboard
-            </Typography>
-            <Box>
-              <Typography variant="h1" gutterBottom>
-                536
-              </Typography>
-              <Typography
-                variant="h4"
-                fontWeight="normal"
-                color="text.secondary"
-              >
-                Out of 1000
-              </Typography>
-              <Box
-                display="flex"
-                sx={{
-                  py: 4,
-                }}
-                alignItems="center"
-              >
-                <AvatarSuccess
-                  sx={{
-                    mr: 2,
-                  }}
-                  variant="rounded"
-                >
-                  <TrendingUp fontSize="large" />
-                </AvatarSuccess>
-                <Box>
-                  <Typography variant="h4">+ 38</Typography>
-                  <Typography variant="subtitle2" noWrap>
-                    this month
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-            <Grid container spacing={3}>
-              <Grid sm item>
-                <Button fullWidth variant="outlined">
-                  Improve Score
-                </Button>
-              </Grid>
-              <Grid sm item>
-                <Button fullWidth variant="contained">
-                  Deploy Campaigns
-                </Button>
-              </Grid>
-            </Grid>
+          <Box p={3}>
+            <Wallets />
           </Box>
         </Grid>
         <Grid
