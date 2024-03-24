@@ -1,360 +1,156 @@
-import {
-  Button,
-  Card,
-  Grid,
-  Box,
-  CardContent,
-  Typography,
-  Avatar,
-  alpha,
-  Tooltip,
-  CardActionArea,
-  styled,
-  Modal,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
-import AddTwoToneIcon from "@mui/icons-material/AddTwoTone";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import GoogleLogo from "../../../assets/google.png";
-import MetaLogo from "../../../assets/meta.png";
-import TiktokLogo from "../../../assets/tiktok.png";
-import React, { useEffect, useState } from "react";
-import CampaignManager from "./CampaingManager";
+import React, { useState } from 'react';
+import { Box, Button, Typography, Dialog, DialogActions, DialogContent, TextField, MenuItem, Grid, Card, CardContent, CircularProgress } from '@mui/material';
+import { useGoogleLogin } from '@react-oauth/google';
 
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { Campaign } from "./CampaignTile";
-
-const AvatarWrapper = styled(Avatar)(
-  ({ theme }) => `
-    margin: ${theme.spacing(2, 0, 1, -0.5)};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: ${theme.spacing(1)};
-    padding: ${theme.spacing(0.5)};
-    border-radius: 60px;
-    height: ${theme.spacing(5.5)};
-    width: ${theme.spacing(5.5)};
-    background: ${
-      theme.palette.mode === "dark"
-        ? theme.colors.alpha.trueWhite[30]
-        : alpha(theme.colors.alpha.black[100], 0.07)
-    };
-  
-    img {
-      background: ${theme.colors.alpha.trueWhite[100]};
-      padding: ${theme.spacing(0.5)};
-      display: block;
-      border-radius: inherit;
-      height: ${theme.spacing(4.5)};
-      width: ${theme.spacing(4.5)};
-    }
-`
-);
-
-const AvatarAddWrapper = styled(Avatar)(
-  ({ theme }) => `
-        background: ${theme.colors.alpha.black[10]};
-        color: ${theme.colors.primary.main};
-        width: ${theme.spacing(8)};
-        height: ${theme.spacing(8)};
-`
-);
-
-const CardAddAction = styled(Card)(
-  ({ theme }) => `
-        border: ${theme.colors.primary.main} dashed 1px;
-        height: 100%;
-        color: ${theme.colors.primary.main};
-        transition: ${theme.transitions.create(["all"])};
-        
-        .MuiCardActionArea-root {
-          height: 100%;
-          justify-content: center;
-          align-items: center;
-          display: flex;
-        }
-        
-        .MuiTouchRipple-root {
-          opacity: .2;
-        }
-        
-        &:hover {
-          border-color: ${theme.colors.alpha.black[70]};
-        }
-`
-);
-const WalletCardButton = styled(Button)(({ theme }) => ({
-  width: "100%",
-  textTransform: "none",
-  padding: "0.5em",
-}));
-
-interface WalletCardProps {
-  logo: string;
+// Mock data structure for campaigns
+interface Campaign {
+  id: string;
   name: string;
-  description: string;
-  isSelected: boolean;
-  onClick: () => void;
+  status: 'active' | 'ended';
+  platform: 'Google' | 'Meta';
+  startDate: string;
+  endDate?: string;
 }
 
-const WalletCard: React.FC<WalletCardProps> = ({
-  logo,
-  name,
-  description,
-  isSelected,
-  onClick,
-}) => (
-  <Grid item xs={16} sm={8} md={4}>
-    <WalletCardButton onClick={onClick}>
-      <Card
-        sx={{ px: 1, bgcolor: isSelected ? "rgb(187, 222, 251)" : "clear" }}
-      >
-        <CardContent>
-          <AvatarWrapper>
-            <img alt={name} src={logo} />
-          </AvatarWrapper>
-          <Typography variant="h5" noWrap>
-            {name}
-          </Typography>
-          <Typography variant="subtitle1" noWrap>
-            {description}
-          </Typography>
-        </CardContent>
-      </Card>
-    </WalletCardButton>
-  </Grid>
-);
+interface Customer {
+  resourceName: string;
+  id: string;
+  name?: string;
+}
 
-type CampaignsDict = { [key: string]: Array<Campaign> };
+const CampaignManager: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
 
-function Wallets() {
-  const [selectedWallet, setSelectedWallet] = useState<string | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [accountName, setAccountName] = useState("");
-  const [description, setDescription] = useState("");
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedCustomer(null);
+  };
 
-  const [googleCredentialToken, setGoogleCredentialToken] = useState<
-    string | undefined
-  >(undefined);
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      setLoading(true);
+      try {
+        const response = await fetch('http://localhost:1251/api/v1/google/list-accessible-customers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ refreshToken: tokenResponse.access_token }),
+        });
 
-  // Array of accounts
-  const [accounts, setAccounts] = useState([
-    {
-      logo: "https://i.ibb.co/2gsZYDg/meta-logo.png",
-      name: "Meta",
-      description: "Bui's Cupcake Shop",
+        if (response.ok) {
+          const data = await response.json();
+          const customerData = data.customers.map((customer: any) => ({
+            resourceName: customer.resourceName,
+            id: customer.resourceName.split('/')[1],
+            name: customer.descriptiveName,
+          }));
+          setCustomers(customerData);
+        } else {
+          console.error('Failed to fetch customer list');
+        }
+      } catch (error) {
+        console.error('Error fetching customer list:', error);
+      }
+      setLoading(false);
     },
-  ]);
-  const testCampaigns: CampaignsDict = {
-    Meta: [
-      {
-        id: "1",
-        name: "Campaign 1",
-        objective: "Brand Awareness",
-        budget: 1000,
-        status: "active",
-      },
-      {
-        id: "2",
-        name: "Campaign 2",
-        objective: "Lead Generation",
-        budget: 2000,
-        status: "paused",
-      },
-      {
-        id: "3",
-        name: "Campaign 3",
-        objective: "Sales",
-        budget: 3000,
-        status: "ended",
-      },
-    ],
-  };
+    onError: (errorResponse) => {
+      console.error('Login Failed:', errorResponse);
+    },
+    scope: 'https://www.googleapis.com/auth/adwords',
+  });
 
-  const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setDescription(event.target.value);
-  };
+  const handleAddAccount = async () => {
+    if (selectedCustomer) {
+      try {
+        // Fetch campaigns for the selected customer
+        const response = await fetch(`http://localhost:1251/api/v1/google/campaigns?customerId=${selectedCustomer.id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-  const handleOpenModal = () => setModalOpen(true);
-  const handleCloseModal = () => {
-    setModalOpen(false);
-    setAccountName("");
-    setDescription("");
-  };
-
-  const handleSubmit = () => {
-    let logo = "";
-    switch (accountName) {
-      case "Meta":
-        logo = "https://i.ibb.co/2gsZYDg/meta-logo.png";
-        break;
-      case "TikTok":
-        logo = "https://i.ibb.co/kc5X5xt/tiktok-logo.png";
-        break;
-      case "Google":
-        logo = "https://i.ibb.co/4tMNsRB/google-logo.png";
-        break;
-      default:
-        break;
+        if (response.ok) {
+          const data = await response.json();
+          setCampaigns(data.campaigns);
+          handleClose();
+        } else {
+          console.error('Failed to fetch campaigns');
+        }
+      } catch (error) {
+        console.error('Error fetching campaigns:', error);
+      }
     }
-
-    const correctDescription =
-      description.length > 0 ? description : "My " + accountName + " Account";
-
-    // Add the new account information to the accounts array
-    const newAccount = {
-      logo,
-      name: accountName,
-      description: correctDescription,
-    };
-
-    setAccounts([...accounts, newAccount]);
-    handleCloseModal();
-  };
-
-  const googleResponseMessage = (response: CredentialResponse) => {
-    console.log(response);
-    setGoogleCredentialToken(response.clientId);
-  };
-  const googleErrorMessage = () => {
-    console.log("GOOGLE SIGN IN ERROR!!!!");
-  };
-
-  const handleNewGoogleAccountAttempt = () => {
-    // import { GoogleLogin } from '@react-oauth/google';
-  };
-
-  const googleSignInButton = () => {
-    if (!googleCredentialToken) {
-      return (
-        <GoogleLogin
-          onSuccess={googleResponseMessage}
-          onError={googleErrorMessage}
-        />
-      );
-    }
-
-    return (
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent={"center"}
-        bgcolor="rgb(231 230 221)"
-        borderRadius={"8px"}
-        width="70%"
-      >
-        <Typography paddingY="10px">Account Connected ✓</Typography>
-      </Box>
-    );
   };
 
   return (
-    <>
-      <Dialog open={modalOpen} onClose={handleCloseModal}>
-        <DialogTitle>Add New Account</DialogTitle>
-        <DialogContent>
-          <TextField
-            select
-            fullWidth
-            margin="normal"
-            label="Account Name"
-            value={accountName}
-            onChange={(e) => setAccountName(e.target.value)}
-          >
-            <MenuItem value="Meta">Meta</MenuItem>
-            <MenuItem value="TikTok">TikTok</MenuItem>
-            <MenuItem value="Google">Google</MenuItem>
-          </TextField>
-          <TextField
-            fullWidth
-            margin="normal"
-            label="Description"
-            value={description}
-            onChange={handleDescriptionChange}
-          />
-        </DialogContent>
-        {accountName === "Google" ? (
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent={"center"}
-            paddingY={"8px"}
-          >
-            {googleSignInButton()}
-          </Box>
-        ) : (
-          <div></div>
-        )}
-        <DialogActions>
-          <Button onClick={handleCloseModal}>Cancel</Button>
-          <Button onClick={handleSubmit}>Connect</Button>
-        </DialogActions>
-      </Dialog>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        mb={3}
-      >
-        <Typography variant="h3">Your Linked Accounts</Typography>
-        <Button
-          size="small"
-          variant="outlined"
-          startIcon={<AddTwoToneIcon />}
-          onClick={handleOpenModal}
-        >
-          Link new account
-        </Button>
-      </Box>
-      <Grid container spacing={3}>
-        {accounts.map((account, index) => (
-          <WalletCard
-            key={index}
-            logo={account.logo}
-            name={account.name}
-            description={account.description}
-            isSelected={selectedWallet === account.name}
-            onClick={() => setSelectedWallet(account.name)}
-          />
-        ))}
-        <Grid item xs={12} sm={6} md={3}>
-          <Tooltip arrow title="Click to add a new account">
-            <CardAddAction>
-              <CardActionArea onClick={handleOpenModal}>
-                <CardContent>
-                  <AvatarAddWrapper>
-                    <AddTwoToneIcon fontSize="large" />
-                  </AvatarAddWrapper>
-                </CardContent>
-              </CardActionArea>
-            </CardAddAction>
-          </Tooltip>
+      <>
+        <Box sx={{ marginBottom: 4 }}>
+          <Button variant="contained" onClick={handleOpen}>
+            Add Account
+          </Button>
+        </Box>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogContent>
+            {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <CircularProgress />
+                </Box>
+            ) : (
+                <>
+                  {customers.length === 0 ? (
+                      <Button variant="outlined" onClick={() => login()}>
+                        Sign in with Google
+                      </Button>
+                  ) : (
+                      <TextField
+                          select
+                          label="Select a Customer"
+                          fullWidth
+                          value={selectedCustomer?.id || ''}
+                          onChange={(e) => setSelectedCustomer(customers.find((c) => c.id === e.target.value) || null)}
+                          sx={{ marginTop: 2 }}
+                      >
+                        {customers.map((customer) => (
+                            <MenuItem key={customer.id} value={customer.id}>
+                              {customer.name || customer.id}
+                            </MenuItem>
+                        ))}
+                      </TextField>
+                  )}
+                </>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button variant="contained" onClick={handleAddAccount} disabled={!selectedCustomer}>
+              Add Account
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Grid container spacing={2}>
+          {campaigns.map((campaign) => (
+              <Grid item xs={12} sm={6} md={4} key={campaign.id}>
+                <Card>
+                  <CardContent>
+                    <Typography variant="h6">{campaign.name}</Typography>
+                    <Typography>Status: {campaign.status}</Typography>
+                    <Typography>Platform: {campaign.platform}</Typography>
+                    <Typography>Start Date: {campaign.startDate}</Typography>
+                    {campaign.endDate && <Typography>End Date: {campaign.endDate}</Typography>}
+                  </CardContent>
+                </Card>
+              </Grid>
+          ))}
         </Grid>
-      </Grid>
-      {selectedWallet && (
-        <CampaignManager
-          key={selectedWallet}
-          wallet={selectedWallet}
-          initialCampaigns={
-            Object.keys(testCampaigns).includes(selectedWallet)
-              ? testCampaigns[selectedWallet]
-              : []
-          }
-        />
-      )}
-    </>
+      </>
   );
-}
+};
 
-export default Wallets;
+export default CampaignManager;
