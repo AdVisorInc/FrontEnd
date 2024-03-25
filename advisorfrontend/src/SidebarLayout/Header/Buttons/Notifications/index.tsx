@@ -8,13 +8,13 @@ import {
   ListItem,
   Popover,
   Tooltip,
-  Typography
-} from '@mui/material';
-import { useRef, useState } from 'react';
-import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
-import { styled } from '@mui/material/styles';
+  Typography,
+} from "@mui/material";
+import { useRef, useState } from "react";
+import NotificationsActiveTwoToneIcon from "@mui/icons-material/NotificationsActiveTwoTone";
+import { styled } from "@mui/material/styles";
 
-import { formatDistance, subDays } from 'date-fns';
+import { formatDistance, subDays } from "date-fns";
 
 const NotificationsBadge = styled(Badge)(
   ({ theme }) => `
@@ -59,8 +59,8 @@ function HeaderNotifications() {
           <NotificationsBadge
             badgeContent={1}
             anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right'
+              vertical: "top",
+              horizontal: "right",
             }}
           >
             <NotificationsActiveTwoToneIcon />
@@ -72,12 +72,12 @@ function HeaderNotifications() {
         onClose={handleClose}
         open={isOpen}
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
+          vertical: "top",
+          horizontal: "right",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
+          vertical: "top",
+          horizontal: "right",
         }}
       >
         <Box
@@ -91,16 +91,16 @@ function HeaderNotifications() {
         <Divider />
         <List sx={{ p: 0 }}>
           <ListItem
-            sx={{ p: 2, minWidth: 350, display: { xs: 'block', sm: 'flex' } }}
+            sx={{ p: 2, minWidth: 350, display: { xs: "block", sm: "flex" } }}
           >
             <Box flex="1">
               <Box display="flex" justifyContent="space-between">
-                <Typography sx={{ fontWeight: 'bold' }}>
+                <Typography sx={{ fontWeight: "bold" }}>
                   Messaging Platform
                 </Typography>
-                <Typography variant="caption" sx={{ textTransform: 'none' }}>
+                <Typography variant="caption" sx={{ textTransform: "none" }}>
                   {formatDistance(subDays(new Date(), 3), new Date(), {
-                    addSuffix: true
+                    addSuffix: true,
                   })}
                 </Typography>
               </Box>
@@ -109,7 +109,7 @@ function HeaderNotifications() {
                 variant="body2"
                 color="text.secondary"
               >
-                {' '}
+                {" "}
                 new messages in your inbox
               </Typography>
             </Box>

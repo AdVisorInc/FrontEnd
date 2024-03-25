@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { Container, Box, Typography } from "@mui/material";
 
 import Avatar from "@mui/material/Avatar";
+import { useNavigate } from "react-router-dom";
 
 const HomePage: React.FC = () => {
   const UserAvatars = () => {
@@ -111,6 +112,8 @@ const HomePage: React.FC = () => {
   };
 
   const HeroButtons = () => {
+    const navigate = useNavigate(); // Using the useNavigate hook
+
     return (
       <Box
         sx={{
@@ -131,6 +134,7 @@ const HomePage: React.FC = () => {
               backgroundColor: "#9A0965",
             },
           }}
+          onClick={() => navigate("/register")} // Navigate to /register
         >
           Start For Free
         </Button>
@@ -149,7 +153,11 @@ const HomePage: React.FC = () => {
     );
   };
 
-  const ToolbarButton = (props: { title: string; outline?: boolean }) => {
+  const ToolbarButton = (props: {
+    title: string;
+    outline?: boolean;
+    onClick: () => void;
+  }) => {
     const buttonStyle = {
       ...(props.outline
         ? {
@@ -165,13 +173,15 @@ const HomePage: React.FC = () => {
     };
 
     return (
-      <Button sx={buttonStyle} href="#">
+      <Button sx={buttonStyle} onClick={props.onClick}>
         {props.title}
       </Button>
     );
   };
 
   const LandingToolBar = () => {
+    const navigate = useNavigate();
+
     return (
       <AppBar position="static" sx={{ background: "#0d1b2a" }} elevation={0}>
         <Container>
@@ -194,8 +204,15 @@ const HomePage: React.FC = () => {
                 alignItems: "center",
               }}
             >
-              <ToolbarButton title={"Sign In"} />
-              <ToolbarButton title={"Get Started"} outline />
+              <ToolbarButton
+                title={"Sign In"}
+                onClick={() => navigate("/login")}
+              />
+              <ToolbarButton
+                title={"Get Started"}
+                outline
+                onClick={() => navigate("/register")}
+              />
             </Box>
           </Toolbar>
         </Container>
