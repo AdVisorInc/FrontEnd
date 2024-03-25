@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, LinearProgress, Typography, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  LinearProgress,
+  ThemeOptions,
+  ThemeProvider,
+  Typography,
+  createTheme,
+  styled,
+} from "@mui/material";
 import { FormValues } from "../../../Types/FormTypes";
 import BusinessGoalsStep from "../../Atoms/BusinessGoalStep";
 import EmailStep from "../../Atoms/EmailStep";
@@ -15,16 +24,28 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-const CustomBox = styled("form")(() => ({
+const MainContainer = styled(Box)(() => ({
   display: "flex",
   flexDirection: "column",
-  gap: "3em",
-  padding: "2em",
-  maxWidth: "100%",
-  margin: "2 auto",
+  height: "100vh",
+  alignItems: "center",
+  justifyContent: "center",
 }));
-
+const CustomForm = styled("form")(() => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "2em",
+  width: "100%",
+  maxWidth: "30em",
+  padding: "3em",
+}));
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+} as ThemeOptions);
 const RegisterForm: React.FC = () => {
   const {
     formik,
@@ -135,60 +156,74 @@ const RegisterForm: React.FC = () => {
         return <div>Unknown Step</div>;
     }
   };
-
+  const navigate = useNavigate();
   return (
-    <CustomBox onSubmit={formik.handleSubmit}>
-      <LinearProgress
-        variant="determinate"
-        value={((currentStep + 1) / 7) * 100}
-        sx={{ width: "100%", mb: 2 }}
-      />
-      <Typography variant="h5" sx={{ mb: 2, textAlign: "center" }}>
-        Register
-      </Typography>
-
-      {renderStepContent(currentStep)}
-      <Box
+    <ThemeProvider theme={darkTheme}>
+      <MainContainer
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
+          bgcolor: "background.default",
+          color: "text.primary",
           alignItems: "center",
-          mt: 2,
-          width: "100%",
+          justifyContent: "center",
         }}
       >
-        {currentStep > 0 && <Button onClick={goToPreviousStep}>Back</Button>}
-        <Button variant="contained" onClick={handleNext} sx={{ flex: 1 }}>
-          {isFinalStep() ? "Submit" : "Next"}
-        </Button>
-        {emailExists && (
-          <Button
-            variant="contained"
-            sx={{ ml: 2 }}
-            onClick={() => {
-              // Implement redirection to the sign-in page or modal here
+        <CustomForm onSubmit={formik.handleSubmit}>
+          <LinearProgress
+            variant="determinate"
+            value={((currentStep + 1) / 7) * 100}
+            sx={{ width: "100%", mb: 2 }}
+          />
+          <Typography variant="h3" sx={{ mb: 2, textAlign: "center" }}>
+            Register
+          </Typography>
+
+          {renderStepContent(currentStep)}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mt: 2,
+              width: "100%",
             }}
           >
-            Sign In
-          </Button>
-        )}
-      </Box>
-      {emailVerificationSent && !emailVerified && (
-        <Dialog open={true} onClose={() => setEmailVerificationSent(false)}>
-          <DialogTitle>Email Verification Required</DialogTitle>
-          <DialogContent>
-            <Typography>
-              Please check your email to verify your account before proceeding.
-            </Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setEmailVerificationSent(false)}>
-              Close
+            {currentStep > 0 && (
+              <Button onClick={goToPreviousStep}>Back</Button>
+            )}
+            <Button variant="contained" onClick={handleNext}>
+              {isFinalStep() ? "Submit" : "Next"}
             </Button>
-          </DialogActions>
-        </Dialog>
-      )}
-    </CustomBox>
+            {emailExists && (
+              <Button
+                variant="contained"
+                sx={{ ml: 2 }}
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Sign In
+              </Button>
+            )}
+          </Box>
+          {emailVerificationSent && !emailVerified && (
+            <Dialog open={true} onClose={() => setEmailVerificationSent(false)}>
+              <DialogTitle>Email Verification Required</DialogTitle>
+              <DialogContent>
+                <Typography>
+                  Please check your email to verify your account before
+                  proceeding.
+                </Typography>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setEmailVerificationSent(false)}>
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+          )}
+        </CustomForm>
+      </MainContainer>
+    </ThemeProvider>
   );
 };
 
