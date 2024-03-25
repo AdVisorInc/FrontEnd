@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, Button, Typography, Dialog, DialogActions, DialogContent, TextField, MenuItem, Grid, Card, CardContent, CircularProgress } from '@mui/material';
 import { useGoogleLogin } from '@react-oauth/google';
 
-// Mock data structure for campaigns
 interface Campaign {
   id: string;
   name: string;
@@ -69,7 +68,7 @@ const CampaignManager: React.FC = () => {
     if (selectedCustomer) {
       try {
         // Fetch campaigns for the selected customer
-        const response = await fetch(`http://localhost:1251/api/v1/google/campaigns?customerId=${selectedCustomer.id}`, {
+        const response = await fetch(`https://backend.advisr.app/api/v1/google/campaigns?customerId=${selectedCustomer.id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
