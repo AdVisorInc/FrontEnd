@@ -6,26 +6,22 @@ import Footer from "../../Footer";
 
 import AccountBalance from "./AccountBalance";
 import Wallets from "./Wallets";
-import AccountSecurity from "./AccountSecurity";
 import WatchList from "./WatchList";
-
-import Sidebar from "../../../SidebarLayout/Sidebar";
-import HeaderNav from "../../../SidebarLayout/Header";
+import RecentActivity from "./RecentActivity";
 
 import { useTheme } from "@emotion/react";
-import SidebarLayout from "../../../SidebarLayout";
 
-function DashboardCrypto() {
+function OverviewPage() {
   const theme = useTheme();
   return (
     <>
       <Helmet>
-        <title>AdVisor Dashboard</title>
+        <title>Overview Dashboard</title>
       </Helmet>
       <PageTitleWrapper>
         <PageHeader />
       </PageTitleWrapper>
-      <Container maxWidth="lg">
+      <Container style={{ padding: "0" }} maxWidth="lg">
         <Grid
           container
           direction="row"
@@ -33,14 +29,15 @@ function DashboardCrypto() {
           alignItems="stretch"
           spacing={4}
         >
-          <Grid item xs={12}>
-            <AccountBalance />
+          <Grid item xs={9}>
+            <Grid item xs={12}>
+              <Wallets />
+            </Grid>
           </Grid>
-          <Grid item lg={8} xs={12}>
-            <Wallets />
-          </Grid>
-          <Grid item xs={12}>
-            <WatchList />
+          <Grid item xs={3}>
+            <Grid item xs={12}>
+              <RecentActivity />
+            </Grid>
           </Grid>
         </Grid>
       </Container>
@@ -49,4 +46,4 @@ function DashboardCrypto() {
   );
 }
 
-export default DashboardCrypto;
+export default OverviewPage;
