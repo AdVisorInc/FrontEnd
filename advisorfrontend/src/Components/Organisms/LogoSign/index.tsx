@@ -9,7 +9,7 @@ import {
   Container,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import AdvisorLogo from "../../assets/advisr.svg";
+import AdvisorLogo from "../../../assets/advisr.svg";
 
 const LogoWrapper = styled(Link)(
   ({ theme }) => `

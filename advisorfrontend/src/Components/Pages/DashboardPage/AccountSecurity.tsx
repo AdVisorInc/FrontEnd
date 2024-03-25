@@ -14,7 +14,7 @@ import {
 import LockTwoToneIcon from "@mui/icons-material/LockTwoTone";
 import PhoneLockedTwoToneIcon from "@mui/icons-material/PhoneLockedTwoTone";
 import EmailTwoToneIcon from "@mui/icons-material/EmailTwoTone";
-import Text from "../../Text";
+import Text from "../../Atoms/Text";
 
 const AvatarWrapperError = styled(Avatar)(
   ({ theme }) => `

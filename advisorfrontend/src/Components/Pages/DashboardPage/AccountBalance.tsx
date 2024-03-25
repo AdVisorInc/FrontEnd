@@ -15,7 +15,7 @@ import {
   ListItemAvatar,
 } from "@mui/material";
 import TrendingUp from "@mui/icons-material/TrendingUp";
-import Text from "../../Text";
+import Text from "../../Atoms/Text";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import GoogleLogo from "../../../assets/google.png";

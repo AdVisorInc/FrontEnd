@@ -8,8 +8,8 @@ import {
   useTheme,
   styled,
 } from "@mui/material";
-import Label from "../../Label";
-import Text from "../../Text";
+import Label from "../../Atoms/Label";
+import Text from "../../Atoms/Text";
 import Chart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import GoogleLogo from "../../../assets/google.png";

@@ -1,8 +1,8 @@
 import { Helmet } from "react-helmet-async";
 import PageHeader from "./PageHeader";
-import PageTitleWrapper from "../../PageTitleWrapper";
+import PageTitleWrapper from "../../Organisms/PageTitleWrapper";
 import { Container, Grid, alpha, styled } from "@mui/material";
-import Footer from "../../Footer";
+import Footer from "../../Atoms/Footer";
 
 import AccountBalance from "./AccountBalance";
 import Wallets from "./Wallets";
