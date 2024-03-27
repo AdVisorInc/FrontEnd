@@ -1,12 +1,14 @@
-// PrivateRoutes.tsx
-import { FC } from "react";
+import { FC, ReactElement, ReactNode } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import {useAuthStore} from "../../../store/useAuthStore";
+import { useAuthStore } from "../../../store/useAuthStore";
 
-const PrivateRoutes: FC = () => {
+interface PrivateRoutesProps {
+    children?: ReactNode;
+}
+
+const PrivateRoutes: FC<PrivateRoutesProps> = ({ children }): ReactElement | null => {
     const { currentUser } = useAuthStore();
-    console.log(currentUser);
-    return currentUser ? <Outlet /> : <Navigate to="/login" replace />;
+    return currentUser ? (children ? <>{children}</> : <Outlet />) : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoutes;

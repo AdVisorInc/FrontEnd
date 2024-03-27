@@ -10,7 +10,7 @@ import {
   ListItem,
 } from "@mui/material";
 import { NavLink as RouterLink } from "react-router-dom";
-import { SidebarContext } from "../../../contexts/SidebarContext";
+import { SidebarContext } from "../../../../contexts/SidebarContext";
 
 import MmsTwoToneIcon from "@mui/icons-material/MmsTwoTone";
 import TableChartTwoToneIcon from "@mui/icons-material/TableChartTwoTone";
@@ -194,7 +194,7 @@ function SidebarMenu() {
                   to="/dashboards/messenger"
                   startIcon={<MmsTwoToneIcon />}
                 >
-                  Spenidng Summary
+                  Spending Summary
                 </Button>
               </ListItem>
             </List>
@@ -215,7 +215,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/management/profile/details"
+                  to="/user/profile"
                   startIcon={<AccountCircleTwoToneIcon />}
                 >
                   User Profile
@@ -226,7 +226,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/management/profile/settings"
+                  to="/user/settings"
                   startIcon={<DisplaySettingsTwoToneIcon />}
                 >
                   Account Settings

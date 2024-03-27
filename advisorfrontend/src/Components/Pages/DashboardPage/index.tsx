@@ -9,13 +9,13 @@ import Wallets from "./Wallets";
 import AccountSecurity from "./AccountSecurity";
 import WatchList from "./WatchList";
 
-import Sidebar from "../../../SidebarLayout/Sidebar";
-import HeaderNav from "../../../SidebarLayout/Header";
+import Sidebar from "../../../Layouts/SidebarLayout/Sidebar";
+import HeaderNav from "../../../Layouts/SidebarLayout/Header";
 
 import { useTheme } from "@emotion/react";
-import SidebarLayout from "../../../SidebarLayout";
+import SidebarLayout from "../../../Layouts/SidebarLayout";
 
-function DashboardCrypto() {
+function Dashboard() {
   const theme = useTheme();
   return (
     <>
@@ -49,4 +49,4 @@ function DashboardCrypto() {
   );
 }
 
-export default DashboardCrypto;
+export default Dashboard;

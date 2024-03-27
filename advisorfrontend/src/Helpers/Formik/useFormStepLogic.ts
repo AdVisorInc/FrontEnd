@@ -85,7 +85,7 @@ const useFormStepLogic = ({
   });
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log("User:", user);
+      console.log("Profile:", user);
       if (user) {
         setEmailVerified(user.emailVerified);
         if (user.emailVerified && emailVerificationSent) {

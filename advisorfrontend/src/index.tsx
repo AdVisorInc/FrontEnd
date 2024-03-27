@@ -4,16 +4,20 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { SidebarProvider } from "./contexts/SidebarContext";
-
+import { HelmetProvider } from 'react-helmet-async';
+import { BrowserRouter } from 'react-router-dom';
+import {SnackbarProvider} from "notistack";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <SidebarProvider>
-      <App />
-    </SidebarProvider>
-  </React.StrictMode>
+    <HelmetProvider>
+        <SidebarProvider>
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+        </SidebarProvider>
+    </HelmetProvider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

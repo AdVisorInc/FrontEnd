@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { NavLink } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
 import {
   Avatar,
@@ -22,6 +22,9 @@ import ExpandMoreTwoToneIcon from "@mui/icons-material/ExpandMoreTwoTone";
 import AccountBoxTwoToneIcon from "@mui/icons-material/AccountBoxTwoTone";
 import LockOpenTwoToneIcon from "@mui/icons-material/LockOpenTwoTone";
 import AccountTreeTwoToneIcon from "@mui/icons-material/AccountTreeTwoTone";
+import DisplaySettingsTwoToneIcon from "@mui/icons-material/DisplaySettingsTwoTone";
+import {useAuthStore} from "../../../../store/useAuthStore";
+import { useSnackbar } from 'notistack';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -75,7 +78,19 @@ function HeaderUserbox() {
   const handleClose = (): void => {
     setOpen(false);
   };
+  const logoutUser = useAuthStore(state => state.logoutUser);
+  const { enqueueSnackbar } = useSnackbar(); // For showing notifications
+  const navigate = useNavigate(); // For redirection
 
+  const handleSignOut = async () => {
+    try {
+      await logoutUser();
+      enqueueSnackbar('You have successfully signed out.', { variant: 'success' });
+      navigate('/login');
+    } catch (error) {
+      enqueueSnackbar('Error signing out. Please try again.', { variant: 'error' });
+    }
+  };
   return (
     <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
@@ -116,17 +131,13 @@ function HeaderUserbox() {
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
         <List sx={{ p: 1 }} component="nav">
-          <ListItem button to="/management/profile/details" component={NavLink}>
+          <ListItem button to="/user/profile/" component={NavLink}>
             <AccountBoxTwoToneIcon fontSize="small" />
             <ListItemText primary="My Profile" />
           </ListItem>
-          <ListItem button to="/dashboards/messenger" component={NavLink}>
-            <InboxTwoToneIcon fontSize="small" />
-            <ListItemText primary="Messenger" />
-          </ListItem>
           <ListItem
             button
-            to="/management/profile/settings"
+            to="/user/settings"
             component={NavLink}
           >
             <AccountTreeTwoToneIcon fontSize="small" />
@@ -135,7 +146,7 @@ function HeaderUserbox() {
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button color="primary" fullWidth onClick={handleSignOut}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Sign out
           </Button>
