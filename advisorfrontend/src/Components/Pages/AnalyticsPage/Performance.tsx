@@ -15,6 +15,7 @@ import AddTwoToneIcon from "@mui/icons-material/AddTwoTone";
 import GoogleLogo from "../../../assets/google.png";
 import MetaLogo from "../../../assets/meta.png";
 import TiktokLogo from "../../../assets/tiktok.png";
+import React from "react";
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -77,135 +78,129 @@ const CardAddAction = styled(Card)(
 `
 );
 
+const cardData = [
+  {
+    id: 1,
+    title: "Impressions",
+    value: "18,034",
+    lastUpdated: "just now",
+  },
+  {
+    id: 2,
+    title: "Cost per Click",
+    value: "$5.87",
+    lastUpdated: "just now",
+  },
+  {
+    id: 3,
+    title: "Clicks",
+    value: "224",
+    lastUpdated: "just now",
+  },
+  {
+    id: 4,
+    title: "Conversions",
+    value: "12",
+    lastUpdated: "just now",
+  },
+  {
+    id: 5,
+    title: "Conversion Rate",
+    value: "5.4%",
+    lastUpdated: "just now",
+  },
+  {
+    id: 6,
+    title: "Return on Ad Spend",
+    value: "3.2",
+    lastUpdated: "just now",
+  },
+  {
+    id: 7,
+    title: "Cost per Conversion",
+    value: "$12.3",
+    lastUpdated: "just now",
+  },
+  {
+    id: 8,
+    title: "Cost per Mille",
+    value: "$3.2",
+    lastUpdated: "just now",
+  },
+  {
+    id: 9,
+    title: "Cost per Acquisition",
+    value: "$12.3",
+    lastUpdated: "just now",
+  },
+  {
+    id: 10,
+    title: "Cost per Lead",
+    value: "$3.2",
+    lastUpdated: "just now",
+  },
+  {
+    id: 11,
+    title: "Cost per Sale",
+    value: "$12.3",
+    lastUpdated: "just now",
+  },
+  {
+    id: 12,
+    title: "Cost per Engagement",
+    value: "$12.3",
+    lastUpdated: "just now",
+  },
+  {
+    id: 13,
+    title: "Cost per Like",
+    value: "$12.3",
+    lastUpdated: "just now",
+  },
+];
+
 function Performance() {
+  const handleCardClick = (cardId: number) => {
+    console.log(`Card ${cardId} clicked`);
+    // Implement any action upon clicking the card
+  };
+
   return (
     <>
       <Box
         display="flex"
         alignItems="center"
         justifyContent="space-between"
-        sx={{
-          pb: 3,
-        }}
+        sx={{ pb: 3 }}
       >
-        <Typography variant="h3">Performace (on all accounts)</Typography>
+        <Typography variant="h3">Performance (on all accounts)</Typography>
       </Box>
-      <Grid container spacing={3}>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1,
-            }}
-          >
-            <CardContent>
-              <Typography variant="h3">Impressions</Typography>
-              <Box
-                sx={{
-                  pt: 1.5,
-                }}
-              >
-                <Typography variant="h1" gutterBottom noWrap>
-                  18,034
-                </Typography>
-                <Typography variant="subtitle1" noWrap>
-                  Updated: just now
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1,
-            }}
-          >
-            <CardContent>
-              <Typography variant="h3">Cost per Click</Typography>
-              <Box
-                sx={{
-                  pt: 1.5,
-                }}
-              >
-                <Typography variant="h1" gutterBottom noWrap>
-                  $5.87
-                </Typography>
-                <Typography variant="subtitle1" noWrap>
-                  Updated: just now
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1,
-            }}
-          >
-            <CardContent>
-              <Typography variant="h3">Clicks</Typography>
-              <Box
-                sx={{
-                  pt: 1.5,
-                }}
-              >
-                <Typography variant="h1" gutterBottom noWrap>
-                  224
-                </Typography>
-                <Typography variant="subtitle1" noWrap>
-                  Updated: just now
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1,
-            }}
-          >
-            <CardContent>
-              <Typography variant="h3">Clicks</Typography>
-              <Box
-                sx={{
-                  pt: 1.5,
-                }}
-              >
-                <Typography variant="h1" gutterBottom noWrap>
-                  224
-                </Typography>
-                <Typography variant="subtitle1" noWrap>
-                  Updated: just now
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid xs={12} sm={6} md={3} item>
-          <Card
-            sx={{
-              px: 1,
-            }}
-          >
-            <CardContent>
-              <Typography variant="h3">Working</Typography>
-              <Box
-                sx={{
-                  pt: 1.5,
-                }}
-              >
-                <Typography variant="h1" gutterBottom noWrap>
-                  224
-                </Typography>
-                <Typography variant="subtitle1" noWrap>
-                  Updated: just now
-                </Typography>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
+      <Grid container spacing={2.5}>
+        {cardData.map((card) => (
+          <Grid key={card.id} xs={12} sm={6} md={3} item>
+            <Card
+              sx={{
+                px: 1,
+                transition: "0.3s",
+                "&:hover": { transform: "scale(1.05)" },
+              }}
+            >
+              <CardActionArea onClick={() => handleCardClick(card.id)}>
+                <CardContent>
+                  <Typography variant="h3">{card.title}</Typography>
+                  <Box sx={{ pt: 1.5 }}>
+                    <Typography variant="h1" gutterBottom noWrap>
+                      {card.value}
+                    </Typography>
+                    <Typography variant="subtitle1" noWrap>
+                      Updated: {card.lastUpdated}
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
     </>
   );
