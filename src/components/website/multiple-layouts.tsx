@@ -1,4 +1,8 @@
-import { DarkModeRounded } from '@mui/icons-material';
+import {
+  BusinessCenterRounded,
+  IntegrationInstructionsRounded,
+  TuneRounded,
+} from '@mui/icons-material';
 import {
   alpha,
   Box,
@@ -203,7 +207,7 @@ const HomepageMultipleLayouts = () => {
               }}
               label={
                 <>
-                  <Typography variant="h5">Accelerate Development. Elevate UX.</Typography>
+                  <Typography variant="h5">Adaptable. Scalable. Tailored to Your Needs.</Typography>
                 </>
               }
             />
@@ -219,15 +223,14 @@ const HomepageMultipleLayouts = () => {
                   gutterBottom
                   color="text.primary"
                 >
-                  Versatile layouts, Rich color palettes, and smart dark mode
+                  Flexible Solutions for Businesses of All Sizes and Industries
                 </Typography>
                 <Typography
                   variant="h4"
                   fontWeight={400}
                   color="neutral.500"
                 >
-                  Crafted for both developers and designers, our toolkit offers the flexibility to
-                  build robust, enterprise-grade interfaces with superior ease and efficiency.
+                  AdVisor adapts to your unique marketing needs, seamlessly integrating with your existing tools and workflows, and scaling as your business grows.
                 </Typography>
               </Grid>
             </Grid>
@@ -239,8 +242,10 @@ const HomepageMultipleLayouts = () => {
               <Button
                 size="large"
                 variant="contained"
+                component={RouterLink}
+                href={routes.components.index}
               >
-                Browse components
+                Request a Demo
               </Button>
               <Link
                 component={RouterLink}
@@ -301,22 +306,21 @@ const HomepageMultipleLayouts = () => {
                           mb: 3,
                         }}
                       >
-                        <DarkModeRounded fontSize="large" />
+                        <BusinessCenterRounded fontSize="large" />
                       </AvatarState>
                       <Typography
                         variant="h4"
                         fontWeight={500}
                         gutterBottom
                       >
-                        Adaptive Dark Mode
+                        Industry-Specific Solutions
                       </Typography>
                       <Typography
                         variant="h5"
                         fontWeight={400}
                         color="text.secondary"
                       >
-                        Improve user experience with our dark mode, designed for visual comfort in
-                        any lighting and optimized for energy savings.
+                        AdVisor offers tailored solutions for various industries, from e-commerce to SaaS, ensuring your marketing strategy aligns with your business goals.
                       </Typography>
                     </CardContent>
                   </Card>
@@ -356,7 +360,7 @@ const HomepageMultipleLayouts = () => {
                             fontWeight={700}
                             color="text.primary"
                           >
-                            18
+                            3+
                           </Typography>
                           <Typography
                             variant="h3"
@@ -365,7 +369,7 @@ const HomepageMultipleLayouts = () => {
                             sx={{ pl: 1 }}
                             color="text.primary"
                           >
-                            layout shells
+                            ad platforms
                           </Typography>
                         </Box>
                         <Typography
@@ -377,8 +381,7 @@ const HomepageMultipleLayouts = () => {
                             pl: 3,
                           }}
                         >
-                          Includes a variety of shells, such as vertical, collapsed, and stacked, to
-                          match your design needs.
+                          AdVisor seamlessly integrates with Meta Ads, Google Ads, and TikTok Ads, providing a unified platform for managing your campaigns.
                         </Typography>
                       </Box>
                     </Grid>
@@ -406,7 +409,7 @@ const HomepageMultipleLayouts = () => {
                             fontWeight={700}
                             color="text.primary"
                           >
-                            16
+                            20+
                           </Typography>
                           <Typography
                             variant="h3"
@@ -415,7 +418,7 @@ const HomepageMultipleLayouts = () => {
                             color="text.primary"
                             sx={{ pl: 1 }}
                           >
-                            app pages
+                            KPIs & metrics
                           </Typography>
                         </Box>
                         <Typography
@@ -427,8 +430,7 @@ const HomepageMultipleLayouts = () => {
                             pl: 3,
                           }}
                         >
-                          Pre-designed pages like file managers, calendars, and project dashboards
-                          to fast-track your app development.
+                          Track and optimize your campaigns with a comprehensive set of KPIs and metrics, from click-through rates to return on ad spend.
                         </Typography>
                       </Box>
                     </Grid>
@@ -456,7 +458,7 @@ const HomepageMultipleLayouts = () => {
                             fontWeight={700}
                             color="text.primary"
                           >
-                            91
+                            5+
                           </Typography>
                           <Typography
                             variant="h3"
@@ -465,7 +467,7 @@ const HomepageMultipleLayouts = () => {
                             color="text.primary"
                             sx={{ pl: 1 }}
                           >
-                            form elements
+                            industries served
                           </Typography>
                         </Box>
                         <Typography
@@ -477,8 +479,7 @@ const HomepageMultipleLayouts = () => {
                             pl: 3,
                           }}
                         >
-                          A wide range of input types and controls to create intuitive and
-                          responsive forms for all applications.
+                          Whether you're in e-commerce, SaaS, or any other industry, AdVisor adapts to your specific needs and goals.
                         </Typography>
                       </Box>
                     </Grid>
@@ -506,7 +507,7 @@ const HomepageMultipleLayouts = () => {
                             fontWeight={700}
                             color="text.primary"
                           >
-                            676
+                            ∞
                           </Typography>
                           <Typography
                             variant="h3"
@@ -515,7 +516,7 @@ const HomepageMultipleLayouts = () => {
                             color="text.primary"
                             sx={{ pl: 1 }}
                           >
-                            components
+                            scalability
                           </Typography>
                         </Box>
                         <Typography
@@ -527,8 +528,7 @@ const HomepageMultipleLayouts = () => {
                             pl: 3,
                           }}
                         >
-                          An extensive collection of elements, from navigation to data display,
-                          ensuring comprehensive UI solutions.
+                          AdVisor grows with your business, providing seamless scalability as your marketing efforts expand and evolve.
                         </Typography>
                       </Box>
                     </Grid>
@@ -547,7 +547,7 @@ const HomepageMultipleLayouts = () => {
             variant="subtitle1"
             color="text.secondary"
           >
-            Copyright &copy; 2024 - uifort.com
+            Copyright &copy; 2024 - AdVisor
           </Typography>
         </Box>
       </Container>

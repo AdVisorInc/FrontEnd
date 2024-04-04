@@ -1,6 +1,7 @@
 'use client';
 
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import LaunchRoundedIcon from '@mui/icons-material/CheckRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {
   alpha,
@@ -15,6 +16,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Stack,
   Typography,
   useMediaQuery,
   useTheme,
@@ -24,7 +26,6 @@ import Tilt from 'react-parallax-tilt';
 import { Helmet } from 'src/components/base/helmet';
 // import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
 import { AvatarState } from 'src/components/base/styles/avatar';
-import { MarketingLayout as Layout } from 'src/layouts/marketing';
 
 const Page = () => {
   const { t } = useTranslation();
@@ -204,7 +205,7 @@ const Page = () => {
               </Box>
             )}
             <Box
-              // pb={{ xs: 2, md: 8 }}
+              pb={{ xs: 2, md: 8 }}
               flex={1}
             >
               <Chip
@@ -215,7 +216,7 @@ const Page = () => {
                 }}
                 label={
                   <>
-                    <Typography variant="h5">Production-ready dashboards</Typography>
+                    <Typography variant="h5">AI-Powered Ad Optimization</Typography>
                   </>
                 }
               />
@@ -234,7 +235,7 @@ const Page = () => {
                     variant="h1"
                     gutterBottom
                   >
-                    Pricing
+                    AdVisor Pricing
                   </Typography>
                   <Typography
                     variant="h5"
@@ -242,14 +243,17 @@ const Page = () => {
                     color="neutral.500"
                     lineHeight={1.8}
                   >
-                    All licenses include all components and blueprints + starter templates depending
-                    on chosen license.
-                    <br />
-                    Also, support and free updates for 12 months.
+                    Choose the plan that fits your business needs and unlock the power of AI-driven
+                    ad optimization. All plans include advanced analytics, customizable KPI
+                    weighting, and dedicated support.
                   </Typography>
                 </Grid>
               </Grid>
-              {/* <Stack direction="row" spacing={3} alignItems="center">
+              <Stack
+                direction="row"
+                spacing={3}
+                alignItems="center"
+              >
                 <Button
                   size="large"
                   variant="contained"
@@ -260,7 +264,7 @@ const Page = () => {
                 >
                   View product page
                 </Button>
-               </Stack> */}
+              </Stack>
             </Box>
           </Box>
 
@@ -325,7 +329,7 @@ const Page = () => {
                             pb: 0.5,
                           }}
                         >
-                          Standard License
+                          Starter
                         </Typography>
                         <Typography
                           variant="h5"
@@ -336,14 +340,21 @@ const Page = () => {
                             pb: 1,
                           }}
                         >
-                          End-users <b>can't</b> be charged for.
+                          For small businesses and startups
                         </Typography>
                         <Typography
                           variant="h1"
                           component="p"
                           lineHeight={1}
                         >
-                          $69
+                          $99
+                          <Typography
+                            variant="h5"
+                            component="span"
+                            color="text.secondary"
+                          >
+                            /mo
+                          </Typography>
                         </Typography>
                       </Box>
                       <Divider />
@@ -366,7 +377,7 @@ const Page = () => {
                           target="_blank"
                           rel="noopener"
                         >
-                          Buy now
+                          Get Started
                         </Button>
                       </Box>
                       <Divider />
@@ -378,171 +389,78 @@ const Page = () => {
                       >
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CheckRoundedIcon fontSize="small" />
                             </AvatarState>
                           </ListItemAvatar>
-                          <ListItemText primary="Includes Next.js JavaScript files" />
+                          <ListItemText primary="3 Ad Platforms" />
                         </ListItem>
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CheckRoundedIcon fontSize="small" />
                             </AvatarState>
                           </ListItemAvatar>
-                          <ListItemText primary="Includes Vite JavaScript files" />
+                          <ListItemText primary="10 Campaigns" />
                         </ListItem>
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CheckRoundedIcon fontSize="small" />
                             </AvatarState>
                           </ListItemAvatar>
-                          <ListItemText primary="Includes starter templates (2)" />
+                          <ListItemText primary="Basic Analytics" />
                         </ListItem>
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="error"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CloseRoundedIcon fontSize="small" />
                             </AvatarState>
                           </ListItemAvatar>
-                          <ListItemText primary="Doesn't include Next.js App Router version" />
+                          <ListItemText primary="AI-Driven Recommendations" />
                         </ListItem>
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="error"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CloseRoundedIcon fontSize="small" />
                             </AvatarState>
                           </ListItemAvatar>
-                          <ListItemText primary="Doesn't include Typescript files" />
-                        </ListItem>
-                        <ListItem
-                          disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
-                        >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
-                            <AvatarState
-                              isSoft
-                              state="error"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
-                            >
-                              <CloseRoundedIcon fontSize="small" />
-                            </AvatarState>
-                          </ListItemAvatar>
-                          <ListItemText primary="Doesn't include Figma design files" />
-                        </ListItem>
-                        <ListItem
-                          disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
-                        >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
-                            <AvatarState
-                              isSoft
-                              state="error"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
-                            >
-                              <CloseRoundedIcon fontSize="small" />
-                            </AvatarState>
-                          </ListItemAvatar>
-                          <ListItemText primary="Can't be used in commercial products" />
+                          <ListItemText primary="Advanced Reporting" />
                         </ListItem>
                       </List>
                     </Card>
@@ -595,7 +513,7 @@ const Page = () => {
                             pb: 0.5,
                           }}
                         >
-                          Standard Plus License
+                          Professional
                         </Typography>
                         <Typography
                           variant="h5"
@@ -606,14 +524,21 @@ const Page = () => {
                             pb: 1,
                           }}
                         >
-                          End-users <b>can't</b> be charged for.
+                          For growing businesses
                         </Typography>
                         <Typography
                           variant="h1"
                           component="p"
                           lineHeight={1}
                         >
-                          $129
+                          $299
+                          <Typography
+                            variant="h5"
+                            component="span"
+                            color="text.secondary"
+                          >
+                            /mo
+                          </Typography>
                         </Typography>
                       </Box>
                       <Divider />
@@ -636,7 +561,7 @@ const Page = () => {
                           target="_blank"
                           rel="noopener"
                         >
-                          Buy now
+                          Get Started
                         </Button>
                       </Box>
                       <Divider />
@@ -648,171 +573,78 @@ const Page = () => {
                       >
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CheckRoundedIcon fontSize="small" />
                             </AvatarState>
                           </ListItemAvatar>
-                          <ListItemText primary="Includes Next.js JavaScript files" />
+                          <ListItemText primary="5 Ad Platforms" />
                         </ListItem>
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CheckRoundedIcon fontSize="small" />
                             </AvatarState>
                           </ListItemAvatar>
-                          <ListItemText primary="Includes Vite JavaScript files" />
+                          <ListItemText primary="Unlimited Campaigns" />
                         </ListItem>
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CheckRoundedIcon fontSize="small" />
                             </AvatarState>
                           </ListItemAvatar>
-                          <ListItemText primary="Includes Typescript files (Next.js & Vite)" />
+                          <ListItemText primary="Advanced Analytics" />
                         </ListItem>
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CheckRoundedIcon fontSize="small" />
                             </AvatarState>
                           </ListItemAvatar>
-                          <ListItemText primary="Includes Next.js App Router version" />
+                          <ListItemText primary="AI-Driven Recommendations" />
                         </ListItem>
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CheckRoundedIcon fontSize="small" />
                             </AvatarState>
                           </ListItemAvatar>
-                          <ListItemText primary="Includes starter templates (4)" />
-                        </ListItem>
-                        <ListItem
-                          disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
-                        >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
-                            <AvatarState
-                              isSoft
-                              state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
-                            >
-                              <CheckRoundedIcon fontSize="small" />
-                            </AvatarState>
-                          </ListItemAvatar>
-                          <ListItemText primary="Includes Figma design files" />
-                        </ListItem>
-                        <ListItem
-                          disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
-                        >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
-                            <AvatarState
-                              isSoft
-                              state="error"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
-                            >
-                              <CloseRoundedIcon fontSize="small" />
-                            </AvatarState>
-                          </ListItemAvatar>
-                          <ListItemText primary="Can't be used in commercial products" />
+                          <ListItemText primary="Custom Reporting" />
                         </ListItem>
                       </List>
                     </Card>
@@ -851,7 +683,7 @@ const Page = () => {
                             pb: 0.5,
                           }}
                         >
-                          Enterprise License
+                          Enterprise
                         </Typography>
                         <Typography
                           variant="h5"
@@ -862,14 +694,14 @@ const Page = () => {
                             pb: 1,
                           }}
                         >
-                          End-users <b>can</b> be charged for.
+                          For large enterprises
                         </Typography>
                         <Typography
                           variant="h1"
                           component="p"
                           lineHeight={1}
                         >
-                          $599
+                          Custom
                         </Typography>
                       </Box>
                       <Divider />
@@ -892,7 +724,7 @@ const Page = () => {
                           target="_blank"
                           rel="noopener"
                         >
-                          Buy now
+                          Contact Us
                         </Button>
                       </Box>
                       <Divider />
@@ -904,22 +736,13 @@ const Page = () => {
                       >
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CheckRoundedIcon fontSize="small" />
                             </AvatarState>
@@ -928,7 +751,7 @@ const Page = () => {
                             sx={{
                               color: 'success.main',
                             }}
-                            primary="Includes everything from Standard Plus license"
+                            primary="Includes everything from Professional plan"
                             primaryTypographyProps={{
                               variant: 'h5',
                             }}
@@ -936,52 +759,33 @@ const Page = () => {
                         </ListItem>
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CheckRoundedIcon fontSize="small" />
                             </AvatarState>
                           </ListItemAvatar>
-
                           <ListItemText
                             primaryTypographyProps={{
                               variant: 'h6',
                             }}
-                            primary="Can be used in applications for which the end user will be charged for"
+                            primary="Dedicated Account Manager"
                           />
                         </ListItem>
                         <ListItem
                           disablePadding
-                          sx={{
-                            py: 0.8,
-                          }}
+                          sx={{ py: 0.8 }}
                         >
-                          <ListItemAvatar
-                            sx={{
-                              minWidth: 38,
-                            }}
-                          >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
                             <AvatarState
                               isSoft
                               state="success"
-                              sx={{
-                                height: 28,
-                                width: 28,
-                              }}
+                              sx={{ height: 28, width: 28 }}
                             >
                               <CheckRoundedIcon fontSize="small" />
                             </AvatarState>
@@ -990,7 +794,27 @@ const Page = () => {
                             primaryTypographyProps={{
                               variant: 'h6',
                             }}
-                            primary="Can be used in SaaS subscription based products"
+                            primary="Custom Integrations"
+                          />
+                        </ListItem>
+                        <ListItem
+                          disablePadding
+                          sx={{ py: 0.8 }}
+                        >
+                          <ListItemAvatar sx={{ minWidth: 38 }}>
+                            <AvatarState
+                              isSoft
+                              state="success"
+                              sx={{ height: 28, width: 28 }}
+                            >
+                              <CheckRoundedIcon fontSize="small" />
+                            </AvatarState>
+                          </ListItemAvatar>
+                          <ListItemText
+                            primaryTypographyProps={{
+                              variant: 'h6',
+                            }}
+                            primary="Priority Support"
                           />
                         </ListItem>
                       </List>

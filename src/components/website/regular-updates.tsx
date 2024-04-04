@@ -1,7 +1,9 @@
-import { MenuBookRounded } from '@mui/icons-material';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import LaunchRoundedIcon from '@mui/icons-material/LaunchRounded';
-import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded';
+import {
+  BarChartRounded,
+  DataThresholdingRounded,
+  AutoGraphRounded,
+  TuneRounded,
+} from '@mui/icons-material';
 import {
   alpha,
   Box,
@@ -176,7 +178,7 @@ const HomepageRegularUpdates = () => {
               }}
               label={
                 <>
-                  <Typography variant="h5">always up to date and production-ready.</Typography>
+                  <Typography variant="h5">Always Evolving. Always Ahead.</Typography>
                 </>
               }
             />
@@ -194,7 +196,7 @@ const HomepageRegularUpdates = () => {
                   lineHeight={1.4}
                   color="text.primary"
                 >
-                  Build with Confidence Using Our Continuously Updated UI Kit
+                  Stay Ahead of the Curve with AdVisor's Continuous Updates and Improvements
                 </Typography>
               </Grid>
             </Grid>
@@ -233,7 +235,7 @@ const HomepageRegularUpdates = () => {
                             component="h5"
                             gutterBottom
                           >
-                            Regular Updates
+                            Continuous Updates and Improvements
                           </Typography>
                           <Typography
                             variant="h4"
@@ -241,25 +243,10 @@ const HomepageRegularUpdates = () => {
                             fontWeight={400}
                             sx={{ pb: 2 }}
                           >
-                            Stay up-to-date with regular releases that bring new features and
-                            maintain optimal performance.
+                            AdVisor is committed to staying at the forefront of digital marketing innovation.
+                            We continuously update our platform with the latest features, algorithms, and best practices
+                            to ensure you always have access to the most advanced tools and insights.
                           </Typography>
-                          <Box display="flex">
-                            <Tooltip
-                              arrow
-                              placement="bottom"
-                              title="Version 1.0.0 does not have a changelog!"
-                            >
-                              <Box>
-                                <Button
-                                  disabled
-                                  variant="outlined"
-                                >
-                                  View changelog
-                                </Button>
-                              </Box>
-                            </Tooltip>
-                          </Box>
                         </Box>
                         <Box
                           sx={{
@@ -275,7 +262,7 @@ const HomepageRegularUpdates = () => {
                               component="p"
                               sx={{ pb: 0.5 }}
                             >
-                              uifort 1.0.0
+                              AdVisor 1.0.0
                             </Typography>
                             <Typography
                               variant="h4"
@@ -292,7 +279,7 @@ const HomepageRegularUpdates = () => {
                                 variant="h4"
                                 lineHeight={1}
                               >
-                                {formatDistance(new Date('2023-12-21'), new Date(), {
+                                {formatDistance(new Date('2024-03-21'), new Date(), {
                                   addSuffix: true,
                                 })}
                               </Typography>
@@ -318,12 +305,12 @@ const HomepageRegularUpdates = () => {
                                   gap={1}
                                   alignItems="center"
                                 >
-                                  <Typography variant="subtitle2">react</Typography>
+                                  <Typography variant="subtitle2">Python</Typography>
                                   <Typography
                                     variant="subtitle2"
                                     fontWeight={600}
                                   >
-                                    18.2.0
+                                    3.9
                                   </Typography>
                                 </Box>
                               }
@@ -340,12 +327,12 @@ const HomepageRegularUpdates = () => {
                                   gap={1}
                                   alignItems="center"
                                 >
-                                  <Typography variant="subtitle2">typescript</Typography>
+                                  <Typography variant="subtitle2">TensorFlow</Typography>
                                   <Typography
                                     variant="subtitle2"
                                     fontWeight={600}
                                   >
-                                    5.3.3
+                                    2.9
                                   </Typography>
                                 </Box>
                               }
@@ -362,12 +349,12 @@ const HomepageRegularUpdates = () => {
                                   gap={1}
                                   alignItems="center"
                                 >
-                                  <Typography variant="subtitle2">next</Typography>
+                                  <Typography variant="subtitle2">PyTorch</Typography>
                                   <Typography
                                     variant="subtitle2"
                                     fontWeight={600}
                                   >
-                                    14.0.4
+                                    1.12
                                   </Typography>
                                 </Box>
                               }
@@ -384,12 +371,12 @@ const HomepageRegularUpdates = () => {
                                   gap={1}
                                   alignItems="center"
                                 >
-                                  <Typography variant="subtitle2">@mui/material</Typography>
+                                  <Typography variant="subtitle2">scikit-learn</Typography>
                                   <Typography
                                     variant="subtitle2"
                                     fontWeight={600}
                                   >
-                                    5.15.1
+                                    1.1
                                   </Typography>
                                 </Box>
                               }
@@ -403,7 +390,7 @@ const HomepageRegularUpdates = () => {
               </Grid>
               <Grid
                 xs={12}
-                lg={4}
+                lg={6}
                 sm={6}
               >
                 <Tilt
@@ -438,7 +425,7 @@ const HomepageRegularUpdates = () => {
                           mt: { xs: -5, sm: -6 },
                         }}
                       >
-                        <MenuBookRounded fontSize="large" />
+                        <AutoGraphRounded fontSize="large" />
                       </AvatarState>
                       <Typography
                         variant="h4"
@@ -447,7 +434,7 @@ const HomepageRegularUpdates = () => {
                         gutterBottom
                         noWrap
                       >
-                        Comprehensive Documentation
+                        Evolving AI Models
                       </Typography>
                       <Typography
                         variant="h5"
@@ -455,19 +442,15 @@ const HomepageRegularUpdates = () => {
                         color="text.secondary"
                         sx={{ pb: 2 }}
                       >
-                        Extensive resources for effortless setup and tailored customization,
-                        ensuring a smooth start.
+                        Our machine learning models are constantly trained on the latest data to improve their accuracy and adapt to changing market trends.
                       </Typography>
-                      <Button endIcon={<LaunchRoundedIcon fontSize="small" />}>
-                        Browse documentation
-                      </Button>
                     </CardContent>
                   </Card>
                 </Tilt>
               </Grid>
               <Grid
                 xs={12}
-                lg={4}
+                lg={6}
                 sm={6}
               >
                 <Tilt
@@ -502,7 +485,7 @@ const HomepageRegularUpdates = () => {
                           mt: { xs: -5, sm: -6 },
                         }}
                       >
-                        <SchoolRoundedIcon fontSize="large" />
+                        <BarChartRounded fontSize="large" />
                       </AvatarState>
                       <Typography
                         variant="h4"
@@ -511,7 +494,7 @@ const HomepageRegularUpdates = () => {
                         gutterBottom
                         noWrap
                       >
-                        Starter Templates
+                        Expanded KPIs and Metrics
                       </Typography>
                       <Typography
                         variant="h5"
@@ -519,103 +502,8 @@ const HomepageRegularUpdates = () => {
                         color="text.secondary"
                         sx={{ pb: 2 }}
                       >
-                        Streamline your project's development from the ground up with ease, using
-                        the included starter templates.
+                        We regularly add new KPIs and metrics to provide deeper insights into your ad performance and help you make data-driven decisions.
                       </Typography>
-                      <Stack
-                        spacing={1}
-                        direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                      >
-                        <AvatarState
-                          isSoft
-                          state="success"
-                          sx={{
-                            height: 42,
-                            width: 42,
-                          }}
-                        >
-                          <CheckRoundedIcon />
-                        </AvatarState>
-                        <Typography
-                          variant="h5"
-                          component="span"
-                        >
-                          3+ included
-                        </Typography>
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                </Tilt>
-              </Grid>
-              <Grid
-                xs={12}
-                lg={4}
-                sm={6}
-              >
-                <Tilt
-                  scale={1}
-                  tiltMaxAngleX={1}
-                  perspective={800}
-                  glarePosition="all"
-                  glareEnable={true}
-                  glareColor={theme.palette.secondary.main}
-                  glareMaxOpacity={0.025}
-                  tiltMaxAngleY={1.56}
-                >
-                  <Card
-                    elevation={21}
-                    sx={{
-                      transformStyle: 'preserve-3d',
-                      mt: { xs: 4, sm: 5 },
-                      overflow: 'visible',
-                      backgroundColor: 'background.default',
-                    }}
-                  >
-                    <CardContent sx={{ textAlign: 'center', p: { xs: 2, xl: 3 } }}>
-                      <AvatarState
-                        useShadow
-                        variant="rounded"
-                        state="secondary"
-                        sx={{
-                          height: 64,
-                          width: 64,
-                          mx: 'auto',
-                          mb: 2,
-                          p: 0.5,
-                          mt: { xs: -5, sm: -6 },
-                          img: {
-                            objectFit: 'fill',
-                          },
-                        }}
-                        src="/placeholders/logo/figma-logo.svg"
-                      />
-                      <Typography
-                        variant="h4"
-                        component="h5"
-                        fontWeight={500}
-                        gutterBottom
-                        noWrap
-                      >
-                        Figma Design Files
-                      </Typography>
-                      <Typography
-                        variant="h5"
-                        fontWeight={400}
-                        color="text.secondary"
-                        sx={{ pb: 2 }}
-                      >
-                        Detailed design schematics to efficiently structure and refine your
-                        dashboard's user interface.
-                      </Typography>
-                      <Button
-                        sx={{ mt: '2px' }}
-                        disabled
-                        endIcon={<LaunchRoundedIcon fontSize="small" />}
-                      >
-                        Preview files
-                      </Button>
                     </CardContent>
                   </Card>
                 </Tilt>

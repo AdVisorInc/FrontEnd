@@ -46,8 +46,8 @@ function Component() {
 
         '&:hover': {
           transform: 'translateY(-10px)',
-          boxShadow: `0 2rem 8rem 0 ${theme.palette.background.default}, 
-                0 0.6rem 1.6rem ${alpha(theme.palette.common.black, 0.15)}, 
+          boxShadow: `0 2rem 8rem 0 ${theme.palette.background.default},
+                0 0.6rem 1.6rem ${alpha(theme.palette.common.black, 0.15)},
                 0 0.2rem 0.2rem ${alpha(theme.palette.common.black, 0.1)}`,
         },
       }}
@@ -107,7 +107,7 @@ function Component() {
           color="text.secondary"
         >
           {t(
-            'Powerful components across multiple product niches for fast & perfect apps development processes'
+            'Powerful features across multiple product niches for fast & perfect apps development processes'
           )}
           .
         </Typography>

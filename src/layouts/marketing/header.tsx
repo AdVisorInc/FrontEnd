@@ -68,18 +68,14 @@ export const Header = () => {
         : 'dark',
     layout: customization.layout,
   });
-  const purchaseButton = (
+  const ctaButton = (
     <Button
       size="small"
       fullWidth={!lgUp}
       variant={lgUp ? 'outlined' : 'contained'}
       color={lgUp ? 'secondary' : 'primary'}
       component={RouterLink}
-      href={routes.website.pricing}
-      // href=""
-      // target="_blank"
-      // rel="noopener"
-      // endIcon={<LaunchRoundedIcon fontSize="small" />}
+      href={routes.auth['supabase.login']}
       sx={{
         height: 38,
         px: 1.5,
@@ -87,7 +83,7 @@ export const Header = () => {
         fontWeight: 500,
       }}
     >
-      {lgUp ? 'Purchase now' : 'Buy now'}
+      {'Get Started'}
     </Button>
   );
 
@@ -153,14 +149,7 @@ export const Header = () => {
         component={RouterLink}
         href={routes.components.index}
       >
-        <span>{t('Components')}</span>
-      </ButtonBase>
-      <ButtonBase
-        className={isActive(routes.blueprints.index) ? 'active' : ''}
-        component={RouterLink}
-        href={routes.blueprints.index}
-      >
-        <span>{t('Blueprints')}</span>
+        <span>{t('Features')}</span>
       </ButtonBase>
       <ButtonBase
         className={isActive(routes.website.pricing) ? 'active' : ''}
@@ -273,7 +262,7 @@ export const Header = () => {
                   />
                 </ThemeProvider>
               </Stack>
-              {purchaseButton}
+              {ctaButton}
               {!mdUp && (
                 <IconButton
                   onClick={handleOpen}
@@ -335,7 +324,7 @@ export const Header = () => {
               background: alpha(theme.palette.common.white, 0.02),
             }}
           >
-            {purchaseButton}
+            {ctaButton}
           </Box>
         </SwipeableDrawer>
       )}

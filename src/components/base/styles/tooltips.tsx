@@ -53,7 +53,7 @@ const createStyledTooltip = (colorKey: keyof Theme['palette']) => {
   });
 };
 
-// Create specific Tooltip components
+// Create specific Tooltip features
 export const TooltipPrimary = createStyledTooltip('primary');
 export const TooltipSecondary = createStyledTooltip('secondary');
 export const TooltipError = createStyledTooltip('error');

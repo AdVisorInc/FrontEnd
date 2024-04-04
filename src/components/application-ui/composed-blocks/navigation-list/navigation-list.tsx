@@ -66,7 +66,7 @@ function Component() {
                   sx={{ pt: 2 }}
                 >
                   {t(
-                    'Powerful components across multiple product niches for fast & perfect apps development processes'
+                    'Powerful features across multiple product niches for fast & perfect apps development processes'
                   )}
                   .
                 </Typography>
@@ -129,7 +129,7 @@ function Component() {
                   color="text.secondary"
                 >
                   {t(
-                    'Powerful components across multiple product niches for fast & perfect apps development processes'
+                    'Powerful features across multiple product niches for fast & perfect apps development processes'
                   )}
                   .
                 </Typography>
