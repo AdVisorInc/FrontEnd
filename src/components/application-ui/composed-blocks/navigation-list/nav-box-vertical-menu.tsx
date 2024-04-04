@@ -47,7 +47,7 @@ function NavBoxVerticalMenu() {
             color="text.secondary"
           >
             {t(
-              'Powerful components across multiple product niches for fast & perfect apps development processes'
+              'Powerful features across multiple product niches for fast & perfect apps development processes'
             )}
             .
           </Typography>

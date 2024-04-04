@@ -352,7 +352,7 @@ function Component() {
                         color: alpha(theme.palette.common.white, 0.7),
                       }}
                     >
-                      {t('High performance React template built with lots of powerful components')}.
+                      {t('High performance React template built with lots of powerful features')}.
                     </Typography>
                     <Box
                       sx={{
@@ -460,10 +460,7 @@ function Component() {
                           color: alpha(theme.palette.common.white, 0.7),
                         }}
                       >
-                        {t(
-                          'High performance React template built with lots of powerful components'
-                        )}
-                        .
+                        {t('High performance React template built with lots of powerful features')}.
                       </Typography>
                       <Box
                         sx={{

@@ -17,7 +17,7 @@ const Page = () => {
   const theme = useTheme();
   return (
     <>
-      <Helmet heading="React UI Kit and Admin Dashboard Template" />
+      <Helmet heading="AdVisor - AI-Powered Marketing Optimization Platform" />
       <Box
         sx={{
           display: 'flex',
@@ -102,7 +102,7 @@ const Page = () => {
                   variant="h1"
                   component="p"
                 >
-                  676
+                  3+
                 </Typography>
                 <Typography
                   variant="h5"
@@ -112,7 +112,7 @@ const Page = () => {
                     opacity: 0.8,
                   }}
                 >
-                  components
+                  Platforms Integrated
                 </Typography>
               </AvatarState>
             </Tilt>
@@ -123,7 +123,7 @@ const Page = () => {
             gutterBottom
             lineHeight={1.4}
           >
-            Ready-to-Use UI Components
+            Seamless Multi-Platform Integration
           </Typography>
           <Typography
             variant="h4"
@@ -140,8 +140,8 @@ const Page = () => {
               },
             }}
           >
-            Get quick access to a wide array of UI components. Ready for any project, they're built
-            to integrate smoothly and enhance your user experience.
+            AdVisor seamlessly integrates with multiple advertising platforms, including Meta Ads, Google Ads, and TikTok Ads, providing a holistic view of your marketing campaigns and enabling centralized optimization.
+
           </Typography>
           <Button
             sx={{
@@ -155,7 +155,7 @@ const Page = () => {
             component={RouterLink}
             href={routes.components.index}
           >
-            Browse components
+            Explore Features
           </Button>
         </Container>
         <Box>

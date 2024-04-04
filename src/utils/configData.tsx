@@ -69,7 +69,7 @@ export const configData = {
     {
       name: 'Application UI Components',
       description:
-        'Dive into a comprehensive suite of components tailored for modern applications. From intricate data visualizations to user-friendly tables, lists, and buttons—our collection ensures a seamless user experience while promoting efficiency in development. Sculpted for scalability, every piece ensures consistency across your application, optimizing both design and functionality.',
+        'Dive into a comprehensive suite of features tailored for modern applications. From intricate data visualizations to user-friendly tables, lists, and buttons—our collection ensures a seamless user experience while promoting efficiency in development. Sculpted for scalability, every piece ensures consistency across your application, optimizing both design and functionality.',
       subCategories: [
         {
           name: 'Layout',

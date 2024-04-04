@@ -1,10 +1,10 @@
 import {
-  AccessibilityNewRounded,
-  ColorLensRounded,
-  DevicesRounded,
-  FormatTextdirectionRToLRounded,
-  GTranslateRounded,
-  SpeedRounded,
+  BarChartRounded,
+  DataThresholdingRounded,
+  IntegrationInstructionsRounded,
+  TuneRounded,
+  AutoGraphRounded,
+  RocketLaunchRounded,
 } from '@mui/icons-material';
 import {
   alpha,
@@ -182,7 +182,7 @@ const HomepageFeaturesSet = () => {
                     variant="h5"
                     component="p"
                   >
-                    always ready for deployment.
+                    Unleash the Power of AI-Driven Ad Optimization
                   </Typography>
                 </>
               }
@@ -200,7 +200,7 @@ const HomepageFeaturesSet = () => {
                   lineHeight={1.4}
                   color="text.primary"
                 >
-                  Elevate your digital solutions with our cutting-edge UI components
+                  Revolutionize Your Digital Marketing with AdVisor's Advanced Features
                 </Typography>
               </Grid>
             </Grid>
@@ -241,7 +241,7 @@ const HomepageFeaturesSet = () => {
                           mb: 2,
                         }}
                       >
-                        <SpeedRounded fontSize="large" />
+                        <IntegrationInstructionsRounded fontSize="large" />
                       </AvatarState>
                       <Typography
                         variant="h4"
@@ -249,7 +249,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={500}
                         gutterBottom
                       >
-                        Blazing Performance
+                        Multi-Platform Integration
                       </Typography>
                       <Typography
                         variant="h5"
@@ -257,8 +257,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={400}
                         color="text.secondary"
                       >
-                        Engineered for optimal efficiency, our toolkit ensures smooth application
-                        performance under any load.
+                        Seamlessly connect and manage your ad campaigns across Meta Ads, Google Ads, and TikTok Ads from a single platform.
                       </Typography>
                     </CardContent>
                   </Card>
@@ -296,7 +295,7 @@ const HomepageFeaturesSet = () => {
                           mb: 2,
                         }}
                       >
-                        <ColorLensRounded fontSize="large" />
+                        <BarChartRounded fontSize="large" />
                       </AvatarState>
                       <Typography
                         variant="h4"
@@ -304,7 +303,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={500}
                         gutterBottom
                       >
-                        Theme Customization
+                        Advanced Analytics
                       </Typography>
                       <Typography
                         variant="h5"
@@ -312,8 +311,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={400}
                         color="text.secondary"
                       >
-                        Customize your app's look and feel with our comprehensive theming system for
-                        brand consistency.
+                        Gain deep insights into your ad performance with our comprehensive suite of analytics and reporting tools.
                       </Typography>
                     </CardContent>
                   </Card>
@@ -351,7 +349,7 @@ const HomepageFeaturesSet = () => {
                           mb: 2,
                         }}
                       >
-                        <DevicesRounded fontSize="large" />
+                        <AutoGraphRounded fontSize="large" />
                       </AvatarState>
                       <Typography
                         variant="h4"
@@ -359,7 +357,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={500}
                         gutterBottom
                       >
-                        Responsive Across Devices
+                        AI-Driven Recommendations
                       </Typography>
                       <Typography
                         variant="h5"
@@ -367,8 +365,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={400}
                         color="text.secondary"
                       >
-                        Our fluid layouts and adaptive components ensure a sleek appearance on any
-                        screen, from mobile to desktop.
+                        Receive personalized recommendations powered by advanced AI algorithms to optimize your ad campaigns for maximum ROI.
                       </Typography>
                     </CardContent>
                   </Card>
@@ -406,7 +403,7 @@ const HomepageFeaturesSet = () => {
                           mb: 2,
                         }}
                       >
-                        <FormatTextdirectionRToLRounded fontSize="large" />
+                        <TuneRounded fontSize="large" />
                       </AvatarState>
                       <Typography
                         variant="h4"
@@ -414,7 +411,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={500}
                         gutterBottom
                       >
-                        RTL Layout Support
+                        Customizable KPI Weighting
                       </Typography>
                       <Typography
                         variant="h5"
@@ -422,8 +419,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={400}
                         color="text.secondary"
                       >
-                        Offering seamless support for right-to-left text, our toolkit facilitates
-                        app creation in various languages and scripts.
+                        Tailor your performance metrics to your specific business goals with our flexible KPI weighting system.
                       </Typography>
                     </CardContent>
                   </Card>
@@ -461,7 +457,7 @@ const HomepageFeaturesSet = () => {
                           mb: 2,
                         }}
                       >
-                        <GTranslateRounded fontSize="large" />
+                        <DataThresholdingRounded fontSize="large" />
                       </AvatarState>
                       <Typography
                         variant="h4"
@@ -469,7 +465,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={500}
                         gutterBottom
                       >
-                        Multi-language Support
+                        Budget Optimization
                       </Typography>
                       <Typography
                         variant="h5"
@@ -477,8 +473,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={400}
                         color="text.secondary"
                       >
-                        Localize your application effortlessly with our integrated tools for
-                        translation and internationalization.
+                        Maximize your ad spend efficiency with our intelligent budget allocation and optimization algorithms.
                       </Typography>
                     </CardContent>
                   </Card>
@@ -516,7 +511,7 @@ const HomepageFeaturesSet = () => {
                           mb: 2,
                         }}
                       >
-                        <AccessibilityNewRounded fontSize="large" />
+                        <RocketLaunchRounded fontSize="large" />
                       </AvatarState>
                       <Typography
                         variant="h4"
@@ -524,7 +519,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={500}
                         gutterBottom
                       >
-                        Inclusive Accessibility
+                        Automated Campaign Management
                       </Typography>
                       <Typography
                         variant="h5"
@@ -532,8 +527,7 @@ const HomepageFeaturesSet = () => {
                         fontWeight={400}
                         color="text.secondary"
                       >
-                        Designed with accessibility at its core, our components meet the latest WCAG
-                        standards for universal usability.
+                        Save time and effort with our automated campaign management features, including bid adjustments and performance monitoring.
                       </Typography>
                     </CardContent>
                   </Card>
@@ -546,5 +540,6 @@ const HomepageFeaturesSet = () => {
     </Box>
   );
 };
+
 
 export default HomepageFeaturesSet;

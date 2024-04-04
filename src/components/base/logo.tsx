@@ -85,15 +85,15 @@ export const Logo = ({ dark = false, isLinkStatic = false }: LogoProps) => {
         <Typography
           component="span"
           sx={{
-            fontSize: '18px',
-            ml: '-24px',
+            fontSize: '16px',
+            ml: '-28px',
             mt: '-1px',
-            mr: '34px',
+            mr: '32px',
             lineHeight: '18px',
           }}
           fontWeight={700}
         >
-          ui
+          Ad
         </Typography>
         <Typography
           component="span"
@@ -106,7 +106,7 @@ export const Logo = ({ dark = false, isLinkStatic = false }: LogoProps) => {
           }}
           fontWeight={500}
         >
-          fort
+          visor
         </Typography>
       </Link>
     </Box>
