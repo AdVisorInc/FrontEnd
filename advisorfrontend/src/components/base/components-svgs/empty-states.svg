@@ -1,0 +1,19 @@
+<svg width="100%" height="100%" viewBox="0 0 342 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.5" y="0.5" width="341" height="249" rx="7.5" fill="white" stroke="black"/>
+<rect x="83.5" y="37.5" width="175" height="136" rx="3.5" fill="white" stroke="black" stroke-dasharray="2 2"/>
+<rect x="111" y="90" width="68" height="6" rx="3" fill="#676767"/>
+<rect opacity="0.8" x="111" y="101" width="120" height="5" rx="2.5" fill="#D9D9D9"/>
+<rect opacity="0.5" x="111" y="111" width="85" height="5" rx="2.5" fill="#D9D9D9"/>
+<rect opacity="0.5" width="32" height="1" transform="matrix(1 0 0 -1 111 128)" fill="#676767"/>
+<rect x="111" y="139" width="28" height="11" rx="3" fill="#676767"/>
+<rect x="117" y="143.5" width="16" height="2" rx="1" fill="white"/>
+<g clip-path="url(#clip0_27_207)">
+<path d="M125 63.25H124.25V61.75H122.75V63.25H115.25V61.75H113.75V63.25H113C112.175 63.25 111.5 63.925 111.5 64.75V76.75C111.5 77.575 112.175 78.25 113 78.25H125C125.825 78.25 126.5 77.575 126.5 76.75V64.75C126.5 63.925 125.825 63.25 125 63.25ZM125 64.75V67H113V64.75H125ZM113 76.75V68.5H125V76.75H113Z" fill="#676767"/>
+<path opacity="0.3" d="M113 64.7576H125V67.0001H113V64.7576Z" fill="#676767"/>
+</g>
+<defs>
+<clipPath id="clip0_27_207">
+<rect width="18" height="18" fill="white" transform="translate(110 61)"/>
+</clipPath>
+</defs>
+</svg>

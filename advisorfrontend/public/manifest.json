@@ -1,0 +1,15 @@
+{
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": ".",
+  "short_name": "UIFORT",
+  "name": "React UI Kit and Admin Dashboard Template",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "180x180 32x32 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
