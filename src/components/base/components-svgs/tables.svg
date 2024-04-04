@@ -1,0 +1,67 @@
+<svg width="100%" height="100%" viewBox="0 0 342 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="0.5" y="0.5" width="341" height="249" rx="7.5" fill="white" stroke="black"/>
+<path d="M1 9.00001C1 4.58173 4.58172 1 9 1H333C337.418 1 341 4.58172 341 9V241C341 245.418 337.418 249 333 249H9C4.58172 249 1 245.418 1 241V9.00001Z" fill="#BEBEBE"/>
+<g filter="url(#filter0_d_27_768)">
+<rect x="19" y="23" width="303" height="132" rx="4" fill="white"/>
+<rect x="19.5" y="23.5" width="302" height="131" rx="3.5" stroke="black"/>
+</g>
+<line opacity="0.5" x1="20.0103" y1="49.5" x2="320.99" y2="49.5" stroke="black"/>
+<rect x="28" y="56.5" width="8" height="8" rx="2" fill="#E1E1E1"/>
+<rect x="61" y="58.5" width="38" height="4" rx="2" fill="#747474"/>
+<rect x="124" y="58.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<rect x="181" y="58.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<rect x="238" y="58.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<g opacity="0.5">
+<rect x="295" y="56" width="18" height="9" rx="4" fill="#676767"/>
+<rect x="300" y="59" width="8" height="3" rx="1.5" fill="white"/>
+</g>
+<line opacity="0.5" x1="20" y1="73.5" x2="321" y2="73.5" stroke="black"/>
+<rect x="28" y="83.5" width="8" height="8" rx="2" fill="#E1E1E1"/>
+<rect x="61" y="85.5" width="38" height="4" rx="2" fill="#747474"/>
+<rect x="124" y="85.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<rect x="181" y="85.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<rect x="238" y="85.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<g opacity="0.5">
+<rect x="295" y="83" width="18" height="9" rx="4" fill="#676767"/>
+<rect x="300" y="86" width="8" height="3" rx="1.5" fill="white"/>
+</g>
+<line opacity="0.5" x1="20" y1="100.5" x2="321" y2="100.5" stroke="black"/>
+<rect x="28" y="110.5" width="8" height="8" rx="2" fill="#E1E1E1"/>
+<rect x="61" y="112.5" width="38" height="4" rx="2" fill="#747474"/>
+<rect x="124" y="112.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<rect x="181" y="112.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<rect x="238" y="112.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<g opacity="0.5">
+<rect x="295" y="110" width="18" height="9" rx="4" fill="#676767"/>
+<rect x="300" y="113" width="8" height="3" rx="1.5" fill="white"/>
+</g>
+<line opacity="0.5" x1="20" y1="127.5" x2="321" y2="127.5" stroke="black"/>
+<rect x="28" y="137.5" width="8" height="8" rx="2" fill="#E1E1E1"/>
+<rect x="61" y="139.5" width="38" height="4" rx="2" fill="#747474"/>
+<rect x="124" y="139.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<rect x="181" y="139.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<rect x="238" y="139.5" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<g opacity="0.5">
+<rect x="295" y="137" width="18" height="9" rx="4" fill="#676767"/>
+<rect x="300" y="140" width="8" height="3" rx="1.5" fill="white"/>
+</g>
+<path opacity="0.4" d="M20 28C20 25.7909 21.7909 24 24 24H317C319.209 24 321 25.7909 321 28V49H20V28Z" fill="#E1E1E1"/>
+<rect x="28" y="33" width="8" height="8" rx="2" fill="#E1E1E1"/>
+<rect x="61" y="35" width="38" height="4" rx="2" fill="#747474"/>
+<rect x="124" y="35" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<rect x="181" y="35" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<rect x="238" y="35" width="32" height="4" rx="2" fill="#E1E1E1"/>
+<rect x="295" y="35" width="13" height="4" rx="2" fill="#E1E1E1"/>
+<defs>
+<filter id="filter0_d_27_768" x="15" y="21" width="311" height="140" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="2"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_27_768"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_27_768" result="shape"/>
+</filter>
+</defs>
+</svg>
