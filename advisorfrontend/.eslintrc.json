@@ -9,7 +9,7 @@
     "react/jsx-max-props-per-line": [
       "error",
       {
-        "maximum": 1
+        "maximum": 7
       }
     ],
     "react/no-unescaped-entities": "off",
