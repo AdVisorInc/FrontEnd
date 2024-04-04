@@ -10,10 +10,10 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: {
-    default: 'UIFort',
-    template: `%s | UIFort`,
+    default: 'Advisor',
+    template: `%s | Advisor`,
   },
-  description: 'React UI Kit and Admin Dashboard Template - UIFort',
+  description: 'AI-Powered Marketing Optimization Platform',
 };
 
 export const viewport: Viewport = {

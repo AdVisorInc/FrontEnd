@@ -1,8 +1,8 @@
 {
-  "name": "uifort-nextjs-admin-dashboard-ts",
+  "name": "advisor-front-end-ts",
   "version": "1.0.0",
-  "author": "UIFort",
-  "homepage": "https://uifort.com",
+  "author": "Advisor",
+  "homepage": "https://advisr.app",
   "private": true,
   "scripts": {
     "dev": "next",

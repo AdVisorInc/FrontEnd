@@ -344,7 +344,7 @@ export function AuthCustomLoginForm(): React.JSX.Element {
                   variant="h5"
                   fontWeight={400}
                 >
-                  Email <b>example@uifort.com</b> and password <b>DemoPass123</b>
+                  Email <b>example@advisr.app</b> and password <b>DemoPass123</b>
                 </Typography>
               </Alert>
             </Grid>
