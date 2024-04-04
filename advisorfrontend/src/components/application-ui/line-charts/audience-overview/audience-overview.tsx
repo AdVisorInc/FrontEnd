@@ -77,27 +77,27 @@ function AudienceOverview() {
 
   const audienceData: AudienceData[] = [
     {
-      title: t('Users'),
+      title: t('Impresions'),
       value: '14.586',
       sparkLineData: generateRandomData(),
     },
     {
-      title: t('Page Views'),
+      title: t('Clicks'),
       value: '67.492',
       sparkLineData: generateRandomData(),
     },
     {
-      title: t('New Users'),
+      title: t('CTR'),
       value: '12.847',
       sparkLineData: generateRandomData(),
     },
     {
-      title: t('Sessions'),
+      title: t('CPC'),
       value: '25.694',
       sparkLineData: generateRandomData(),
     },
     {
-      title: t('Avg. Session Duration'),
+      title: t('CPM'),
       value: '03:21 min',
       sparkLineData: generateRandomData(),
     },
@@ -176,7 +176,7 @@ function AudienceOverview() {
             </Menu>
           </>
         }
-        title={t('Audience Overview')}
+        title={t('Performance Metrics')}
       />
       <Divider />
       <CardContent>

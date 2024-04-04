@@ -21,7 +21,7 @@ import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AvatarState } from 'src/components/base/styles/avatar';
 
-type CryptoData = {
+type PlatformData = {
   symbol: string;
   name: string;
   logoSrc: string;
@@ -30,38 +30,30 @@ type CryptoData = {
   changeColor: 'success.main' | 'error.main';
 };
 
-const cryptoData: CryptoData[] = [
+const PlatformData: PlatformData[] = [
   {
-    symbol: 'BTC',
-    name: 'Bitcoin',
-    logoSrc: '/placeholders/logo/bitcoin.png',
-    percentage: '20%',
+    symbol: 'Google',
+    name: 'Google',
+    logoSrc: '/placeholders/logo/google-icon.svg',
+    percentage: '40%',
     change: '+2.54%',
     changeColor: 'success.main',
   },
   {
-    symbol: 'XRP',
-    name: 'Ripple',
-    logoSrc: '/placeholders/logo/ripple.png',
-    percentage: '10%',
+    symbol: 'Meta',
+    name: 'Meta',
+    logoSrc: '/placeholders/logo/meta-logo.svg',
+    percentage: '40%',
     change: '-1.22%',
     changeColor: 'error.main',
   },
   {
-    symbol: 'ADA',
-    name: 'Cardano',
-    logoSrc: '/placeholders/logo/cardano.png',
-    percentage: '40%',
+    symbol: 'X',
+    name: 'X',
+    logoSrc: '/placeholders/logo/x-logo.svg',
+    percentage: '20%',
     change: '+10.50%',
     changeColor: 'success.main',
-  },
-  {
-    symbol: 'ETH',
-    name: 'Ethereum',
-    logoSrc: '/placeholders/logo/ethereum.png',
-    percentage: '30%',
-    change: '-12.38%',
-    changeColor: 'error.main',
   },
 ];
 
@@ -93,10 +85,9 @@ function AccountBalance() {
   const theme = useTheme();
 
   const data = [
-    { label: 'Bitcoin', color: theme.palette.error.main, value: 40 },
-    { label: 'Ripple', color: theme.palette.success.main, value: 30 },
-    { label: 'Cardano', color: theme.palette.warning.main, value: 15 },
-    { label: 'Ethereum', color: theme.palette.primary.main, value: 15 },
+    { label: 'Google', color: theme.palette.error.main, value: 40 },
+    { label: 'Meta', color: theme.palette.success.main, value: 40 },
+    { label: 'X', color: theme.palette.warning.main, value: 20 },
   ];
 
   const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
@@ -123,16 +114,9 @@ function AccountBalance() {
             spacing={{ xs: 2, sm: 3 }}
             p={{ xs: 2, sm: 3 }}
           >
-            <Typography variant="h4">{t('Account Balance')}</Typography>
+            <Typography variant="h4">{t('Total Ad Spend')}</Typography>
             <Box>
               <Typography variant="h1">$54,584.23</Typography>
-              <Typography
-                variant="h4"
-                fontWeight={400}
-                color="text.secondary"
-              >
-                1.0045983485234 BTC
-              </Typography>
             </Box>
             <Box
               display="flex"
@@ -238,7 +222,7 @@ function AccountBalance() {
               sx={{ flex: 1 }}
             >
               <List disablePadding>
-                {cryptoData.map((data, index) => (
+                {PlatformData.map((data, index) => (
                   <Fragment key={data.symbol}>
                     <ListItem>
                       <ListItemAvatarWrapper>
@@ -267,7 +251,7 @@ function AccountBalance() {
                         <Typography color={data.changeColor}>{data.change}</Typography>
                       </Box>
                     </ListItem>
-                    {index !== cryptoData.length - 1 && <Divider />}
+                    {index !== PlatformData.length - 1 && <Divider />}
                   </Fragment>
                 ))}
               </List>
