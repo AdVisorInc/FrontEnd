@@ -8,8 +8,10 @@ import { useTranslation } from 'react-i18next';
 import ComposedGauge from 'src/components/application-ui/composed-visualization-blocks/composed-gauge/composed-gauge';
 import TopAgents1 from 'src/components/application-ui/description-grid-lists/top-agents/top-agents';
 import ConversionsGauge from 'src/components/application-ui/gauge-indicators/conversions-gauge/conversions-gauge';
-import AudienceOverview from 'src/components/application-ui/line-charts/audience-overview/audience-overview';
+import PerformanceMetrics from 'src/components/application-ui/line-charts/audience-overview/audience-overview';
 import AccountBalance from 'src/components/application-ui/pie-doughnut-charts/account-balance/account-balance';
+import ConversionMetrics from 'src/components/application-ui/sparkline-charts/detailed-sparklines/detailed-sparklines';
+import AudienceMetrics from 'src/components/application-ui/sparkline-charts/minimal-charts/minimal-charts';
 import LandingPages from 'src/components/application-ui/stacked-lists/landing-pages/landing-pages';
 import AccentIconIndicators from 'src/components/application-ui/stats-grid-lists/accent-icon-indicators/accent-icon-indicators';
 import Wallets from 'src/components/application-ui/stats-grid-lists/wallets/wallets';
@@ -109,25 +111,16 @@ function Page(): React.JSX.Element {
               <AccountBalance />
             </Grid>
             <Grid xs={12}>
-              <AudienceOverview />
+              <AudienceMetrics />
             </Grid>
             <Grid xs={12}>
-              <Wallets />
+              <PerformanceMetrics />
             </Grid>
             <Grid xs={12}>
-              <ComposedGauge />
+              <ConversionMetrics />
             </Grid>
-            <Grid
-              xs={12}
-              xl={7}
-            >
+            <Grid xs={12}>
               <LandingPages />
-            </Grid>
-            <Grid
-              xs={12}
-              xl={5}
-            >
-              <ConversionsGauge />
             </Grid>
           </Grid>
         </Box>

@@ -18,7 +18,7 @@ import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-function AudienceOverview() {
+function PerformanceMetrics() {
   const { t } = useTranslation();
 
   const periods = [
@@ -41,28 +41,28 @@ function AudienceOverview() {
   ];
   const audiences = [
     {
-      value: 'users',
-      text: t('Users'),
+      value: 'impressions',
+      text: t('Impressions'),
     },
     {
-      value: 'new_users',
-      text: t('New users'),
+      value: 'clicks',
+      text: t('Clicks'),
     },
     {
-      value: 'page_views',
-      text: t('Page views'),
+      value: 'ctr',
+      text: t('CTR'),
     },
     {
-      value: 'avg_session_duration',
-      text: t('Avg. session duration'),
+      value: 'cpc',
+      text: t('CPC'),
     },
     {
-      value: 'bounce_rate',
-      text: t('Bounce rate'),
+      value: 'cpm',
+      text: t('CPM'),
     },
     {
-      value: 'sessions',
-      text: t('Sessions'),
+      value: 'views',
+      text: t('Views'),
     },
   ];
 
@@ -102,7 +102,7 @@ function AudienceOverview() {
       sparkLineData: generateRandomData(),
     },
     {
-      title: t('Bounce Rate'),
+      title: t('Views'),
       value: '65.37%',
       sparkLineData: generateRandomData(),
     },
@@ -326,4 +326,4 @@ function AudienceOverview() {
   );
 }
 
-export default AudienceOverview;
+export default PerformanceMetrics;

@@ -21,7 +21,7 @@ const ButtonWrapper = styled(Button)(() => ({
 const generateRandomData = (): number[] =>
   Array.from({ length: 12 }, () => Math.floor(Math.random() * 500));
 
-function Component() {
+function ConversionMetrics() {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -45,10 +45,10 @@ function Component() {
             justifyContent="space-between"
           >
             <Typography
-              variant="h5"
+              variant="h3"
               fontWeight={600}
             >
-              {t('Bandwidth allocation')}
+              {t('Conversions')}
             </Typography>
             <ButtonWrapper
               variant="outlined"
@@ -86,7 +86,7 @@ function Component() {
               showHighlight
               area
               margin={{ top: 12, bottom: 0, left: 0, right: 0 }}
-              colors={[theme.palette.success.main]}
+              colors={[theme.palette.primary.main]}
               sx={{
                 '.MuiLineElement-root': { strokeWidth: 1, strokeLinecap: 'round' },
                 '.MuiAreaElement-root': {
@@ -112,10 +112,10 @@ function Component() {
             justifyContent="space-between"
           >
             <Typography
-              variant="h5"
+              variant="h3"
               fontWeight={600}
             >
-              {t('Production servers')}
+              {t('Conversion rate')}
             </Typography>
             <ButtonWrapper
               variant="outlined"
@@ -149,7 +149,7 @@ function Component() {
               curve="linear"
               area
               margin={{ top: 12, bottom: 0, left: 0, right: 0 }}
-              colors={[theme.palette.error.main]}
+              colors={[theme.palette.primary.main]}
               sx={{
                 '.MuiLineElement-root': { strokeWidth: 3, strokeLinecap: 'round' },
                 '.MuiAreaElement-root': {
@@ -175,10 +175,10 @@ function Component() {
             justifyContent="space-between"
           >
             <Typography
-              variant="h5"
+              variant="h3"
               fontWeight={600}
             >
-              {t('Returning customers')}
+              {t('Cost Per Action')}
             </Typography>
             <ButtonWrapper
               variant="outlined"
@@ -212,7 +212,7 @@ function Component() {
               curve="natural"
               area
               margin={{ top: 6, bottom: 0, left: 0, right: 0 }}
-              colors={[theme.palette.warning.main]}
+              colors={[theme.palette.primary.main]}
               sx={{
                 '.MuiLineElement-root': { strokeWidth: 2, strokeLinecap: 'round' },
                 '.MuiAreaElement-root': {
@@ -227,4 +227,4 @@ function Component() {
   );
 }
 
-export default Component;
+export default ConversionMetrics;
