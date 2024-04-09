@@ -4,7 +4,6 @@ import { AuthContextValue } from 'src/contexts/auth/types';
 
 export function useAuth(): AuthContextValue {
   const ctx = React.useContext(UserContext);
-
   if (!ctx) {
     throw new Error('useAuth must be used within a AuthProvider');
   }

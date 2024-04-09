@@ -25,6 +25,8 @@ import { ButtonIcon } from 'src/components/base/styles/button-icon';
 import { ButtonSoft } from 'src/components/base/styles/button-soft';
 import { VisuallyHiddenInputNative } from 'src/components/base/styles/visually-hidden';
 import { User } from 'src/mocks/users';
+import {useDispatch} from "../../../../store";
+import {uploadCoverImage, uploadProfileImage} from "../../../../slices/userProfile";
 
 const AvatarWrapper = styled(Card)(
   ({ theme }) => `
@@ -56,7 +58,7 @@ const ButtonUploadWrapper = styled(Box)(
       width: ${theme.spacing(4)};
       height: ${theme.spacing(4)};
       padding: 0;
-  
+
       &:hover {
         background: ${theme.palette.primary.dark};
       }
@@ -87,9 +89,24 @@ interface ProfileCoverProps {
 }
 
 const ProfileCover: FC<ProfileCoverProps> = ({ user }) => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+  const lastNameParts = user.last_name.split(' ');
+  const lastLastName = lastNameParts[lastNameParts.length - 1];
+  const handleProfileImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      dispatch(uploadProfileImage(file));
+    }
+  };
 
+  const handleCoverImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      dispatch(uploadCoverImage(file));
+    }
+  };
   return (
     <>
       <Box
@@ -121,7 +138,7 @@ const ProfileCover: FC<ProfileCoverProps> = ({ user }) => {
             component="h3"
             sx={{ pb: 0.5 }}
           >
-            {user.name}'s {t('profile')}
+            {user.first_name} {lastLastName}'s {t('profile')}
           </Typography>
           <Typography variant="subtitle1">
             {t('This is a profile page. Easy to modify, always blazing fast')}
@@ -129,13 +146,14 @@ const ProfileCover: FC<ProfileCoverProps> = ({ user }) => {
         </Box>
       </Box>
       <CardCover>
-        <CardMedia image={user.coverImg} />
+        <CardMedia image={user.cover_url} />
         <CardCoverAction>
           <VisuallyHiddenInputNative
             accept="image/*"
             id="change-cover"
             multiple
             type="file"
+            onChange={handleCoverImageUpload}
           />
           <label htmlFor="change-cover">
             <Button
@@ -152,8 +170,8 @@ const ProfileCover: FC<ProfileCoverProps> = ({ user }) => {
       <AvatarWrapper>
         <Avatar
           variant="rounded"
-          alt={user.name}
-          src={user.avatar}
+          alt={user.first_name}
+          src={user.avatar_url}
         />
         <ButtonUploadWrapper>
           <VisuallyHiddenInputNative
@@ -161,6 +179,7 @@ const ProfileCover: FC<ProfileCoverProps> = ({ user }) => {
             id="icon-button-file"
             name="icon-button-file"
             type="file"
+            onChange={handleProfileImageUpload}
           />
           <label htmlFor="icon-button-file">
             <IconButton

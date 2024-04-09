@@ -16,7 +16,7 @@ export const routes = {
   },
 
   components: {
-    // Components landing page
+    // Features landing page
     index: '/features',
 
     // Application Shells
@@ -156,6 +156,12 @@ export const routes = {
           'invoices-details': '/blueprints/generic-admin-dashboard/management/invoices-details',
         },
       },
+    },
+  },
+  general: {
+    index: '/general',
+    'overview': {
+      index: '/general/overview',
     },
   },
 

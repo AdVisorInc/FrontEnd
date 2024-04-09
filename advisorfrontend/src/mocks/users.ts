@@ -1,16 +1,27 @@
+import {PlaceType} from "../components/application-ui/dropdowns/google-maps/google-maps-dropdown";
+
+export interface UserSettings {
+  language?: string;
+  timezone?: string;
+}
 export interface User {
-  id: string;
-  avatar?: string;
+  uuid: string;
+  avatar_url?: string;
+  cover_url?: string;
   email?: string;
-  name?: string;
+  first_name?: string;
+  last_name?: string;
   jobtitle?: string;
   username?: string;
   location?: string;
   role?: string;
   coverImg?: string;
-  followers?: string;
+  followers?: number;
   description?: string;
   posts?: string;
+  date_of_birth?: string;
+  address?: PlaceType;
+  userSettings?: UserSettings;
   [key: string]: any;
 }
 
@@ -18,7 +29,7 @@ class UsersApi {
   getUsers(): Promise<User[]> {
     const users: User[] = [
       {
-        id: '1',
+        uuid: '1',
         name: 'Alice Johnson',
         avatar: '/avatars/1.png',
         email: 'alice.johnson@example.com',
@@ -27,12 +38,12 @@ class UsersApi {
         location: 'Newport City',
         role: 'admin',
         coverImg: '/placeholders/covers/1.jpg',
-        followers: '1234',
+        followers: 1,
         description: 'Passionate about digital marketing trends and social media strategies.',
         posts: '15',
       },
       {
-        id: '2',
+        uuid: '2',
         name: 'Bob Smith',
         avatar: '/avatars/2.png',
         email: 'bob.smith@example.com',
@@ -41,13 +52,13 @@ class UsersApi {
         location: 'Techville',
         role: 'subscriber',
         coverImg: '/placeholders/covers/2.jpg',
-        followers: '567',
+        followers: 2,
         description:
           'Dedicated software engineer with a knack for creating intuitive user experiences.',
         posts: '10',
       },
       {
-        id: '3',
+        uuid: '3',
         name: 'Cynthia Ray',
         avatar: '/avatars/3.png',
         email: 'cynthia.ray@example.com',
@@ -56,13 +67,13 @@ class UsersApi {
         location: 'Riverbank City',
         role: 'customer',
         coverImg: '/placeholders/covers/3.jpg',
-        followers: '890',
+        followers: 3,
         description:
           'Expert in managing diverse projects with a focus on efficiency and collaboration.',
         posts: '20',
       },
       {
-        id: '4',
+        uuid: '4',
         name: 'Daniel Green',
         avatar: '/avatars/4.png',
         email: 'daniel.green@example.com',
@@ -71,12 +82,12 @@ class UsersApi {
         location: 'Uptown',
         role: 'admin',
         coverImg: '/placeholders/covers/4.jpg',
-        followers: '450',
-        description: 'Leading creative campaigns with innovative ideas and a modern approach.',
+        followers: 4,
+        description: 'Leading creative campaigns with innovative uuideas and a modern approach.',
         posts: '9',
       },
       {
-        id: '5',
+        uuid: '5',
         name: 'Evan Turner',
         avatar: '/avatars/5.png',
         email: 'evan.turner@example.com',
@@ -85,12 +96,12 @@ class UsersApi {
         location: 'Greenwood',
         role: 'customer',
         coverImg: '/placeholders/covers/5.jpg',
-        followers: '300',
-        description: 'Analyzing tech trends and providing insightful IT solutions.',
+        followers: 5,
+        description: 'Analyzing tech trends and provuuiding insightful IT solutions.',
         posts: '7',
       },
       {
-        id: '6',
+        uuid: '6',
         name: 'Fiona Grant',
         avatar: '/avatars/1.png',
         email: 'fiona.grant@example.com',
@@ -99,13 +110,13 @@ class UsersApi {
         location: 'Hilltop',
         role: 'subscriber',
         coverImg: '/placeholders/covers/6.jpg',
-        followers: '215',
+        followers: 6,
         description:
           'Dedicated to creating a positive work environment and fostering professional growth.',
         posts: '14',
       },
       {
-        id: '7',
+        uuid: '7',
         name: 'George Hall',
         avatar: '/avatars/2.png',
         email: 'george.hall@example.com',
@@ -114,13 +125,13 @@ class UsersApi {
         location: 'Laketown',
         role: 'admin',
         coverImg: '/placeholders/covers/1.jpg',
-        followers: '541',
+        followers: 7,
         description:
           'Strategizing new business opportunities and building strong client relationships.',
         posts: '19',
       },
       {
-        id: '8',
+        uuid: '8',
         name: 'Hannah Scott',
         avatar: '/avatars/3.png',
         email: 'hannah.scott@example.com',
@@ -129,12 +140,12 @@ class UsersApi {
         location: 'Riverfield',
         role: 'subscriber',
         coverImg: '/placeholders/covers/2.jpg',
-        followers: '622',
+        followers: 8,
         description: 'Expert in client management and driving sales growth.',
         posts: '23',
       },
       {
-        id: '9',
+        uuid: '9',
         name: 'Isaac Newton',
         avatar: '/avatars/4.png',
         email: 'isaac.newton@example.com',
@@ -143,12 +154,12 @@ class UsersApi {
         location: 'Techton',
         role: 'customer',
         coverImg: '/placeholders/covers/3.jpg',
-        followers: '982',
+        followers: 9,
         description: 'Exploring the frontiers of science and technology.',
         posts: '30',
       },
       {
-        id: '10',
+        uuid: '10',
         name: 'Julia Cruz',
         avatar: '/avatars/5.png',
         email: 'julia.cruz@example.com',
@@ -157,12 +168,12 @@ class UsersApi {
         location: 'CreativeVille',
         role: 'subscriber',
         coverImg: '/placeholders/covers/4.jpg',
-        followers: '765',
+        followers: 10,
         description: 'Creating visually stunning designs that speak volumes.',
         posts: '27',
       },
       {
-        id: '11',
+        uuid: '11',
         name: 'Kevin Lopez',
         avatar: '/avatars/1.png',
         email: 'kevin.lopez@example.com',
@@ -171,12 +182,12 @@ class UsersApi {
         location: 'IndustryHub',
         role: 'admin',
         coverImg: '/placeholders/covers/5.jpg',
-        followers: '436',
+        followers: 11,
         description: 'Ensuring seamless operations and efficient management processes.',
         posts: '14',
       },
       {
-        id: '12',
+        uuid: '12',
         name: 'Laura Martin',
         avatar: '/avatars/2.png',
         email: 'laura.martin@example.com',
@@ -185,12 +196,12 @@ class UsersApi {
         location: 'Wordtown',
         role: 'subscriber',
         coverImg: '/placeholders/covers/6.jpg',
-        followers: '390',
+        followers: 12,
         description: 'Crafting compelling content that captivates audiences.',
         posts: '21',
       },
       {
-        id: '13',
+        uuid: '13',
         name: 'Miguel Gonzalez',
         avatar: '/avatars/3.png',
         email: 'miguel.gonzalez@example.com',
@@ -199,12 +210,12 @@ class UsersApi {
         location: 'DataCity',
         role: 'customer',
         coverImg: '/placeholders/covers/1.jpg',
-        followers: '523',
+        followers: 13,
         description: 'Transforming data into insights and strategic actions.',
         posts: '18',
       },
       {
-        id: '14',
+        uuid: '14',
         name: 'Nina Patel',
         avatar: '/avatars/4.png',
         email: 'nina.patel@example.com',
@@ -213,12 +224,12 @@ class UsersApi {
         location: 'DesignTown',
         role: 'admin',
         coverImg: '/placeholders/covers/2.jpg',
-        followers: '689',
+        followers: 14,
         description: 'Designing intuitive and engaging user experiences.',
         posts: '26',
       },
       {
-        id: '15',
+        uuid: '15',
         name: 'Oscar Wallace',
         avatar: '/avatars/5.png',
         email: 'oscar.wallace@example.com',
@@ -227,12 +238,12 @@ class UsersApi {
         location: 'Marketville',
         role: 'subscriber',
         coverImg: '/placeholders/covers/3.jpg',
-        followers: '412',
+        followers: 15,
         description: 'Coordinating marketing efforts to maximize brand exposure.',
         posts: '17',
       },
       {
-        id: '16',
+        uuid: '16',
         name: 'Pamela Wright',
         avatar: '/avatars/1.png',
         email: 'pamela.wright@example.com',
@@ -241,12 +252,12 @@ class UsersApi {
         location: 'FinanceCity',
         role: 'admin',
         coverImg: '/placeholders/covers/4.jpg',
-        followers: '530',
+        followers: 16,
         description: 'Directing financial strategies for sustainable growth.',
         posts: '22',
       },
       {
-        id: '17',
+        uuid: '17',
         name: 'Quentin Ramirez',
         avatar: '/avatars/2.png',
         email: 'quentin.ramirez@example.com',
@@ -255,12 +266,12 @@ class UsersApi {
         location: 'Netville',
         role: 'customer',
         coverImg: '/placeholders/covers/5.jpg',
-        followers: '345',
+        followers: 21,
         description: 'Maintaining robust and secure network infrastructures.',
         posts: '12',
       },
       {
-        id: '18',
+        uuid: '18',
         name: 'Rachel Kim',
         avatar: '/avatars/3.png',
         email: 'rachel.kim@example.com',
@@ -269,12 +280,12 @@ class UsersApi {
         location: 'MediaCity',
         role: 'subscriber',
         coverImg: '/placeholders/covers/6.jpg',
-        followers: '601',
+        followers: 20,
         description: 'Building and maintaining positive public images for businesses.',
         posts: '29',
       },
       {
-        id: '19',
+        uuid: '19',
         name: 'Steven Ford',
         avatar: '/avatars/4.png',
         email: 'steven.ford@example.com',
@@ -283,12 +294,12 @@ class UsersApi {
         location: 'SalesTown',
         role: 'admin',
         coverImg: '/placeholders/covers/1.jpg',
-        followers: '489',
+        followers: 19,
         description: 'Leading sales teams to achieve outstanding results.',
         posts: '33',
       },
       {
-        id: '20',
+        uuid: '20',
         name: 'Tracy Nguyen',
         avatar: '/avatars/5.png',
         email: 'tracy.nguyen@example.com',
@@ -297,7 +308,7 @@ class UsersApi {
         location: 'InnovationHub',
         role: 'subscriber',
         coverImg: '/placeholders/covers/2.jpg',
-        followers: '556',
+        followers: 18,
         description: 'Overseeing product development from concept to launch.',
         posts: '16',
       },
@@ -308,7 +319,7 @@ class UsersApi {
 
   getUser(): Promise<User> {
     const user: User = {
-      id: '1',
+      uuid: '1',
       name: 'Alice Johnson',
       avatar: '/avatars/1.png',
       email: 'alice.johnson@example.com',
@@ -317,7 +328,7 @@ class UsersApi {
       location: 'Newport City',
       role: 'admin',
       coverImg: '/placeholders/covers/1.jpg',
-      followers: '1234',
+      followers: 17,
       description: 'Passionate about digital marketing trends and social media strategies.',
       posts: '15',
     };
