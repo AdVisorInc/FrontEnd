@@ -134,6 +134,9 @@ export function AuthSupabaseRegisterForm(): React.JSX.Element {
         email: values.email,
         password: values.password,
         options: {
+          data: {
+            full_name: `${values.firstName} ${values.lastName}`,
+          },
           emailRedirectTo: redirectToUrl.href,
         },
       });

@@ -37,6 +37,7 @@ import { MenuItem } from 'src/router/menuItem';
 import { neutral } from 'src/theme/colors';
 import { HEADER_HEIGHT, SIDEBAR_WIDTH } from 'src/theme/utils';
 import { Menu } from './menu';
+import {RootState, useSelector} from "../../../../store";
 
 interface HeaderProps {
   onClose?: () => void;
@@ -73,12 +74,7 @@ export const Header: FC<HeaderProps> = (props) => {
   const notifications = useDialog();
   const widgets = useDialog();
   const dialog = useDialog();
-
-  const user = {
-    avatar: '/avatars/3.png',
-    name: 'Ethan Donovan',
-    jobtitle: 'Principal Engineer',
-  };
+  const user = useSelector((state: RootState) => state.userProfile.data);
 
   const sidebarContentMobile = (
     <SidebarWrapper
@@ -264,15 +260,17 @@ export const Header: FC<HeaderProps> = (props) => {
               onClick={popover.handleOpen}
               ref={popover.anchorRef}
             >
-              <Avatar
-                alt={user.name}
-                src={user.avatar}
-                sx={{
-                  borderRadius: 'inherit',
-                  height: 36,
-                  width: 36,
-                }}
-              />
+              {user && (
+                <Avatar
+                  alt={`${user.first_name} ${user.last_name}`}
+                  src={user.avatar_url}
+                  sx={{
+                    borderRadius: 'inherit',
+                    height: 36,
+                    width: 36,
+                  }}
+                />
+              )}
             </IconButton>
             {!lgUp && (
               <IconButton

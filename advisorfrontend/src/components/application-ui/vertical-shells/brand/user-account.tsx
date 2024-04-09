@@ -8,6 +8,7 @@ import {
   Divider,
   IconButton,
   lighten,
+  Skeleton,
   Stack,
   Theme,
   Typography,
@@ -17,6 +18,7 @@ import {
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TooltipLight } from 'src/components/base/styles/tooltips';
+import {RootState, useDispatch, useSelector} from "../../../../store";
 
 interface Props {
   isHovered: boolean;
@@ -57,34 +59,42 @@ const FooterButton: FC<TooltipProps> = ({ icon, tooltipText }) => {
 const UserAccount: React.FC<Props> = ({ sidebarCollapsed, isHovered }) => {
   const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.userProfile.data);
+  const isLoading = useSelector((state: RootState) => state.userProfile.isLoaded);
 
   const tenantDescription = (
-    <Box
-      mt={2}
-      overflow="hidden"
-      width="100%"
-    >
-      <Typography
-        variant="subtitle2"
-        fontWeight={600}
-        lineHeight={1.2}
-        sx={{
-          pb: 0.6,
-          color: (theme) => theme.palette.common.white,
-        }}
-      >
-        Oliver Mitchell
-      </Typography>
-      <Typography
-        variant="body1"
-        noWrap
-        lineHeight={1.2}
-        sx={{
-          color: (theme) => alpha(theme.palette.common.white, 0.6),
-        }}
-      >
-        Lead Data Analyst
-      </Typography>
+    <Box mt={2} overflow="hidden" width="100%">
+      {user ? (
+        <>
+          <Typography
+            variant="subtitle2"
+            fontWeight={600}
+            lineHeight={1.2}
+            sx={{
+              pb: 0.6,
+              color: (theme) => theme.palette.common.white,
+            }}
+          >
+            {`${user.first_name} ${user.last_name}`}
+          </Typography>
+          <Typography
+            variant="body1"
+            noWrap
+            lineHeight={1.2}
+            sx={{
+              color: (theme) => alpha(theme.palette.common.white, 0.6),
+            }}
+          >
+            {user.jobtitle}
+          </Typography>
+        </>
+      ) : (
+        <>
+          <Skeleton variant="text" width={120} />
+          <Skeleton variant="text" width={80} />
+        </>
+      )}
       <Divider
         sx={{
           m: 3,
@@ -134,24 +144,34 @@ const UserAccount: React.FC<Props> = ({ sidebarCollapsed, isHovered }) => {
         alignItems: 'center',
       }}
     >
-      <Avatar
-        sx={{
-          width: sidebarCollapsed
-            ? isHovered
-              ? theme.spacing(7)
-              : theme.spacing(5)
-            : theme.spacing(7),
-          height: sidebarCollapsed
-            ? isHovered
-              ? theme.spacing(7)
-              : theme.spacing(5)
-            : theme.spacing(7),
-        }}
-        src="/avatars/3.png"
-      />
+      {user ? (
+        <Avatar
+          sx={{
+            width: sidebarCollapsed
+              ? isHovered
+                ? theme.spacing(7)
+                : theme.spacing(5)
+              : theme.spacing(7),
+            height: sidebarCollapsed
+              ? isHovered
+                ? theme.spacing(7)
+                : theme.spacing(5)
+              : theme.spacing(7),
+          }}
+          src={user.avatar_url}
+          alt={`${user.first_name} ${user.last_name}`}
+        />
+      ) : (
+        <Skeleton
+          variant="circular"
+          width={sidebarCollapsed ? (isHovered ? 56 : 40) : 56}
+          height={sidebarCollapsed ? (isHovered ? 56 : 40) : 56}
+        />
+      )}
       {mdUp && sidebarCollapsed ? isHovered && tenantDescription : tenantDescription}
     </Box>
   );
 };
 
 export default UserAccount;
+

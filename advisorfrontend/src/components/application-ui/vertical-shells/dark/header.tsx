@@ -8,7 +8,7 @@ import {
   AppBar,
   Avatar,
   Divider,
-  IconButton,
+  IconButton, Skeleton,
   Stack,
   styled,
   Theme,
@@ -16,7 +16,7 @@ import {
   useTheme,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import { FC } from 'react';
+import {FC, useEffect} from 'react';
 import { NotificationsHeader } from 'src/components/application-ui/drawers/notifications/notifications-header';
 import { WidgetsHeader } from 'src/components/application-ui/drawers/widgets/widgets-header';
 import { ComposedDropdown } from 'src/components/application-ui/dropdowns/composed/composed-dropdown';
@@ -31,6 +31,8 @@ import { useDialog } from 'src/hooks/use-dialog';
 import { usePopover } from 'src/hooks/use-popover';
 import useScrollDirection from 'src/hooks/use-scroll-direction';
 import { HEADER_HEIGHT, SIDEBAR_WIDTH, SIDEBAR_WIDTH_COLLAPSED } from 'src/theme/utils';
+import {RootState, useDispatch, useSelector} from "../../../../store";
+import {fetchUserProfile} from "../../../../slices/userProfile";
 
 const HeaderWrapper = styled(AppBar)(({ theme }) => ({
   height: HEADER_HEIGHT,
@@ -60,12 +62,15 @@ export const Header: FC<HeaderProps> = (props) => {
   const notifications = useDialog();
   const widgets = useDialog();
   const popoverChat = usePopover<HTMLButtonElement>();
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.userProfile.data);
+  const isLoading = useSelector((state: RootState) => state.userProfile.isLoaded);
 
-  const user = {
-    avatar: '/avatars/3.png',
-    name: 'Ethan Donovan',
-    jobTitle: 'Principal Engineer',
-  };
+  useEffect(() => {
+    if (!user) {
+      dispatch(fetchUserProfile());
+    }
+  }, [dispatch, user]);
 
   return (
     <HeaderWrapper
@@ -97,21 +102,7 @@ export const Header: FC<HeaderProps> = (props) => {
           spacing={{ xs: 1, sm: 2 }}
         >
           {!lgUp && <Logo isLinkStatic />}
-          <IconButton
-            color="inherit"
-            onClick={dialog.handleOpen}
-            sx={{
-              '&:hover': {
-                background: alpha(theme.palette.secondary.main, 0.04),
-              },
-              '& .MuiSvgIcon-root': {
-                fontSize: 23,
-              },
-              p: 1,
-            }}
-          >
-            <SearchRoundedIcon />
-          </IconButton>
+
         </Stack>
         <Stack
           direction="row"
@@ -237,15 +228,23 @@ export const Header: FC<HeaderProps> = (props) => {
             onClick={popover.handleOpen}
             ref={popover.anchorRef}
           >
-            <Avatar
-              alt={user.name}
-              src={user.avatar}
-              sx={{
-                borderRadius: 'inherit',
-                height: 36,
-                width: 36,
-              }}
-            />
+            {user ? (
+              <Avatar
+                alt={`${user.first_name} ${user.last_name}`}
+                src={user.avatar_url}
+                sx={{
+                  borderRadius: 'inherit',
+                  height: 36,
+                  width: 36,
+                }}
+              />
+            ) : (
+              <Skeleton
+                variant="circular"
+                width={36}
+                height={36}
+              />
+            )}
           </IconButton>
           {!lgUp && (
             <IconButton

@@ -1,16 +1,17 @@
+import React from 'react';
 import { Avatar, IconButton, Stack, useTheme } from '@mui/material';
 import { usePopover } from 'src/hooks/use-popover';
 import { ProfileDropdown } from './profile-dropdown';
+import {RootState, useSelector} from "../../../../store";
 
 const Component = () => {
   const popover = usePopover<HTMLButtonElement>();
   const theme = useTheme();
+  const user = useSelector((state: RootState) => state.userProfile.data);
 
-  const user = {
-    avatar: '/avatars/3.png',
-    name: 'Ethan Donovan',
-    jobTitle: 'Principal Engineer',
-  };
+  if (!user) {
+    return null;
+  }
 
   return (
     <Stack
@@ -35,8 +36,8 @@ const Component = () => {
         ref={popover.anchorRef}
       >
         <Avatar
-          alt={user.name}
-          src={user.avatar}
+          alt={`${user.first_name} ${user.last_name}`}
+          src={user.avatar_url}
           sx={{
             borderRadius: 'inherit',
             height: 36,

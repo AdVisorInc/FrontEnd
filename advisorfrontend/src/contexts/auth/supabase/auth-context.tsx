@@ -20,7 +20,6 @@ export function AuthProvider({ children }: AuthProviderProps): React.JSX.Element
     error: null,
     isLoading: true,
   });
-
   const checkSession = React.useCallback(async (): Promise<void> => {
     try {
       const { data, error } = await supabaseClient.auth.getSession();
@@ -47,6 +46,7 @@ export function AuthProvider({ children }: AuthProviderProps): React.JSX.Element
     })().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
+
 
   return (
     <UserContext.Provider

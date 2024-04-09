@@ -1,76 +1,82 @@
-import {
-  Box,
-  Container,
-  Unstable_Grid2 as Grid,
-  MenuItem,
-  Select,
-  Tab,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import EditProfileDetails from 'src/components/application-ui/form-layouts/edit-profile-details/edit-profile-details';
-import SettingsNotifications from 'src/components/application-ui/form-layouts/settings-notifications/settings-notifications';
-import SettingsSecurity from 'src/components/application-ui/form-layouts/settings-security/settings-security';
-import ActivityCard from 'src/components/application-ui/icon-grid-lists/activity-card/activity-card';
-import MyCards from 'src/components/application-ui/radio-groups/my-cards/my-cards';
-import { TabsPills } from 'src/components/base/styles/tabs';
-import { useCustomization } from 'src/hooks/use-customization';
-import { useRefMounted } from 'src/hooks/use-ref-mounted';
-import { User, usersApi } from 'src/mocks/users';
-import Addresses from './addresses';
-import Feed from './feed';
-import PopularTags from './popular-tags';
-import ProfileCover from './profile-cover';
-import RecentActivity from './recent-activity';
 
-function Component() {
-  const isMountedRef = useRefMounted();
-  const [user, setUser] = useState<User | null>(null);
-  const { t } = useTranslation();
-  const theme = useTheme();
-  const smUp = useMediaQuery(theme.breakpoints.up('sm'));
-  const customization = useCustomization();
+  import {
+    Box,
+    Container,
+    Unstable_Grid2 as Grid,
+    MenuItem,
+    Select,
+    Tab,
+    useMediaQuery,
+    useTheme,
+  } from '@mui/material';
+  import { ChangeEvent, useEffect, useState } from 'react';
+  import { useTranslation } from 'react-i18next';
+  import { useSelector } from 'react-redux';
+  import { useDispatch } from 'src/store';
+  import EditProfileDetails from 'src/components/application-ui/form-layouts/edit-profile-details/edit-profile-details';
+  import SettingsNotifications from 'src/components/application-ui/form-layouts/settings-notifications/settings-notifications';
+  import SettingsSecurity from 'src/components/application-ui/form-layouts/settings-security/settings-security';
+  import ActivityCard from 'src/components/application-ui/icon-grid-lists/activity-card/activity-card';
+  import MyCards from 'src/components/application-ui/radio-groups/my-cards/my-cards';
+  import { TabsPills } from 'src/components/base/styles/tabs';
+  import { useCustomization } from 'src/hooks/use-customization';
+  import { fetchUserProfile } from 'src/slices/userProfile';
+  import { RootState } from 'src/store';
+  import Addresses from './addresses';
+  import Feed from './feed';
+  import PopularTags from './popular-tags';
+  import ProfileCover from './profile-cover';
+  import RecentActivity from './recent-activity';
+  import SkeletonAnimation  from "../../skeleton/animation/animation"
+  function Component() {
+    const dispatch = useDispatch();
+    const { data: user, isLoaded, error } = useSelector((state: RootState) => state.userProfile);
+    const { t } = useTranslation();
+    const theme = useTheme();
+    const smUp = useMediaQuery(theme.breakpoints.up('sm'));
+    const customization = useCustomization();
 
-  const [currentTab, setCurrentTab] = useState<number>(0);
+    const [currentTab, setCurrentTab] = useState<number>(0);
 
-  const tabs = [
-    { value: 0, label: t('Activity') },
-    { value: 1, label: t('Edit Profile') },
-    { value: 2, label: t('Notifications') },
-    { value: 3, label: t('Passwords/Security') },
-  ];
+    const tabs = [
+      { value: 0, label: t('Activity') },
+      { value: 1, label: t('Edit Profile') },
+      { value: 2, label: t('Notifications') },
+      { value: 3, label: t('Passwords/Security') },
+    ];
 
-  const handleTabsChange = (_event: ChangeEvent<{}>, value: number): void => {
-    setCurrentTab(value);
-  };
+    const handleTabsChange = (_event: ChangeEvent<{}>, value: number): void => {
+      setCurrentTab(value);
+    };
 
-  const handleSelectChange = (event: ChangeEvent<{ value: unknown }>) => {
-    setCurrentTab(event.target.value as number);
-  };
+    const handleSelectChange = (event: ChangeEvent<{ value: unknown }>) => {
+      setCurrentTab(event.target.value as number);
+    };
 
-  const getUser = useCallback(async () => {
-    try {
-      const response = await usersApi.getUser();
+    useEffect(() => {
+      dispatch(fetchUserProfile());
+    }, [dispatch]);
 
-      if (isMountedRef()) {
-        setUser(response);
-      }
-    } catch (err) {
-      console.error(err);
+    if (!isLoaded) {
+      return (
+        <Box minWidth="100%">
+          <Container maxWidth={customization.stretch ? false : 'xl'}>
+               <SkeletonAnimation/>
+          </Container>
+          </Box>
+      );
     }
-  }, [isMountedRef]);
 
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
+    if (error) {
+      return <div>Error: {error}</div>;
+    }
 
-  if (!user) {
-    return null;
-  }
+    if (!user) {
+      return null;
+    }
 
-  return (
+
+    return (
     <Box minWidth="100%">
       <Container maxWidth={customization.stretch ? false : 'xl'}>
         <Box py={{ xs: 2, sm: 3 }}>
