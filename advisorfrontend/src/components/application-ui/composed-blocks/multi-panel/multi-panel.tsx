@@ -26,6 +26,12 @@ import { useTranslation } from 'react-i18next';
 import TimelineBasic from 'src/components/application-ui/timelines/basic/basic';
 import LoginFormBasic from 'src/components/application-ui/user-auth/login/login-form';
 import { TabsAlternate } from 'src/components/base/styles/tabs';
+import EmployeeStatus from "../../tables/employee-status/employee-status";
+import Users from '../../horizontal-lists/top-users/top-users';
+import Company from "../../form-layouts/company/company";
+import CompanyCard from "../../image-grid-lists/company-card/company-card";
+import OrganizationOverview from "../../organization-overview/organization-overview";
+import SettingsTab from "../../organization-overview/settings-tab";
 
 const BoxComposedContent = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -104,8 +110,8 @@ function Component() {
 
   const tabs = [
     { value: 0, label: t('Overview') },
-    { value: 1, label: t('Sign in') },
-    { value: 2, label: t('Recent activity') },
+    { value: 1, label: t('Members') },
+    { value: 2, label: t('Settings') },
   ];
 
   const handleTabsChange = (_event: ChangeEvent<{}>, value: number): void => {
@@ -121,7 +127,7 @@ function Component() {
       <Grid container>
         <Grid
           xs={12}
-          xl={5}
+          xl={12}
         >
           <Box
             position="relative"
@@ -188,6 +194,7 @@ function Component() {
               >
                 {t('Revolutionize Your Dashboard Experience')}
               </Typography>
+
               <Typography
                 fontWeight={400}
                 variant="h5"
@@ -246,7 +253,7 @@ function Component() {
         </Grid>
         <Grid
           xs={12}
-          xl={7}
+          xl={12}
         >
           <Box
             py={2}
@@ -294,124 +301,9 @@ function Component() {
           </Box>
           <Divider />
           <Box p={{ xs: 2, sm: 3 }}>
-            {currentTab === 0 && (
-              <>
-                <Grid
-                  container
-                  spacing={{ xs: 2, sm: 3 }}
-                >
-                  <Grid
-                    xs={12}
-                    sm={4}
-                  >
-                    <Card
-                      elevation={0}
-                      variant="outlined"
-                      sx={{
-                        p: 2,
-                      }}
-                    >
-                      <Typography
-                        variant="h1"
-                        sx={{
-                          fontSize: theme.typography.pxToRem(40),
-                        }}
-                      >
-                        31
-                      </Typography>
-                      <DividerPrimary
-                        sx={{
-                          my: 2,
-                        }}
-                      />
-                      <Typography
-                        variant="caption"
-                        color="text.secondary"
-                      >
-                        Implemented
-                        <br />
-                        bugfixes
-                      </Typography>
-                    </Card>
-                  </Grid>
-                  <Grid
-                    xs={12}
-                    sm={4}
-                  >
-                    <Card
-                      elevation={0}
-                      variant="outlined"
-                      sx={{
-                        p: 2,
-                      }}
-                    >
-                      <Typography
-                        variant="h1"
-                        sx={{
-                          fontSize: theme.typography.pxToRem(40),
-                        }}
-                      >
-                        68
-                      </Typography>
-                      <DividerSuccess
-                        sx={{
-                          my: 2,
-                        }}
-                      />
-                      <Typography
-                        variant="caption"
-                        color="text.secondary"
-                      >
-                        Unresolved
-                        <br />
-                        tickets
-                      </Typography>
-                    </Card>
-                  </Grid>
-                  <Grid
-                    xs={12}
-                    sm={4}
-                  >
-                    <Card
-                      elevation={0}
-                      variant="outlined"
-                      sx={{
-                        p: 2,
-                      }}
-                    >
-                      <Typography
-                        variant="h1"
-                        sx={{
-                          fontSize: theme.typography.pxToRem(40),
-                        }}
-                      >
-                        52
-                      </Typography>
-                      <DividerWarning
-                        sx={{
-                          my: 2,
-                        }}
-                      />
-                      <Typography
-                        variant="caption"
-                        color="text.secondary"
-                      >
-                        Support
-                        <br />
-                        requests
-                      </Typography>
-                    </Card>
-                  </Grid>
-                  <Grid xs={12}>
-                    <Box textAlign="center">
-                      <Button variant="outlined">{t('View all open tickets')}</Button>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </>
-            )}
-            {currentTab === 1 && <LoginFormBasic />}
-            {currentTab === 2 && <TimelineBasic />}
+            {currentTab === 0 && <OrganizationOverview />}
+            {currentTab === 1 && <EmployeeStatus />}
+            {currentTab === 2 && <SettingsTab />}
           </Box>
         </Grid>
       </Grid>

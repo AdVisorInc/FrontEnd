@@ -3,20 +3,34 @@ import {
   Avatar,
   Box,
   Button,
-  Card,
-  Chip,
+  Card, CardHeader, Checkbox,
+  Chip, Divider, IconButton,
+  InputAdornment,
   Link,
+  ListItemIcon,
+  Menu,
+  MenuItem,
   styled,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
+  TableHead, TablePagination,
+  TableRow, TextField,
+  Typography, useMediaQuery,
   useTheme,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import BasicDropdownWithProps from "../../dropdowns/basic/basic-dropdown-with-props";
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import SearchIcon from '@mui/icons-material/Search';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
+import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone";
+import {ChangeEvent, useState} from "react";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const BoxComposedContent = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -87,6 +101,9 @@ type EmployeeData = {
   avatar: string;
   status: string;
   statusColor: 'warning' | 'success' | 'error';
+  role:  'Owner' | 'Administrator' | 'Developer' | 'Read-only' | 'Billing-only';
+  canChange?: boolean;
+  mfaEnabled: boolean;
 };
 
 const employees: EmployeeData[] = [
@@ -96,6 +113,9 @@ const employees: EmployeeData[] = [
     avatar: '/avatars/1.png',
     status: 'Pending',
     statusColor: 'warning',
+    role: "Administrator",
+    canChange: true,
+    mfaEnabled: true,
   },
   {
     name: 'Beck Simpson',
@@ -103,6 +123,9 @@ const employees: EmployeeData[] = [
     avatar: '/avatars/2.png',
     status: 'Completed',
     statusColor: 'success',
+    role: "Owner",
+    canChange: false,
+    mfaEnabled: false,
   },
   {
     name: 'Regan Norris',
@@ -110,166 +133,286 @@ const employees: EmployeeData[] = [
     avatar: '/avatars/3.png',
     status: 'Declined',
     statusColor: 'error',
+    role: 'Read-only',
+    canChange: true,
+    mfaEnabled: true,
   },
 ];
+
 
 function Component() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const mobile = useMediaQuery(theme.breakpoints.down('md'));
+  const [selectedEmployees, setSelectedEmployees] = useState<string[]>([]);
+  const [page, setPage] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(5);
+  const [query, setQuery] = useState<string>('');
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedEmployee, setSelectedEmployee] = useState<string | null>(null);
+
+  const handleQueryChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    event.persist();
+    setQuery(event.target.value);
+  };
+
+  const handleSelectAllEmployees = (event: ChangeEvent<HTMLInputElement>): void => {
+    setSelectedEmployees(event.target.checked ? employees.map((employee) => employee.name) : []);
+  };
+
+  const handleSelectOneEmployee = (
+    _event: ChangeEvent<HTMLInputElement>,
+    employeeName: string
+  ): void => {
+    if (!selectedEmployees.includes(employeeName)) {
+      setSelectedEmployees((prevSelected) => [...prevSelected, employeeName]);
+    } else {
+      setSelectedEmployees((prevSelected) => prevSelected.filter((name) => name !== employeeName));
+    }
+  };
+
+  const handlePageChange = (_event: any, newPage: number): void => {
+    setPage(newPage);
+  };
+
+  const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setLimit(parseInt(event.target.value));
+  };
+
+  const applyFilters = (employees: EmployeeData[], query: string): EmployeeData[] => {
+    return employees.filter((employee) => {
+      let matches = true;
+
+      if (query) {
+        const properties = ['name', 'jobFunction'];
+        let containsQuery = false;
+
+        properties.forEach((property) => {
+          if (employee[property].toLowerCase().includes(query.toLowerCase())) {
+            containsQuery = true;
+          }
+        });
+
+        if (!containsQuery) {
+          matches = false;
+        }
+      }
+
+      return matches;
+    });
+  };
+
+  const applyPagination = (employees: EmployeeData[], page: number, limit: number): EmployeeData[] => {
+    return employees.slice(page * limit, page * limit + limit);
+  };
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, employeeName: string) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedEmployee(employeeName);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedEmployee(null);
+  };
+
+  const handleResendInvitation = (employeeName: string) => {
+    // Logic to resend invitation to the selected employee
+    console.log(`Resending invitation to ${employeeName}`);
+    handleMenuClose();
+  };
+
+  const handleCancelInvitation = (employeeName: string) => {
+    // Logic to cancel invitation for the selected employee
+    console.log(`Canceling invitation for ${employeeName}`);
+    handleMenuClose();
+  };
+
+  const handleRemoveMember = (employeeName: string) => {
+    // Logic to remove the selected employee from the team
+    console.log(`Removing member ${employeeName}`);
+    handleMenuClose();
+  };
+
+  const filteredEmployees = applyFilters(employees, query);
+  const paginatedEmployees = applyPagination(filteredEmployees, page, limit);
+  const selectedSomeEmployees = selectedEmployees.length > 0 && selectedEmployees.length < employees.length;
+  const selectedAllEmployees = selectedEmployees.length === employees.length;
 
   return (
-    <Card
-      variant="outlined"
-      elevation={0}
-      sx={{
-        '&:hover': {
-          boxShadow: `0 2rem 8rem 0 ${theme.palette.background.default}, 
-                0 0.6rem 1.6rem ${alpha(theme.palette.common.black, 0.15)}, 
-                0 0.2rem 0.2rem ${alpha(theme.palette.common.black, 0.1)}`,
-        },
-      }}
-    >
+    <Card>
       <Box
-        sx={{
-          position: 'relative',
-          background: 'linear-gradient(135deg, #6B73FF 0%, #000DFF 100%) !important',
-        }}
+        p={2}
+        display="flex"
+        flexDirection={{ xs: 'column', sm: 'row' }}
+        alignItems={{ xs: 'stretch', sm: 'center' }}
+        justifyContent="space-between"
       >
-        <CardActions>
-          <Chip
-            label={t('New')}
-            variant="filled"
-            color="success"
-            sx={{
-              backgroundColor: 'success.main',
-              color: 'common.white',
-            }}
-          />
-        </CardActions>
-        <BoxComposedBg
+        <Box
           sx={{
-            opacity: 0.1,
-            background: 'linear-gradient(127.55deg, #141E30 3.73%, #243B55 92.26%) !important',
+            width: '100%',
+            maxWidth: 500,
+            mb: { xs: 2, sm: 0 },
+            mr: { sm: 2 },
           }}
-        />
-        <BoxComposedImage
-          sx={{
-            opacity: 0.3,
-            backgroundImage: (theme) =>
-              theme.palette.mode === 'dark'
-                ? `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/placeholders//covers/1.jpg")`
-                : `url("/placeholders/covers/1.jpg")`,
-          }}
-        />
-        <BoxComposedContent
-          sx={{
-            textAlign: 'center',
-          }}
-          py={{ xs: 3, md: 6 }}
         >
-          <Typography
-            sx={{
-              px: { xs: 4, md: 12 },
-              lineHeight: 1.5,
+          <TextField
+            fullWidth
+            size="small"
+            onChange={handleQueryChange}
+            value={query}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchTwoToneIcon />
+                </InputAdornment>
+              ),
             }}
-            variant="h3"
-          >
-            {t('Active employees')}
-          </Typography>
-          <Typography
-            sx={{
-              mb: 2.5,
-              px: { xs: 4, md: 8 },
-              lineHeight: 1.6,
-            }}
-            variant="h6"
-            fontWeight={500}
-          >
-            {t('Employee listing with status indicator')}.
-          </Typography>
-          <Button
-            variant="contained"
-            size="large"
-            color="error"
-            sx={{
-              fontSize: theme.typography.pxToRem(12),
-              textTransform: 'uppercase',
-              boxShadow: theme.palette.mode === 'dark' ? theme.shadows[3] : theme.shadows[16],
-            }}
-          >
-            {t('Contact us')}
+            placeholder={t('Search for members...')}
+          />
+        </Box>
+        <Box
+          display="flex"
+          flexDirection={{ xs: 'column', sm: 'row' }}
+          alignItems={{ xs: 'stretch', sm: 'center' }}
+          sx={{
+            '& > *': {
+              minWidth: '120px',
+            },
+            '& > *:not(:last-child)': {
+              mb: { xs: 1, sm: 0 },
+              mr: { xs: 0, sm: 1 },
+            },
+          }}
+        >
+          <Button variant="contained" color="primary">
+            {t('Invite')}
           </Button>
-        </BoxComposedContent>
+          <Button variant="outlined" color="primary" disabled={employees.some((employee) => employee.role === 'Owner')}>
+            {t('Leave Team')}
+          </Button>
+        </Box>
       </Box>
-      <Box p={{ xs: 0, sm: 1, md: 2 }}>
-        <TableContainer sx={{ mt: { xs: 1, sm: 0 } }}>
-          <TableWrapper>
-            <TableHeadWrapper>
-              <TableRow>
-                <TableCell>{t('Employee')}</TableCell>
-                <TableCell align="center">{t('Status')}</TableCell>
-                <TableCell align="right">{t('Actions')}</TableCell>
-              </TableRow>
-            </TableHeadWrapper>
-            <TableBody>
-              {employees.map((employee, index) => (
-                <TableRow
-                  key={index}
-                  hover
-                >
-                  <TableCell>
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                    >
-                      <Avatar
-                        sx={{ width: 50, height: 50 }}
-                        src={employee.avatar}
-                      />
-                      <Box ml={1.5}>
-                        <Link
-                          href=""
-                          onClick={(e) => e.preventDefault()}
-                          color="text.primary"
-                          variant="h6"
-                          noWrap
-                        >
-                          {employee.name}
-                        </Link>
-                        <Typography
-                          variant="subtitle2"
-                          noWrap
-                          color="text.secondary"
-                        >
-                          {employee.jobFunction}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Chip
-                      label={t(employee.status)}
-                      variant="filled"
-                      color={employee.statusColor}
+      <Divider />
+      {paginatedEmployees.length === 0 ? (
+        <Typography
+          sx={{
+            py: { xs: 2, sm: 3, md: 6, lg: 10 },
+          }}
+          variant="h3"
+          color="text.secondary"
+          align="center"
+          fontWeight={500}
+        >
+          {t("We couldn't find any members matching your search criteria")}
+        </Typography>
+      ) : (
+        <>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={selectedAllEmployees}
+                      indeterminate={selectedSomeEmployees}
+                      onChange={handleSelectAllEmployees}
                     />
                   </TableCell>
-                  <TableCell align="right">
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      color="secondary"
-                    >
-                      {t('Chat')}
-                    </Button>
-                  </TableCell>
+                  <TableCell>{t('Member')}</TableCell>
+                  <TableCell align="center">{t('Status')}</TableCell>
+                  <TableCell align="center">{t('Enabled MFA')}</TableCell>
+                  <TableCell align="center">{t('Role')}</TableCell>
+                  <TableCell align="right">{t('Actions')}</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </TableWrapper>
-        </TableContainer>
-      </Box>
+              </TableHead>
+              <TableBody>
+                {paginatedEmployees.map((employee) => {
+                  const isEmployeeSelected = selectedEmployees.includes(employee.name);
+                  return (
+                    <TableRow hover key={employee.name} selected={isEmployeeSelected}>
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={isEmployeeSelected}
+                          onChange={(event) => handleSelectOneEmployee(event, employee.name)}
+                          value={isEmployeeSelected}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Box display="flex" alignItems="center">
+                          <Avatar sx={{ width: 50, height: 50 }} src={employee.avatar} />
+                          <Box ml={1.5}>
+                            <Link href="" onClick={(e) => e.preventDefault()} color="text.primary" variant="h6" noWrap>
+                              {employee.name}
+                            </Link>
+                            <Typography variant="subtitle2" noWrap color="text.secondary">
+                              {employee.jobFunction}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      </TableCell>
+                      <TableCell align="center">
+                        <Chip label={t(employee.status)} variant="filled" color={employee.statusColor} />
+                      </TableCell>
+                      <TableCell align="center">
+                        {employee.mfaEnabled ? <CheckIcon color="success" /> : <CloseIcon color="error" />}
+                      </TableCell>
+                      <TableCell align="center">
+                        <BasicDropdownWithProps currentSelection={employee.role} canChange={employee.canChange} />
+                      </TableCell>
+                      <TableCell align="right">
+                        <IconButton
+                          size="small"
+                          sx={{ color: 'primary.main' }}
+                          onClick={(event) => handleMenuOpen(event, employee.name)}
+                        >
+                          <MoreVertIcon />
+                        </IconButton>
+                        <Menu
+                          anchorEl={anchorEl}
+                          open={selectedEmployee === employee.name}
+                          onClose={handleMenuClose}
+                          transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                          }}
+                          anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                          }}
+                        >
+                          <MenuItem onClick={() => handleResendInvitation(employee.name)}>
+                            <ListItemIcon>
+                              <EmailOutlinedIcon />
+                            </ListItemIcon>
+                            <Typography variant="body2">{t('Resend Invitation')}</Typography>
+                          </MenuItem>
+                          <MenuItem onClick={() => handleCancelInvitation(employee.name)}>
+                            <ListItemIcon>
+                              <CloseIcon />
+                            </ListItemIcon>
+                            <Typography variant="body2">{t('Cancel Invitation')}</Typography>
+                          </MenuItem>
+                          <Divider />
+                          <MenuItem onClick={() => handleRemoveMember(employee.name)}>
+                            <ListItemIcon>
+                              <PersonRemoveOutlinedIcon />
+                            </ListItemIcon>
+                            <Typography variant="body2">{t('Remove Member')}</Typography>
+                          </MenuItem>
+                        </Menu>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
     </Card>
   );
 }
+
 
 export default Component;

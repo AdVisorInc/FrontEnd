@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Added login, modifying login, working login flow. &#10;[WIP] User pages">
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/organization/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/description-grid-lists/organizations-list/organizations-list.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/dropdowns/basic/basic-dropdown-with-props.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-overview.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/settings-tab.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/stats-grid-lists/alterante-icon-indicators-vertical/alternate-icon-indicators-vertical.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/overview/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/overview/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/composed-blocks/multi-panel/multi-panel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/composed-blocks/multi-panel/multi-panel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/progress-grid-lists/profile-card-alternate/profile-card-alternate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/progress-grid-lists/profile-card-alternate/profile-card-alternate.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/stacked-lists/recent-activity/recent-activity.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/stacked-lists/recent-activity/recent-activity.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/tables/employee-status/employee-status.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/tables/employee-status/employee-status.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/vertical-shells.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/vertical-shells.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/routes.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;gpradofe&quot;
+  }
+}</component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="full-refactor" />
+                    <option name="lastUsedInstant" value="1712193692" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/profile" />
+                    <option name="lastUsedInstant" value="1711397268" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1711397257" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/dashboard" />
+                    <option name="lastUsedInstant" value="1711397140" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="b7a7ad5d-2672-44ef-9fe2-5bafc563d08f" />
+        <option name="url" value="https://github.com/AdVisorInc/FrontEnd.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2dvRoGftWEluDT48pp9QkqPligL" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "full-refactor",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Gustavo Aniceto/WebstormProjects/FrontEnd/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/monitoring",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.start.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\Gustavo Aniceto\\WebstormProjects\\FrontEnd\\advisorfrontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
+        <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\blueprints\generic-admin-dashboard\dashboards\monitoring" />
+      <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\public" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\blueprints\generic-admin-dashboard\dashboards\overview" />
+      <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\blueprints\generic-admin-dashboard" />
+      <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\general" />
+      <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app" />
+      <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/advisorfrontend/package.json" />
+      <command value="start" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="" />
+      <created>1710886739747</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1710886739747</updated>
+      <workItem from="1710886742060" duration="997000" />
+      <workItem from="1710887750784" duration="2237000" />
+      <workItem from="1710964443225" duration="8283000" />
+      <workItem from="1711141332667" duration="4358000" />
+      <workItem from="1711243214685" duration="4122000" />
+      <workItem from="1711320685635" duration="4327000" />
+      <workItem from="1711326536115" duration="5660000" />
+      <workItem from="1711400045930" duration="4604000" />
+      <workItem from="1711567285036" duration="11575000" />
+      <workItem from="1712189482632" duration="623000" />
+      <workItem from="1712193597906" duration="6448000" />
+      <workItem from="1712240600912" duration="155000" />
+      <workItem from="1712240765673" duration="1593000" />
+      <workItem from="1712260370750" duration="65190000" />
+    </task>
+    <task id="LOCAL-00001" summary="Update package-lock.json">
+      <option name="closed" value="true" />
+      <created>1710887183722</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1710887183722</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added Packages; Updated API Calls and testing">
+      <option name="closed" value="true" />
+      <created>1711323216673</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1711323216673</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added Packages; Updated API Calls and testing">
+      <option name="closed" value="true" />
+      <created>1711397026861</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1711397026861</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added Packages; Updated API Calls and testing">
+      <option name="closed" value="true" />
+      <created>1711397192610</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1711397192610</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added Packages; Updated API Calls and testing">
+      <option name="closed" value="true" />
+      <created>1711397227682</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1711397227682</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Persist login, protected routes">
+      <option name="closed" value="true" />
+      <created>1711402165603</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1711402165603</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Refactored Components, Added User Profile, Settings, Modified router.tsx. &#10;&#10;Added Signout Feature and notistack.d.ts for notifications">
+      <option name="closed" value="true" />
+      <created>1711577990992</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1711577990992</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Full Refactoring">
+      <option name="closed" value="true" />
+      <created>1712194115647</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1712194115647</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Full Refactoring">
+      <option name="closed" value="true" />
+      <created>1712194162328</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1712194162328</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Eslint fix">
+      <option name="closed" value="true" />
+      <created>1712197362656</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1712197362656</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Changed Metadata">
+      <option name="closed" value="true" />
+      <created>1712199183261</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1712199183261</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Added login, modifying login, working login flow. &#10;[WIP] User pages">
+      <option name="closed" value="true" />
+      <created>1712690188742</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1712690188742</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="full-refactor" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update package-lock.json" />
+    <MESSAGE value="Added Packages; Updated API Calls and testing" />
+    <MESSAGE value="Persist login, protected routes" />
+    <MESSAGE value="Refactored Components, Added User Profile, Settings, Modified router.tsx. &#10;&#10;Added Signout Feature and notistack.d.ts for notifications" />
+    <MESSAGE value="Full Refactoring" />
+    <MESSAGE value="Eslint fix" />
+    <MESSAGE value="Changed Metadata" />
+    <MESSAGE value="Added login, modifying login, working login flow. &#10;[WIP] User pages" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added login, modifying login, working login flow. &#10;[WIP] User pages" />
+  </component>
+</project>
