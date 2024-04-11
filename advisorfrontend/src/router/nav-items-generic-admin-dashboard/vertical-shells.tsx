@@ -14,6 +14,16 @@ const useMenuItemsVerticalShells = (t: (token: string) => string): MenuItem[] =>
       title: t('General'),
       subMenu: [
         {
+          title: t('Overview'),
+          icon: <DashboardRoundedIcon/>,
+          route: routes.blueprints['generic-admin-dashboard'].dashboards.overview,
+        },
+        {
+          title: t('Organization'),
+          icon: <DashboardRoundedIcon/>,
+          route: routes.blueprints['generic-admin-dashboard'].dashboards.organization,
+        },
+        {
           title: t('Dashboards'),
           icon: <DashboardRoundedIcon />,
           subMenu: [

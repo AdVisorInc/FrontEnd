@@ -17,27 +17,18 @@ import PageHeading from 'src/components/base/page-heading';
 import { AvatarState } from 'src/components/base/styles/avatar';
 import { useCustomization } from 'src/hooks/use-customization';
 import { Layout } from 'src/layouts';
-import PlaceholderBox from "../../../../../components/base/placeholder-box";
-import ProfileCard from "../../../../../components/application-ui/description-grid-lists/profile-card/profile-card";
-import ProfileCardAlternate
-  from "../../../../../components/application-ui/progress-grid-lists/profile-card-alternate/profile-card-alternate";
-import AlternateIconIndicators
-  from "../../../../../components/application-ui/stats-grid-lists/alternate-icon-indicators/alternate-icon-indicators";
-import AlternateIconIndicatorsVertical
-  from "../../../../../components/application-ui/stats-grid-lists/alterante-icon-indicators-vertical/alternate-icon-indicators-vertical";
-import OrganizationsList
-  from "../../../../../components/application-ui/description-grid-lists/organizations-list/organizations-list";
-import RecentActivity from "../../../../../components/application-ui/stacked-lists/recent-activity/recent-activity";
-import Tasks from "../../../../../components/application-ui/timelines/tasks/tasks";
-import NavigationPills from "../../../../../components/application-ui/stacked-lists/navigation-pills/navigation-pills";
+import WatchList from "../../../../../components/application-ui/area-charts/watch-list/watch-list";
+import Alternate from 'src/components/application-ui/tabs/alternate/alternate';
+import MultiPanel
+  from "../../../../../components/application-ui/composed-blocks/multi-panel/multi-panel";
 
 function Page(): React.JSX.Element {
   const customization = useCustomization();
   const theme = useTheme();
   const { t } = useTranslation();
   const pageMeta = {
-    title: 'Overview',
-    description: 'Welcome to your dashboard',
+    title: 'Organization',
+    description: 'Something',
     icon: <DeviceTabletIcon />,
   };
   return (
@@ -113,52 +104,15 @@ function Page(): React.JSX.Element {
         >
           <Grid
             container
-            spacing={{ xs: 2, sm: 2 }}
+            spacing={{
+              xs: 2,
+              sm: 3,
+            }}
           >
-            <Grid
-              lg={8}
-              xs={12}
-            >
-              <ProfileCardAlternate/>
-            </Grid>
-            <Grid
-              lg={3.9999}
-              xs={12}
-              spacing={{ xs: 0, sm: 0}}
-            >
-
-                <AlternateIconIndicatorsVertical
-                />
-            </Grid>
-            <Grid
-              md={12}
-              lg={12}
-              xs={12}
-            >
-              <OrganizationsList
-              />
-            </Grid>
-            <Grid
-                md={6}
-                lg={7}
-                xs={12}
-
-            >
-
-                <RecentActivity />
-            </Grid>
-            <Grid
-              md={6}
-              lg={5}
-              xs={12}
-            >
-              <Tasks
-              />
-            </Grid>
             <Grid xs={12}>
-              <NavigationPills
-              />
+              <MultiPanel/>
             </Grid>
+
           </Grid>
         </Box>
       </Container>

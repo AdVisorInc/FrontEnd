@@ -85,7 +85,7 @@ function Component() {
   ];
 
   return (
-    <Card>
+    <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <CardHeader
         disableTypography
         title={<Typography variant="h6">{t('Recent Activity')}</Typography>}
@@ -136,7 +136,7 @@ function Component() {
         <>
           <Box
             sx={{
-              height: 403,
+              height: 700,
             }}
           >
             <Scrollbar>
@@ -165,7 +165,7 @@ function Component() {
         <>
           <Box
             sx={{
-              height: 356,
+              height: 700,
             }}
           >
             <Scrollbar>

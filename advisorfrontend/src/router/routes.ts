@@ -128,6 +128,8 @@ export const routes = {
         analytics: '/blueprints/generic-admin-dashboard/dashboards/analytics',
         hospital: '/blueprints/generic-admin-dashboard/dashboards/hospital',
         helpdesk: '/blueprints/generic-admin-dashboard/dashboards/helpdesk',
+        overview: '/blueprints/generic-admin-dashboard/dashboards/overview',
+        organization: '/blueprints/generic-admin-dashboard/dashboards/organization',
         monitoring: '/blueprints/generic-admin-dashboard/dashboards/monitoring',
       },
       applications: {
@@ -158,12 +160,7 @@ export const routes = {
       },
     },
   },
-  general: {
-    index: '/general',
-    'overview': {
-      index: '/general/overview',
-    },
-  },
+
 
   404: '/404',
 };

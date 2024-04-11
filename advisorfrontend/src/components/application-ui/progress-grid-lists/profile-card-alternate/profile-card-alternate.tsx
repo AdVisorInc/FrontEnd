@@ -47,7 +47,7 @@ function Component0() {
     <Card
       sx={{
         position: 'relative',
-        p: { xs: 2, sm: 3 },
+        p: { xs: 3, sm: 8 },
       }}
     >
       <CardActions>
