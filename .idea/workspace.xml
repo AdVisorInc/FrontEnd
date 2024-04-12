@@ -4,20 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Created Layouts for organization and main overview. &#10;&#10;[WIP] Campaign management page">
-      <change afterPath="$PROJECT_DIR$/advisorfrontend/public/placeholders/logo/meta-icon.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/advisorfrontend/public/placeholders/logo/x-icon.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-creation.tsx" afterDir="false" />
+    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="[WIP] organization-creation.tsx">
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/connect-accounts.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-details.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/review-organization.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/organization/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/organization/[organizationId]/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/overview/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/overview/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/collapsed-shells/double-dark/double-dark.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/collapsed-shells/double-dark/double-dark.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/collapsed-shells/double-dark/header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/collapsed-shells/double-dark/header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/collapsed-shells/double-dark/sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/collapsed-shells/double-dark/sidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/description-grid-lists/organizations-list/organizations-list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/description-grid-lists/organizations-list/organizations-list.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-creation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-creation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/progress-grid-lists/profile-card-alternate/profile-card-alternate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/progress-grid-lists/profile-card-alternate/profile-card-alternate.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/section-headings/basic/basic.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/section-headings/basic/basic.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/steppers/circles/circle-step-indicator.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/steppers/circles/circle-step-indicator.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/collapsed-shells.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/collapsed-shells.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/stacked-shells.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/stacked-shells.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/layouts/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/layouts/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/mocks/users.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/mocks/users.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,24 +105,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "full-refactor",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Gustavo Aniceto/WebstormProjects/FrontEnd/advisorfrontend/public/placeholders/logo",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.start.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Users\\Gustavo Aniceto\\WebstormProjects\\FrontEnd\\advisorfrontend\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;full-refactor&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Gustavo Aniceto/WebstormProjects/FrontEnd/advisorfrontend/public/placeholders/logo&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.start.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Gustavo Aniceto\\WebstormProjects\\FrontEnd\\advisorfrontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -138,11 +139,11 @@
       <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\blueprints\generic-admin-dashboard\dashboards\organization\[organizationId]" />
       <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\public\placeholders\logo" />
       <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\blueprints\generic-admin-dashboard\dashboards\overview" />
       <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\blueprints\generic-admin-dashboard" />
       <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\general" />
-      <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app" />
     </key>
   </component>
   <component name="RunManager">
@@ -175,7 +176,8 @@
       <workItem from="1712193597906" duration="6448000" />
       <workItem from="1712240600912" duration="155000" />
       <workItem from="1712240765673" duration="1593000" />
-      <workItem from="1712260370750" duration="86615000" />
+      <workItem from="1712260370750" duration="87274000" />
+      <workItem from="1712948518760" duration="9723000" />
     </task>
     <task id="LOCAL-00001" summary="Update package-lock.json">
       <option name="closed" value="true" />
@@ -281,7 +283,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712780868387</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="[WIP] organization-creation.tsx">
+      <option name="closed" value="true" />
+      <created>1712933949502</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1712933949502</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -320,6 +330,7 @@
     <MESSAGE value="Changed Metadata" />
     <MESSAGE value="Added login, modifying login, working login flow. &#10;[WIP] User pages" />
     <MESSAGE value="Created Layouts for organization and main overview. &#10;&#10;[WIP] Campaign management page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created Layouts for organization and main overview. &#10;&#10;[WIP] Campaign management page" />
+    <MESSAGE value="[WIP] organization-creation.tsx" />
+    <option name="LAST_COMMIT_MESSAGE" value="[WIP] organization-creation.tsx" />
   </component>
 </project>

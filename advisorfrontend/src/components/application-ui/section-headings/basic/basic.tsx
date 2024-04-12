@@ -57,7 +57,7 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
   const [selectedOption, setSelectedOption] = useState<string | undefined>(undefined);
   const handleClick = (href: string) => {
     router.push(href);
-    toast.success('You clicked on a breadcrumb item!', {
+    toast.success('Redirecting to ' + href, {
       position: 'top-right',
     });
   };
@@ -79,6 +79,7 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
   };
 
   const renderBreadcrumbItem = (item: BreadcrumbItem, index: number) => {
+    console.log(item.options)
     if (item.options) {
       const selectedOptionName = item.options.find((option) => option.id === item.selectedOption)?.name;
       return (
@@ -102,7 +103,6 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
         onClick={() => handleClick(item.href)}
         size="small"
         label={item.label}
-        icon={index === breadcrumbs.length - 1 ? <ExpandMoreTwoToneIcon fontSize="small" /> : undefined}
       />
     );
   };
@@ -121,7 +121,6 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
                 fontSize="small"
               />
             }
-
             aria-label="breadcrumb"
             maxItems={mdUp ? 12 : 3}
           >
@@ -164,7 +163,6 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
               <Typography noWrap variant="h3" fontWeight={600}>
                 {title}
               </Typography>
-              <Chip color="success" label="Active" size="small" />
             </Stack>
             {actions && (
               <Stack direction="row" alignItems="center" spacing={2}>

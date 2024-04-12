@@ -43,8 +43,7 @@ function Page(): React.JSX.Element {
     setSelectedAccount(accountId);
     // Update the route or perform any other necessary actions
   };
-
-  const breadcrumbs: BreadcrumbItem[] = [
+  const TemplateBreadcrumbs: BreadcrumbItem[] = [
     { label: 'Home', href: '/blueprints/generic-admin-dashboard/dashboards/overview' },
     {
       label: 'Organization',
@@ -73,6 +72,9 @@ function Page(): React.JSX.Element {
       onOptionChange: handleAccountChange,
     },
   ];
+  const breadcrumbs: BreadcrumbItem[] = [
+    { label: 'Home', href: '/blueprints/generic-admin-dashboard/dashboards/overview'}
+  ];
   return (
     <>
       {pageMeta.title && (
@@ -88,13 +90,6 @@ function Page(): React.JSX.Element {
           <SectionHeading
             title={pageMeta.title}
             breadcrumbs={breadcrumbs}
-            actions={
-              <Stack spacing={1} direction="row">
-                <Button startIcon={<SaveAltOutlined fontSize="small" />} variant="contained">
-                  Export
-                </Button>
-              </Stack>
-            }
             icon={<DesignServicesOutlined sx={{ mr: 1 }} />}
           />
         </Container>

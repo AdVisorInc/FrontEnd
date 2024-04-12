@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import type { FC, ReactNode } from 'react';
+import {useEffect, type FC, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 // Collapsed Shells
 import { CollapsedShellsDoubleAccent } from 'src/components/application-ui/collapsed-shells/double-accent/double-accent';
@@ -31,6 +31,8 @@ import { MenuItem } from 'src/router/menuItem';
 import useMenuItemsCollapsedShells from 'src/router/nav-items-generic-admin-dashboard/collapsed-shells';
 import useMenuItemsStackedShells from 'src/router/nav-items-generic-admin-dashboard/stacked-shells';
 import useMenuItemsVerticalShells from 'src/router/nav-items-generic-admin-dashboard/vertical-shells';
+import {fetchUserProfile} from "../slices/userProfile";
+import {RootState, useDispatch, useSelector} from "../store";
 
 // import { withGuestGuard } from 'src/hocs/with-guest-guard';
 
@@ -45,7 +47,13 @@ export const Layout: FC<LayoutProps> = withAuthGuard((props) => {
 
   let ShellComponent: FC<LayoutProps>;
   let menuItems: MenuItem[] = [];
-
+  const dispatch = useDispatch();
+  const userProfile = useSelector((state: RootState) => state.userProfile.data);
+  useEffect(() => {
+    if (!userProfile) {
+      dispatch(fetchUserProfile());
+    }
+  }, [dispatch, userProfile]);
   switch (customization.layout) {
     // Vertical Shells
     case 'vertical-shells-dark':

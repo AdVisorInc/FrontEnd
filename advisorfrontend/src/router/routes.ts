@@ -129,8 +129,7 @@ export const routes = {
         hospital: '/blueprints/generic-admin-dashboard/dashboards/hospital',
         helpdesk: '/blueprints/generic-admin-dashboard/dashboards/helpdesk',
         overview: '/blueprints/generic-admin-dashboard/dashboards/overview',
-        organization: '/blueprints/generic-admin-dashboard/dashboards/organization',
-        monitoring: '/blueprints/generic-admin-dashboard/dashboards/monitoring',
+        organization: '/blueprints/generic-admin-dashboard/dashboards/organization/[organizationId]',
       },
       applications: {
         calendar: '/blueprints/generic-admin-dashboard/applications/calendar',
