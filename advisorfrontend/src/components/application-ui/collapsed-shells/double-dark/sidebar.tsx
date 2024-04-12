@@ -29,22 +29,21 @@ interface SidebarProps {
   onOpen?: () => void;
   open?: boolean;
   menuItems?: MenuItem[];
+  activeSubMenu: MenuItem | null;
+  setActiveSubMenu: (menu: MenuItem | null) => void;
 }
 
 export const Sidebar: FC<SidebarProps> = (props) => {
-  const { onClose, onOpen, menuItems, open, ...other } = props;
-  const [activeSubMenu, setActiveSubMenu] = useState<MenuItem | null>(null);
-
+  const { onClose, onOpen, menuItems, open, activeSubMenu, setActiveSubMenu, ...other } = props;
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
 
   const theme = useTheme();
-
   const sidebarContent = (
     <SidebarWrapper
       component="nav"
       role="navigation"
       sx={{
-        width: SIDEBAR_WIDTH * 1.2,
+        width: activeSubMenu?.subMenu ? SIDEBAR_WIDTH * 1.2 : SIDEBAR_WIDTH * 0.4,
         '&::before': {
           content: '""',
           backgroundImage: `radial-gradient(circle, ${alpha(
@@ -97,18 +96,20 @@ export const Sidebar: FC<SidebarProps> = (props) => {
             setSubMenu={setActiveSubMenu}
           />
         </Box>
-        <Box
-          flex={1}
-          display="flex"
-          flexDirection="column"
-          overflow="auto"
-          sx={{
-            backgroundColor: 'neutral.900',
-            borderLeft: `1px solid ${alpha(lighten(neutral[900], 0.2), 0.4)}`,
-          }}
-        >
-          <SubMenu submenu={activeSubMenu} />
-        </Box>
+        {activeSubMenu?.subMenu && (
+          <Box
+            flex={1}
+            display="flex"
+            flexDirection="column"
+            overflow="auto"
+            sx={{
+              backgroundColor: 'neutral.900',
+              borderLeft: `1px solid ${alpha(lighten(neutral[900], 0.2), 0.4)}`,
+            }}
+          >
+            <SubMenu submenu={activeSubMenu} />
+          </Box>
+        )}
       </Box>
     </SidebarWrapper>
   );
@@ -130,7 +131,7 @@ export const Sidebar: FC<SidebarProps> = (props) => {
             overflow: 'hidden',
             border: 0,
             background: alpha(lighten(neutral[900], 0.1), 0.2),
-            width: SIDEBAR_WIDTH * 1.2,
+            width: activeSubMenu?.subMenu ? SIDEBAR_WIDTH * 1.2 : SIDEBAR_WIDTH * 0.4,
             position: 'sticky',
             height: '100vh',
             transition: (theme) => theme.transitions.create(['width', 'box-shadow']),

@@ -16,7 +16,7 @@ import {
   useTheme,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import { FC } from 'react';
+import {FC, useState} from 'react';
 import { NotificationsHeader } from 'src/components/application-ui/drawers/notifications/notifications-header';
 import { WidgetsHeader } from 'src/components/application-ui/drawers/widgets/widgets-header';
 import { ComposedDropdown } from 'src/components/application-ui/dropdowns/composed/composed-dropdown';
@@ -30,6 +30,7 @@ import { useDialog } from 'src/hooks/use-dialog';
 import { usePopover } from 'src/hooks/use-popover';
 import useScrollDirection from 'src/hooks/use-scroll-direction';
 import { HEADER_HEIGHT, SIDEBAR_WIDTH } from 'src/theme/utils';
+import {MenuItem} from "../../../../router/menuItem";
 
 const HeaderWrapper = styled(AppBar)(({ theme }) => ({
   height: HEADER_HEIGHT,
@@ -38,16 +39,20 @@ const HeaderWrapper = styled(AppBar)(({ theme }) => ({
   right: 0,
   left: 'auto',
   display: 'flex',
-  transition: theme.transitions.create(['height']),
+  transition: theme.transitions.create(['height', 'width'], {
+    easing: theme.transitions.easing.easeInOut,
+    duration: theme.transitions.duration.standard,
+  }),
   color: theme.palette.mode === 'dark' ? theme.palette.neutral[500] : theme.palette.neutral[900],
 }));
 
 interface HeaderProps {
   onMobileNav?: () => void;
+  activeSubMenu: MenuItem | null;
 }
 
 export const Header: FC<HeaderProps> = (props) => {
-  const { onMobileNav } = props;
+  const { onMobileNav, activeSubMenu } = props;
   const scroll = useScrollDirection();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
   const smUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
@@ -71,7 +76,7 @@ export const Header: FC<HeaderProps> = (props) => {
         height: scroll === 'down' ? HEADER_HEIGHT : HEADER_HEIGHT * 1.5,
         width: {
           xs: '100%',
-          lg: `calc(100% - ${SIDEBAR_WIDTH * 1.2}px)`,
+          lg: activeSubMenu?.subMenu ? `calc(100% - ${SIDEBAR_WIDTH * 1.2}px)` :`calc(100% - ${SIDEBAR_WIDTH * 0.4}px)`,
         },
       }}
     >

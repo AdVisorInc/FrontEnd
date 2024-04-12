@@ -13,6 +13,7 @@ import {
   CardActions,
   CardContent,
   Chip,
+  Dialog,
   Divider,
   Unstable_Grid2 as Grid,
   InputAdornment,
@@ -22,11 +23,12 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useTheme,
+  useTheme, DialogTitle, DialogContent,
 } from '@mui/material';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CardAddAction } from 'src/components/application-ui/stats-grid-lists/wallets/wallets';
+import OrganizationCreation from "../../organization-overview/organization-creation";
 
 const CardIndicatorWrapper = styled(Card)({
   position: 'relative',
@@ -107,7 +109,15 @@ function DatacenterClusters() {
   const [cluster, setCluster] = useState<string>(clusters[0].text);
   const [openSort, setOpenMenuSort] = useState<boolean>(false);
   const [sort, setSort] = useState<string>('Sort by...');
+  const [openDialog, setOpenDialog] = useState(false);
 
+  const handleCreateOrganization = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
   return (
     <>
       <Typography
@@ -250,9 +260,22 @@ function DatacenterClusters() {
             }}
             variant="contained"
             startIcon={<AddCircleTwoToneIcon />}
+            onClick={handleCreateOrganization}
           >
             {t('Create new organization')}
           </Button>
+
+          <Dialog
+            open={openDialog}
+            onClose={handleCloseDialog}
+            maxWidth="md"
+            fullWidth
+          >
+            <DialogTitle>{t('Create New Organization')}</DialogTitle>
+            <DialogContent>
+              <OrganizationCreation onClose={handleCloseDialog} />
+            </DialogContent>
+          </Dialog>
         </Box>
       </Box>
 
@@ -464,7 +487,7 @@ function DatacenterClusters() {
         >
           <Tooltip
             arrow
-            title={t('Click to add a new cluster')}
+            title={t('Click to add a new organization')}
           >
             <CardAddAction>
               <CardActionArea

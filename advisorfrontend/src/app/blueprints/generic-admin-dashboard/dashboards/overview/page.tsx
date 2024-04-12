@@ -2,27 +2,13 @@
 
 import DeviceTabletIcon from '@heroicons/react/24/outline/DeviceTabletIcon';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { Box, Button, Container, Unstable_Grid2 as Grid, useTheme } from '@mui/material';
-import React from 'react';
+import {Box, Button, Container, Stack, Unstable_Grid2 as Grid, useTheme} from '@mui/material';
+import React, {useState} from 'react';
 import { useTranslation } from 'react-i18next';
-import ActiveServers from 'src/components/application-ui/bar-charts/active-servers/active-servers';
-import ResourcesAlarm from 'src/components/application-ui/bar-charts/resources-alarm/resources-alarm';
-import DatacenterClusters from 'src/components/application-ui/description-grid-lists/datacenter-clusters/datacenter-clusters';
-import ServerStatus from 'src/components/application-ui/gauge-indicators/server-status/server-status';
-import DataCenters from 'src/components/application-ui/image-grid-lists/data-centers/data-centers';
-import HealthStatus from 'src/components/application-ui/pie-doughnut-charts/health-status/health-status';
-import UsageStats from 'src/components/application-ui/pie-doughnut-charts/usage-stats/usage-stats';
-import VirtualServers from 'src/components/application-ui/stacked-lists/virtual-servers/virtual-servers';
-import PageHeading from 'src/components/base/page-heading';
-import { AvatarState } from 'src/components/base/styles/avatar';
 import { useCustomization } from 'src/hooks/use-customization';
 import { Layout } from 'src/layouts';
-import PlaceholderBox from "../../../../../components/base/placeholder-box";
-import ProfileCard from "../../../../../components/application-ui/description-grid-lists/profile-card/profile-card";
 import ProfileCardAlternate
   from "../../../../../components/application-ui/progress-grid-lists/profile-card-alternate/profile-card-alternate";
-import AlternateIconIndicators
-  from "../../../../../components/application-ui/stats-grid-lists/alternate-icon-indicators/alternate-icon-indicators";
 import AlternateIconIndicatorsVertical
   from "../../../../../components/application-ui/stats-grid-lists/alterante-icon-indicators-vertical/alternate-icon-indicators-vertical";
 import OrganizationsList
@@ -30,7 +16,12 @@ import OrganizationsList
 import RecentActivity from "../../../../../components/application-ui/stacked-lists/recent-activity/recent-activity";
 import Tasks from "../../../../../components/application-ui/timelines/tasks/tasks";
 import NavigationPills from "../../../../../components/application-ui/stacked-lists/navigation-pills/navigation-pills";
-
+import SectionHeading, {
+  BreadcrumbItem
+} from "../../../../../components/application-ui/section-headings/basic/basic";
+import {DesignServicesOutlined, SaveAltOutlined} from '@mui/icons-material';
+import PageHeading from "../../../../../components/base/page-heading";
+import {AvatarState} from "../../../../../components/base/styles/avatar";
 function Page(): React.JSX.Element {
   const customization = useCustomization();
   const theme = useTheme();
@@ -40,6 +31,48 @@ function Page(): React.JSX.Element {
     description: 'Welcome to your dashboard',
     icon: <DeviceTabletIcon />,
   };
+  const [selectedOrganization, setSelectedOrganization] = useState('1');
+  const [selectedAccount, setSelectedAccount] = useState('1');
+
+  const handleOrganizationChange = (organizationId: string) => {
+    setSelectedOrganization(organizationId);
+    // Update the route or perform any other necessary actions
+  };
+
+  const handleAccountChange = (accountId: string) => {
+    setSelectedAccount(accountId);
+    // Update the route or perform any other necessary actions
+  };
+
+  const breadcrumbs: BreadcrumbItem[] = [
+    { label: 'Home', href: '/blueprints/generic-admin-dashboard/dashboards/overview' },
+    {
+      label: 'Organization',
+      href: `/organization/${selectedOrganization}`,
+      options: [
+        { id: '1', name: 'Organization 1' },
+        { id: '2', name: 'Organization 2' },
+        { id: '3', name: 'Organization 3' },
+      ],
+      selectedOption: selectedOrganization,
+      onOptionChange: handleOrganizationChange,
+    },
+    {
+      label: 'Campaign Manager',
+      href: `/organization/${selectedOrganization}/campaign-manager`,
+    },
+    {
+      label: 'Account',
+      href: `/organization/${selectedOrganization}/campaign-manager/${selectedAccount}`,
+      options: [
+        { id: '1', name: 'Account 1' },
+        { id: '2', name: 'Account 2' },
+        { id: '3', name: 'Account 3' },
+      ],
+      selectedOption: selectedAccount,
+      onOptionChange: handleAccountChange,
+    },
+  ];
   return (
     <>
       {pageMeta.title && (
@@ -52,48 +85,17 @@ function Page(): React.JSX.Element {
           }}
           maxWidth={customization.stretch ? false : 'xl'}
         >
-          <PageHeading
-            sx={{
-              px: 0,
-            }}
-            title={t(pageMeta.title)}
-            description={pageMeta.description && pageMeta.description}
+          <SectionHeading
+            title={pageMeta.title}
+            breadcrumbs={breadcrumbs}
             actions={
-              <>
-                <Button
-                  sx={{
-                    mt: {
-                      xs: 2,
-                      md: 0,
-                    },
-                  }}
-                  variant="contained"
-                  startIcon={<FileDownloadOutlinedIcon fontSize="small" />}
-                >
-                  {t('Export')}
+              <Stack spacing={1} direction="row">
+                <Button startIcon={<SaveAltOutlined fontSize="small" />} variant="contained">
+                  Export
                 </Button>
-              </>
+              </Stack>
             }
-            iconBox={
-              pageMeta.icon && (
-                <AvatarState
-                  isSoft
-                  variant="rounded"
-                  state="primary"
-                  sx={{
-                    height: theme.spacing(7),
-                    width: theme.spacing(7),
-                    svg: {
-                      height: theme.spacing(4),
-                      width: theme.spacing(4),
-                      minWidth: theme.spacing(4),
-                    },
-                  }}
-                >
-                  {pageMeta.icon}
-                </AvatarState>
-              )
-            }
+            icon={<DesignServicesOutlined sx={{ mr: 1 }} />}
           />
         </Container>
       )}
@@ -104,13 +106,14 @@ function Page(): React.JSX.Element {
         <Box
           px={{
             xs: 2,
-            sm: 3,
+            sm: 5,
           }}
           pb={{
             xs: 2,
             sm: 3,
           }}
         >
+
           <Grid
             container
             spacing={{ xs: 2, sm: 2 }}
