@@ -4,17 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Fixed type issues">
-      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/notifications.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/utils/notificationUtils.ts" afterDir="false" />
+    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Notification System Done Bitchessws">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/collapsed-shells/double-dark/header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/collapsed-shells/double-dark/header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/drawer-content.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/drawer-content.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/notifications-header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/notifications-header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/description-grid-lists/organizations-list/organizations-list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/description-grid-lists/organizations-list/organizations-list.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/dialogs/customization/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/dialogs/customization/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/notifications.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/notifications.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/tabs/line/line.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/tabs/line/line.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/contexts/customization.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/contexts/customization.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advisorfrontend/src/layouts/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/layouts/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/collapsed-shells.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/collapsed-shells.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/stacked-shells.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/stacked-shells.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/vertical-shells.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/vertical-shells.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,24 +101,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;full-refactor&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Gustavo Aniceto/WebstormProjects/FrontEnd/advisorfrontend/public/placeholders/logo&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.start.executor&quot;: &quot;Run&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Gustavo Aniceto\\WebstormProjects\\FrontEnd\\advisorfrontend\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "full-refactor",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/Gustavo Aniceto/WebstormProjects",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.start.executor": "Run",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\Gustavo Aniceto\\WebstormProjects\\FrontEnd\\advisorfrontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -173,7 +173,7 @@
       <workItem from="1712240600912" duration="155000" />
       <workItem from="1712240765673" duration="1593000" />
       <workItem from="1712260370750" duration="87274000" />
-      <workItem from="1712948518760" duration="35612000" />
+      <workItem from="1712948518760" duration="40016000" />
     </task>
     <task id="LOCAL-00001" summary="Update package-lock.json">
       <option name="closed" value="true" />
@@ -311,7 +311,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713062713767</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Notification System Done Bitchessws">
+      <option name="closed" value="true" />
+      <created>1713068372197</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1713068372197</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -354,6 +362,7 @@
     <MESSAGE value="Added Dynamic Navigation, fixed org creation" />
     <MESSAGE value="Create tables for user, organizations and campaign activity. Created recent activity component, and backend connections. &#10;&#10;[WIP] Notifications and links" />
     <MESSAGE value="Fixed type issues" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed type issues" />
+    <MESSAGE value="Notification System Done Bitchessws" />
+    <option name="LAST_COMMIT_MESSAGE" value="Notification System Done Bitchessws" />
   </component>
 </project>

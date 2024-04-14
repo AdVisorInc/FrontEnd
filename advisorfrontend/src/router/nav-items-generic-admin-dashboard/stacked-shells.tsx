@@ -14,46 +14,14 @@ const useMenuItemsCollapsedShells = (t: (token: string) => string): MenuItem[] =
       route: routes.blueprints['generic-admin-dashboard'].dashboards.overview,
     },
     {
-      title: t('Organization'),
-      icon: <DashboardRoundedIcon/>,
-      route: routes.blueprints['generic-admin-dashboard'].dashboards.organization,
-    },
-    {
       title: 'Dashboards',
       icon: <DashboardTwoToneIcon />,
-      route: routes.blueprints['generic-admin-dashboard'].dashboards.reports,
+      route: routes.blueprints['generic-admin-dashboard'].dashboards.organization,
       subMenu: [
         {
-          title: t('Reports'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.reports,
-        },
-        {
-          title: t('Expenses'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.expenses,
-        },
-        {
-          title: t('Statistics'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.statistics,
-        },
-        {
-          title: t('Automation'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.automation,
-        },
-        {
-          title: t('Analytics'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.analytics,
-        },
-        {
-          title: t('Hospital'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.hospital,
-        },
-        {
-          title: t('Helpdesk'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.helpdesk,
-        },
-        {
-          title: t('Monitoring'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.monitoring,
+          title: t('Organization'),
+          icon: <DashboardRoundedIcon/>,
+          route: routes.blueprints['generic-admin-dashboard'].dashboards.organization,
         },
       ],
     },

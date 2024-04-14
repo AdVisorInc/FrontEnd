@@ -85,7 +85,7 @@ function OrganizationsList() {
     setOpenDialog(false);
   };
 
-  const handleViewOrganization = (orgId: number) => {
+  const handleViewOrganization = (orgId: string) => {
     router.push(`/blueprints/generic-admin-dashboard/dashboards/organization/${orgId}`);
   };
 
