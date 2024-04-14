@@ -6,13 +6,6 @@ import { createContext, useCallback, useMemo, useState } from 'react';
 import type { ColorPreset } from 'src/theme';
 
 export type Layout =
-  | 'vertical-shells-dark'
-  | 'vertical-shells-dark-alternate'
-  | 'vertical-shells-brand'
-  | 'vertical-shells-white'
-  | 'vertical-shells-white-off'
-  | 'vertical-shells-light'
-  | 'vertical-shells-accent-header'
   | 'collapsed-shells-double'
   | 'collapsed-shells-double-accent'
   | 'collapsed-shells-double-dark'
@@ -40,9 +33,9 @@ export interface State extends Customization {
 export const defaultCustomization: Customization = {
   colorPreset: 'monacoBlue',
   direction: 'ltr',
-  layout: 'vertical-shells-dark',
-  paletteMode: 'light',
-  stretch: false,
+  layout: 'collapsed-shells-double-dark',
+  paletteMode: 'dark',
+  stretch: true,
 };
 
 export interface State extends Customization {

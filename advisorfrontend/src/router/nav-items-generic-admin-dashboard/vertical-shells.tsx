@@ -7,8 +7,11 @@ import ReceiptRoundedIcon from '@mui/icons-material/ReceiptRounded';
 import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
 import { MenuItem } from 'src/router/menuItem';
 import { routes } from 'src/router/routes';
+import { selectSelectedOrganization } from 'src/slices/organization';
+import {useSelector} from "../../store";
 
 const useMenuItemsVerticalShells = (t: (token: string) => string): MenuItem[] => {
+  const selectedOrganizationId = useSelector(selectSelectedOrganization);
   return [
     {
       title: t('General'),
@@ -17,11 +20,6 @@ const useMenuItemsVerticalShells = (t: (token: string) => string): MenuItem[] =>
           title: t('Overview'),
           icon: <DashboardRoundedIcon/>,
           route: routes.blueprints['generic-admin-dashboard'].dashboards.overview,
-        },
-        {
-          title: t('Organization'),
-          icon: <DashboardRoundedIcon/>,
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.organization,
         },
         {
           title: t('Dashboards'),
@@ -56,8 +54,11 @@ const useMenuItemsVerticalShells = (t: (token: string) => string): MenuItem[] =>
               route: routes.blueprints['generic-admin-dashboard'].dashboards.helpdesk,
             },
             {
-              title: t('Monitoring'),
-              route: routes.blueprints['generic-admin-dashboard'].dashboards.monitoring,
+              title: t('Organization'),
+              icon: <DashboardRoundedIcon/>,
+              route: selectedOrganizationId
+                ? routes.blueprints['generic-admin-dashboard'].dashboards.organization.replace('[organizationId]', selectedOrganizationId)
+                : routes.blueprints['generic-admin-dashboard'].dashboards.organization,
             },
           ],
         },

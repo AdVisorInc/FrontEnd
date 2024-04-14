@@ -40,41 +40,6 @@ interface Option {
 
 const options: Option[] = [
   {
-    title: 'Dark',
-    value: 'vertical-shells-dark',
-    icon: <AlignVerticalTopTwoToneIcon />,
-  },
-  {
-    title: 'Dark Alternate',
-    value: 'vertical-shells-dark-alternate',
-    icon: <AlignVerticalTopTwoToneIcon />,
-  },
-  {
-    title: 'Brand',
-    value: 'vertical-shells-brand',
-    icon: <AlignVerticalTopTwoToneIcon />,
-  },
-  {
-    title: 'White',
-    value: 'vertical-shells-white',
-    icon: <AlignVerticalTopTwoToneIcon />,
-  },
-  {
-    title: 'White Off',
-    value: 'vertical-shells-white-off',
-    icon: <AlignVerticalTopTwoToneIcon />,
-  },
-  {
-    title: 'Light',
-    value: 'vertical-shells-light',
-    icon: <AlignVerticalTopTwoToneIcon />,
-  },
-  {
-    title: 'Accent Header',
-    value: 'vertical-shells-accent-header',
-    icon: <AlignVerticalTopTwoToneIcon />,
-  },
-  {
     title: 'Double',
     value: 'collapsed-shells-double',
     icon: <AlignVerticalTopTwoToneIcon />,
@@ -108,27 +73,7 @@ const options: Option[] = [
     title: 'Single White Off',
     value: 'collapsed-shells-single-white-off',
     icon: <AlignVerticalTopTwoToneIcon />,
-  },
-  {
-    title: 'Top Nav',
-    value: 'stacked-shells-top-nav',
-    icon: <AlignVerticalTopTwoToneIcon />,
-  },
-  {
-    title: 'Top Nav Accent',
-    value: 'stacked-shells-top-nav-accent',
-    icon: <AlignVerticalTopTwoToneIcon />,
-  },
-  {
-    title: 'Top Nav Tabs',
-    value: 'stacked-shells-top-nav-tabs',
-    icon: <AlignVerticalTopTwoToneIcon />,
-  },
-  {
-    title: 'Top Nav Wide',
-    value: 'stacked-shells-top-nav-wide',
-    icon: <AlignVerticalTopTwoToneIcon />,
-  },
+  }
 ];
 
 interface Category {
@@ -139,24 +84,12 @@ interface Category {
 }
 
 const categorizedOptions: Record<string, Category> = {
-  'Vertical Shells': {
-    options: options.filter((option) => option.value.includes('vertical-shells')),
-    description: 'Vertical alignment shell options',
-    icon: <VerticalSplitTwoToneIcon />,
-    state: 'primary',
-  },
   'Collapsed Shells': {
     options: options.filter((option) => option.value.includes('collapsed-shells')),
     description: 'Compact, minimized shell choices',
     icon: <ViewCompactTwoToneIcon />,
     state: 'warning',
-  },
-  'Stacked Shells': {
-    options: options.filter((option) => option.value.includes('stacked-shells')),
-    description: 'Layered, sequential shell settings',
-    icon: <LayersTwoToneIcon />,
-    state: 'success',
-  },
+  }
 };
 
 interface OptionsLayoutProps {

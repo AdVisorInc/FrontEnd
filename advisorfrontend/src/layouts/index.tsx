@@ -69,34 +69,7 @@ export const Layout: FC<LayoutProps> = withAuthGuard((props) => {
 
   switch (customization.layout) {
     // Vertical Shells
-    case 'vertical-shells-dark':
-      ShellComponent = VerticalShellsDark;
-      menuItems = useMenuItemsVerticalShells(t);
-      break;
-    case 'vertical-shells-dark-alternate':
-      ShellComponent = VerticalShellsDarkAlternate;
-      menuItems = useMenuItemsVerticalShells(t);
-      break;
-    case 'vertical-shells-brand':
-      ShellComponent = VerticalShellsBrand;
-      menuItems = useMenuItemsVerticalShells(t);
-      break;
-    case 'vertical-shells-white':
-      ShellComponent = VerticalShellsWhite;
-      menuItems = useMenuItemsVerticalShells(t);
-      break;
-    case 'vertical-shells-white-off':
-      ShellComponent = VerticalShellsWhiteOff;
-      menuItems = useMenuItemsVerticalShells(t);
-      break;
-    case 'vertical-shells-light':
-      ShellComponent = VerticalShellsLight;
-      menuItems = useMenuItemsVerticalShells(t);
-      break;
-    case 'vertical-shells-accent-header':
-      ShellComponent = VerticalShellsAccentHeader;
-      menuItems = useMenuItemsVerticalShells(t);
-      break;
+
 
     // Collapsed Shells
     case 'collapsed-shells-double':

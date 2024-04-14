@@ -191,7 +191,7 @@ const Component = () => {
                       : 'neutral.25',
                 }}
               >
-                <NotificationTabsLine />
+                <NotificationTabsLine notifications={mockNotifications}  />
               </Box>
               {!smUp && <Divider />}
               <Box

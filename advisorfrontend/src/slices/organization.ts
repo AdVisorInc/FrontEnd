@@ -87,3 +87,4 @@ export const fetchUserOrganizations = (): AppThunk => async (dispatch) => {
     console.error('Error fetching user organizations:', error);
   }
 };
+export const selectSelectedOrganization = (state: RootState) => state.organization.selectedOrganization;
