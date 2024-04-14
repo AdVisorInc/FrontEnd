@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface Organization {
-  id: number;
+  id: string;
   name: string;
   logo_url: string;
   website_url: string;
@@ -62,7 +62,7 @@ export const fetchUserOrganizations = (): AppThunk => async (dispatch) => {
     // Simulate fetching user's organizations from an API
     const userOrganizations: Organization[] = [
       {
-        id: 1,
+        id: '1',
         name: 'Acme Inc.',
         logo_url: '/placeholders/logo/google.svg',
         website_url: 'https://acme.com',
@@ -71,7 +71,7 @@ export const fetchUserOrganizations = (): AppThunk => async (dispatch) => {
         is_active: true,
       },
       {
-        id: 2,
+        id: '2',
         name: 'Globex Corporation',
         logo_url: '/placeholders/logo/airbnb.svg',
         website_url: 'https://globex.com',
