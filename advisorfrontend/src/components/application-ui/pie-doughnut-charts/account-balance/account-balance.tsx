@@ -17,9 +17,11 @@ import {
 } from '@mui/material';
 import { DefaultizedPieValueType } from '@mui/x-charts';
 import { pieArcLabelClasses, PieChart } from '@mui/x-charts/PieChart';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { AvatarState } from 'src/components/base/styles/avatar';
+import { fetchAdData } from '../../../../slices/analytics';
 
 type PlatformData = {
   symbol: string;
@@ -83,6 +85,11 @@ const ListItemAvatarWrapper = styled(ListItemAvatar)(({ theme }) => ({
 function AccountBalance() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAdData('120207851692320476')); // Replace 'your-ad-id' with the actual ID if dynamic
+  }, [dispatch]);
 
   const data = [
     { label: 'Google', color: theme.palette.error.main, value: 40 },
