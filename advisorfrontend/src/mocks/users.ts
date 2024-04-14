@@ -11,7 +11,6 @@ export interface User {
   email?: string;
   first_name?: string;
   last_name?: string;
-  jobtitle?: string;
   username?: string;
   location?: string;
   role?: string;

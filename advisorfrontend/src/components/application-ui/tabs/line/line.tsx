@@ -1,18 +1,20 @@
 import {
   Box,
   Chip,
-  Divider,
-  MenuItem,
-  Select,
-  Stack,
+  Divider, Stack,
   Tab,
   Tabs,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
 import React from 'react';
+import {NotificationType} from "../../drawers/notifications/drawer-content";
 
-const Component = () => {
+interface NotificationTabsLineProps {
+  notifications: NotificationType[];
+}
+
+const NotificationTabsLine: React.FC<NotificationTabsLineProps> = ({ notifications }) => {
   const theme = useTheme();
   const smUp = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -22,9 +24,8 @@ const Component = () => {
     setValue(String(newValue));
   };
 
-  const handleSelectChange = (event) => {
-    setValue(event.target.value);
-  };
+  const unreadCount = notifications.filter((notification) => !notification.read).length;
+  const readCount = notifications.length - unreadCount;
 
   return (
     <Stack
@@ -34,7 +35,7 @@ const Component = () => {
       direction={{ xs: 'column', sm: 'row' }}
     >
       <Box width="100%">
-        {smUp ? (
+        {smUp && (
           <>
             <Tabs
               indicatorColor="secondary"
@@ -81,7 +82,7 @@ const Component = () => {
                     All
                     <Chip
                       color="primary"
-                      label={18}
+                      label={notifications.length}
                       size="small"
                     />
                   </>
@@ -93,19 +94,7 @@ const Component = () => {
                     Unread
                     <Chip
                       color="warning"
-                      label={12}
-                      size="small"
-                    />
-                  </>
-                }
-              />
-              <Tab
-                label={
-                  <>
-                    Archived
-                    <Chip
-                      color="info"
-                      label={34}
+                      label={unreadCount}
                       size="small"
                     />
                   </>
@@ -114,20 +103,10 @@ const Component = () => {
             </Tabs>
             <Divider />
           </>
-        ) : (
-          <Select
-            value={value}
-            onChange={handleSelectChange}
-            fullWidth
-          >
-            <MenuItem value="0">All</MenuItem>
-            <MenuItem value="1">Unread</MenuItem>
-            <MenuItem value="2">Archived</MenuItem>
-          </Select>
         )}
       </Box>
     </Stack>
   );
 };
 
-export default Component;
+export default NotificationTabsLine;

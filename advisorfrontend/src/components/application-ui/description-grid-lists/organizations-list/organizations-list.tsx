@@ -13,6 +13,7 @@ import {
   CardActions,
   CardContent,
   Chip,
+  Dialog,
   Divider,
   Unstable_Grid2 as Grid,
   InputAdornment,
@@ -22,11 +23,15 @@ import {
   TextField,
   Tooltip,
   Typography,
-  useTheme,
+  useTheme, DialogTitle, DialogContent,
 } from '@mui/material';
-import { useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import { useTranslation } from 'react-i18next';
 import { CardAddAction } from 'src/components/application-ui/stats-grid-lists/wallets/wallets';
+import OrganizationCreation from "../../organization-overview/organization-creation";
+import {useDispatch, useSelector} from "../../../../store";
+import {fetchUserOrganizations, selectOrganizations} from 'src/slices/organization';
+import {useRouter} from "../../../../hooks/use-router";
 
 const CardIndicatorWrapper = styled(Card)({
   position: 'relative',
@@ -56,58 +61,75 @@ const AvatarAddWrapper = styled(Avatar)(({ theme }) => ({
   height: theme.spacing(8),
 }));
 
-function DatacenterClusters() {
-  const { t } = useTranslation();
+function OrganizationsList() {
+  const {t} = useTranslation();
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const organizations = useSelector(selectOrganizations);
 
-  const clusters = [
-    {
-      value: '1',
-      badge: '15',
-      text: t('All Organizations'),
-    },
-    {
-      value: '2',
-      badge: '25',
-      text: t('Oracle'),
-    },
-    {
-      value: '3',
-      badge: '35',
-      text: t('IBM'),
-    },
-    {
-      value: '4',
-      badge: '45',
-      text: t('Microsoft'),
-    },
+  const [openDialog, setOpenDialog] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedIndustry, setSelectedIndustry] = useState('All Industries');
+  const [selectedSort, setSelectedSort] = useState('Sort by name');
+
+  useEffect(() => {
+    dispatch(fetchUserOrganizations());
+  }, [dispatch]);
+
+  const handleCreateOrganization = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleViewOrganization = (orgId: number) => {
+    router.push(`/blueprints/generic-admin-dashboard/dashboards/organization/${orgId}`);
+  };
+
+  const industries = [
+    'All Industries',
+    ...new Set(organizations.map((org) => org.industry)),
   ];
+
   const sorts = [
-    {
-      value: '1',
-      text: t('Sort by name'),
-    },
-    {
-      value: '2',
-      text: t('Sort by name'),
-    },
-    {
-      value: '3',
-      text: t('Sort by status'),
-    },
-    {
-      value: '4',
-      text: t('Sort by hosts'),
-    },
+    'Sort by name',
+    'Sort by status',
+    'Sort by hosts',
   ];
 
-  const actionRef = useRef<any>(null);
-  const actionRef1 = useRef<any>(null);
-  const [openCluster, setOpenMenuCluster] = useState<boolean>(false);
-  const [cluster, setCluster] = useState<string>(clusters[0].text);
-  const [openSort, setOpenMenuSort] = useState<boolean>(false);
-  const [sort, setSort] = useState<string>('Sort by...');
+  const industryRef = useRef<any>(null);
+  const sortRef = useRef<any>(null);
+  const [openIndustry, setOpenIndustry] = useState<boolean>(false);
+  const [openSort, setOpenSort] = useState<boolean>(false);
 
+  const filteredOrganizations = organizations.filter((org) => {
+    const isMatchingSearch = org.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const isMatchingIndustry = selectedIndustry === 'All Industries' || org.industry === selectedIndustry;
+    return isMatchingSearch && isMatchingIndustry;
+  });
+
+  const sortedOrganizations = filteredOrganizations.sort((a, b) => {
+    if (selectedSort === 'Sort by name') {
+      return a.name.localeCompare(b.name);
+    } else if (selectedSort === 'Sort by status') {
+      return a.is_active === b.is_active ? 0 : a.is_active ? -1 : 1;
+    } else if (selectedSort === 'Sort by hosts') {
+      return a.ad_accounts_count - b.ad_accounts_count;
+    }
+    return 0;
+  });
+
+  const groupedOrganizations = sortedOrganizations.reduce((acc, org) => {
+    const industry = org.industry || 'Others';
+    if (!acc[industry]) {
+      acc[industry] = [];
+    }
+    acc[industry].push(org);
+    return acc;
+  }, {} as Record<string, typeof sortedOrganizations>);
   return (
     <>
       <Typography
@@ -140,18 +162,18 @@ function DatacenterClusters() {
               }}
               variant="contained"
               color="secondary"
-              ref={actionRef}
-              onClick={() => setOpenMenuCluster(true)}
+              ref={industryRef}
+              onClick={() => setOpenIndustry(true)}
               endIcon={<ExpandMoreTwoToneIcon fontSize="small" />}
             >
-              {cluster}
+              {selectedIndustry}
             </Button>
           </Box>
           <Menu
             disableScrollLock
-            anchorEl={actionRef.current}
-            onClose={() => setOpenMenuCluster(false)}
-            open={openCluster}
+            anchorEl={industryRef.current}
+            onClose={() => setOpenIndustry(false)}
+            open={openIndustry}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'left',
@@ -161,28 +183,15 @@ function DatacenterClusters() {
               horizontal: 'left',
             }}
           >
-            {clusters.map((_cluster) => (
+            {industries.map((industry) => (
               <MenuItem
-                key={_cluster.value}
+                key={industry}
                 onClick={() => {
-                  setCluster(_cluster.text);
-                  setOpenMenuCluster(false);
+                  setSelectedIndustry(industry);
+                  setOpenIndustry(false);
                 }}
               >
-                <Box
-                  sx={{
-                    mr: 1,
-                    ml: -1,
-                  }}
-                >
-                  <Chip
-                    size="small"
-                    label={_cluster.badge}
-                    color="primary"
-                    variant="outlined"
-                  />
-                </Box>
-                {_cluster.text}
+                {industry}
               </MenuItem>
             ))}
           </Menu>
@@ -198,11 +207,13 @@ function DatacenterClusters() {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchTwoToneIcon />
+                  <SearchTwoToneIcon/>
                 </InputAdornment>
               ),
             }}
             placeholder={t('Search...')}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </Box>
         <Box
@@ -212,16 +223,16 @@ function DatacenterClusters() {
         >
           <Button
             variant="outlined"
-            ref={actionRef1}
-            onClick={() => setOpenMenuSort(true)}
-            endIcon={<ExpandMoreTwoToneIcon fontSize="small" />}
+            ref={sortRef}
+            onClick={() => setOpenSort(true)}
+            endIcon={<ExpandMoreTwoToneIcon fontSize="small"/>}
           >
-            {sort}
+            {selectedSort}
           </Button>
           <Menu
             disableScrollLock
-            anchorEl={actionRef1.current}
-            onClose={() => setOpenMenuSort(false)}
+            anchorEl={sortRef.current}
+            onClose={() => setOpenSort(false)}
             open={openSort}
             anchorOrigin={{
               vertical: 'bottom',
@@ -232,15 +243,15 @@ function DatacenterClusters() {
               horizontal: 'right',
             }}
           >
-            {sorts.map((_sort) => (
+            {sorts.map((sort) => (
               <MenuItem
-                key={_sort.value}
+                key={sort}
                 onClick={() => {
-                  setSort(_sort.text);
-                  setOpenMenuSort(false);
+                  setSelectedSort(sort);
+                  setOpenSort(false);
                 }}
               >
-                {_sort.text}
+                {sort}
               </MenuItem>
             ))}
           </Menu>
@@ -250,221 +261,122 @@ function DatacenterClusters() {
             }}
             variant="contained"
             startIcon={<AddCircleTwoToneIcon />}
+            onClick={handleCreateOrganization}
           >
             {t('Create new organization')}
           </Button>
+
+          <Dialog
+            open={openDialog}
+            onClose={handleCloseDialog}
+            maxWidth="md"
+            fullWidth
+          >
+            <DialogTitle>{t('Create New Organization')}</DialogTitle>
+            <DialogContent>
+              <OrganizationCreation onClose={handleCloseDialog} />
+            </DialogContent>
+          </Dialog>
         </Box>
       </Box>
-
-      <Grid
-        container
-        spacing={{ xs: 2, sm: 3 }}
-      >
+      <Grid container spacing={{ xs: 2, sm: 3 }}>
+        {sortedOrganizations.map((org) => (
+          <Grid key={org.id} xs={12} sm={6} md={4} lg={3}>
+            <CardIndicatorWrapper>
+              <CardContent
+                sx={{
+                  pb: 4,
+                  pt: 7,
+                  px: 3,
+                  textAlign: 'center',
+                }}
+              >
+                <Card
+                  elevation={0}
+                  variant="outlined"
+                  sx={{
+                    width: 128,
+                    backgroundColor: 'common.white',
+                    border: 0,
+                    mx: 'auto',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    p: theme.palette.mode === 'dark' && 0.5,
+                  }}
+                >
+                  <img
+                    style={{ height: '30px' }}
+                    src={org.logo_url || '/placeholders/logo/default-logo.jpg'}
+                    alt={org.name}
+                  />
+                </Card>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    pt: 2,
+                    px: 3,
+                  }}
+                  gutterBottom
+                >
+                  {org.name}
+                </Typography>
+                <Typography variant="subtitle2" color="text.secondary">
+                  {org.industry}
+                </Typography>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="small"
+                  sx={{
+                    mt: 3,
+                  }}
+                  onClick={() => handleViewOrganization(org.id)}
+                >
+                  {t('View details')}
+                </Button>
+              </CardContent>
+              <Divider />
+              <CardActionsWrapper
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Typography variant="subtitle2">
+                  <b>{org.ad_accounts_count}</b> {t('ad accounts')}
+                </Typography>
+                <Typography
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                  variant="subtitle2"
+                  color={org.is_active ? 'success.main' : 'warning.main'}
+                >
+                  <IconWrapper
+                    sx={{
+                      color: org.is_active ? theme.palette.success.main : theme.palette.warning.main,
+                    }}
+                  >
+                    {org.is_active ? <CheckTwoToneIcon /> : <RefreshTwoToneIcon />}
+                  </IconWrapper>
+                  {org.is_active ? t('active') : t('inactive')}
+                </Typography>
+              </CardActionsWrapper>
+            </CardIndicatorWrapper>
+          </Grid>
+        ))}
         <Grid
           xs={12}
           sm={6}
-          md={5}
-          lg={4}
-        >
-          <CardIndicatorWrapper>
-            <Box
-              className="MuiCard-indicator"
-              sx={{
-                background: theme.palette.info.main,
-              }}
-            />
-            <CardContent
-              sx={{
-                pb: 4,
-                pt: 7,
-                px: 3,
-                textAlign: 'center',
-              }}
-            >
-              <Card
-                elevation={0}
-                variant="outlined"
-                sx={{
-                  width: 128,
-                  backgroundColor: 'common.white',
-                  border: 0,
-                  mx: 'auto',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  p: theme.palette.mode === 'dark' && 0.5,
-                }}
-              >
-                <img
-                  style={{ height: '30px' }}
-                  src="/placeholders/logo/netflix-logo.jpg"
-                  alt="..."
-                />
-              </Card>
-              <Typography
-                variant="h4"
-                sx={{
-                  pt: 2,
-                  px: 3,
-                }}
-                gutterBottom
-              >
-                Mainframe Analytics Cluster for Visitors and Page Views
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                color="text.secondary"
-              >
-                {t('Maintained for')} Netflix Inc.
-              </Typography>
-              <Button
-                variant="outlined"
-                color="primary"
-                size="small"
-                sx={{
-                  mt: 3,
-                }}
-              >
-                {t('View details')}
-              </Button>
-            </CardContent>
-            <Divider />
-            <CardActionsWrapper
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Typography variant="subtitle2">
-                <b>7</b> {t('hosts')}
-              </Typography>
-              <Typography
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-                variant="subtitle2"
-                color="success.main"
-              >
-                <IconWrapper
-                  sx={{
-                    color: theme.palette.success.main,
-                  }}
-                >
-                  <CheckTwoToneIcon />
-                </IconWrapper>
-                {t('available')}
-              </Typography>
-            </CardActionsWrapper>
-          </CardIndicatorWrapper>
-        </Grid>
-        <Grid
-          xs={12}
-          sm={6}
-          md={5}
-          lg={4}
-        >
-          <CardIndicatorWrapper>
-            <Box
-              className="MuiCard-indicator"
-              sx={{
-                background: theme.palette.success.main,
-              }}
-            />
-            <CardContent
-              sx={{
-                pb: 4,
-                pt: 7,
-                px: 3,
-                textAlign: 'center',
-              }}
-            >
-              <Card
-                elevation={0}
-                variant="outlined"
-                sx={{
-                  width: 128,
-                  backgroundColor: 'common.white',
-                  border: 0,
-                  mx: 'auto',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  p: theme.palette.mode === 'dark' && 0.5,
-                }}
-              >
-                <img
-                  style={{ height: '30px' }}
-                  src="/placeholders/logo/google-logo.jpg"
-                  alt="..."
-                />
-              </Card>
-              <Typography
-                variant="h4"
-                sx={{
-                  pt: 2,
-                  px: 3,
-                }}
-                gutterBottom
-              >
-                Main Website Sales Monitoring Cluster Database
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                color="text.secondary"
-              >
-                {t('Maintained for')} Google Corp.
-              </Typography>
-              <Button
-                variant="outlined"
-                color="primary"
-                size="small"
-                sx={{
-                  mt: 3,
-                }}
-              >
-                {t('View details')}
-              </Button>
-            </CardContent>
-            <Divider />
-            <CardActionsWrapper
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Typography variant="subtitle2">
-                <b>15</b> {t('hosts')}
-              </Typography>
-              <Typography
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-                variant="subtitle2"
-                color="warning.main"
-              >
-                <IconWrapper
-                  sx={{
-                    color: theme.palette.warning.main,
-                  }}
-                >
-                  <RefreshTwoToneIcon />
-                </IconWrapper>
-                {t('provisioning')}
-              </Typography>
-            </CardActionsWrapper>
-          </CardIndicatorWrapper>
-        </Grid>
-        <Grid
-          xs={12}
-          sm={12}
-          md={2}
-          lg={4}
+          md={4}
+          lg={3}
         >
           <Tooltip
             arrow
-            title={t('Click to add a new cluster')}
+            title={t('Click to add a new organization')}
+            onClick={handleCreateOrganization}
           >
             <CardAddAction>
               <CardActionArea
@@ -486,4 +398,4 @@ function DatacenterClusters() {
   );
 }
 
-export default DatacenterClusters;
+export default OrganizationsList;

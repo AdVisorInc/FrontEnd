@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
-import { type FC, type ReactNode } from 'react';
+import {type FC, type ReactNode, useState} from 'react';
 import { useMobileNav } from 'src/hooks/use-mobile-nav';
 import { MenuItem } from 'src/router/menuItem';
 import { HEADER_HEIGHT } from 'src/theme/utils';
@@ -15,6 +15,7 @@ interface CollapsedShellsDoubleDarkProps {
 export const CollapsedShellsDoubleDark: FC<CollapsedShellsDoubleDarkProps> = (props) => {
   const { children, menuItems } = props;
   const mobileNav = useMobileNav();
+  const [activeSubMenu, setActiveSubMenu] = useState<MenuItem | null>(null);
 
   return (
     <>
@@ -23,6 +24,8 @@ export const CollapsedShellsDoubleDark: FC<CollapsedShellsDoubleDarkProps> = (pr
         onClose={mobileNav.handleClose}
         open={mobileNav.open}
         onOpen={mobileNav.handleOpen}
+        activeSubMenu={activeSubMenu}
+        setActiveSubMenu={setActiveSubMenu}
       />
       <Box
         flex={1}
@@ -33,7 +36,8 @@ export const CollapsedShellsDoubleDark: FC<CollapsedShellsDoubleDarkProps> = (pr
           paddingTop: `${HEADER_HEIGHT * 1.5}px`,
         }}
       >
-        <Header onMobileNav={mobileNav.handleOpen} />
+        <Header onMobileNav={mobileNav.handleOpen}  activeSubMenu={activeSubMenu}
+        />
         {children}
       </Box>
     </>

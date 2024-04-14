@@ -12,11 +12,16 @@ import {
   List,
   ListItem,
   ListItemText,
+  Skeleton,
   styled,
   Typography,
   useTheme,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import {RootState, useSelector} from "../../../../store";
+import {format, parseISO} from "date-fns";
+import { RouterLink } from 'src/components/base/router-link';
+import {routes} from "../../../../router/routes";
 
 const LinearProgressSuccess = styled(LinearProgress)(({ theme }) => ({
   height: 8,
@@ -39,9 +44,24 @@ const CardActions = styled(Box)(({ theme }) => ({
   zIndex: 7,
 }));
 
-function Component0() {
+function UserProfileCard() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const { isLoaded, data: userProfile } = useSelector((state: RootState) => state.userProfile);
+
+  const calculateProfileCompleteness = () => {
+    if (!userProfile) return 0;
+    const requiredFields = ['first_name', 'last_name', 'email', 'date_of_birth', 'address'];
+    const completedFields = requiredFields.filter((field) => userProfile[field]);
+    return Math.round((completedFields.length / requiredFields.length) * 100);
+  };
+  const formatDateOfBirth = (dateString: string) => {
+    if (!dateString) return 'Not specified';
+    const date = parseISO(dateString);
+    return format(date, 'MMMM d, yyyy');
+  };
+
+  const profileCompleteness = calculateProfileCompleteness();
 
   return (
     <Card
@@ -60,82 +80,109 @@ function Component0() {
         display="flex"
         alignItems="center"
       >
-        <Avatar
-          variant="rounded"
-          sx={{
-            width: 95,
-            height: 95,
-          }}
-          src="/avatars/3.png"
-        />
+        {isLoaded ? (
+          <Avatar
+            variant="rounded"
+            sx={{
+              width: 95,
+              height: 95,
+            }}
+            src={userProfile?.avatar_url || '/avatars/default.png'}
+          />
+        ) : (
+          <Skeleton variant="rounded" width={95} height={95} />
+        )}
         <Box
           sx={{
             width: '100%',
           }}
           ml={1.5}
         >
-          <Link
-            href=""
-            onClick={(e) => e.preventDefault()}
-            color="text.primary"
-            underline="none"
-            sx={{
-              transition: theme.transitions.create(['color']),
-              fontSize: theme.typography.pxToRem(17),
-
-              '&:hover': {
-                color: theme.palette.primary.main,
-              },
-            }}
-            variant="h5"
-          >
-            Kate Winchester
-          </Link>
-          <Typography
-            gutterBottom
-            variant="subtitle2"
-            color="text.secondary"
-          >
-            Freelance Designer, Mutual Inc.
-          </Typography>
-          <Box
-            display="flex"
-            alignItems="center"
-            flex={1}
-            sx={{
-              width: '100%',
-            }}
-          >
-            <LinearProgressSuccess
-              sx={{
-                minWidth: 65,
-                width: '100%',
-              }}
-              variant="determinate"
-              value={63}
-            />
-            <Typography
-              sx={{
-                pl: 1,
-              }}
-              fontWeight={700}
-              variant="body1"
-              textAlign="right"
-            >
-              +63%
-            </Typography>
-          </Box>
+          {isLoaded ? (
+            <>
+              <Link
+                component={RouterLink}
+                href={routes.blueprints["generic-admin-dashboard"].management.users.profile}
+                color="text.primary"
+                underline="none"
+                sx={{
+                  transition: theme.transitions.create(['color']),
+                  fontSize: theme.typography.pxToRem(17),
+                  '&:hover': {
+                    color: theme.palette.primary.main,
+                  },
+                }}
+                variant="h5"
+              >
+                {userProfile?.first_name} {userProfile?.last_name}
+              </Link>
+              <Typography
+                gutterBottom
+                variant="subtitle2"
+                color="text.secondary"
+              >
+                {userProfile?.role || 'Not specified'}
+              </Typography>
+              <Box
+                display="flex"
+                alignItems="center"
+                flex={1}
+                sx={{
+                  width: '100%',
+                }}
+              >
+                <LinearProgressSuccess
+                  sx={{
+                    minWidth: 65,
+                    width: '100%',
+                  }}
+                  variant="determinate"
+                  value={profileCompleteness}
+                />
+                <Typography
+                  sx={{
+                    pl: 1,
+                  }}
+                  fontWeight={700}
+                  variant="body1"
+                  textAlign="right"
+                >
+                  {profileCompleteness}%
+                </Typography>
+              </Box>
+              <Typography variant="body2" color="text.secondary">
+                Profile Completeness
+              </Typography>
+            </>
+          ) : (
+            <>
+              <Skeleton variant="text" width="40%" height={32} />
+              <Skeleton variant="text" width="30%" height={24} />
+              <Box
+                display="flex"
+                alignItems="center"
+                flex={1}
+                sx={{
+                  width: '100%',
+                }}
+              >
+                <Skeleton variant="rectangular" width="100%" height={8} />
+              </Box>
+              <Skeleton variant="text" width="20%" height={16} />
+            </>
+          )}
         </Box>
       </Box>
-      <Typography
-        variant="subtitle2"
-        color="text.secondary"
-      >
-        {t(
-          ' The perfect tool to enhance productivity and decision-making in diverse business environments.'
-        )}
-        .
-      </Typography>
+      {isLoaded ? (
+        <Typography
+          variant="subtitle2"
+          color="text.secondary"
+        >
+          {userProfile?.description || 'No description provided'}
+        </Typography>
+      ) : (
+        <Skeleton variant="text" width="100%" height={16} />
+      )}
       <Card
         elevation={0}
         sx={{
@@ -152,16 +199,11 @@ function Component0() {
               }}
               primary={t('Email') + ':'}
             />
-            <Typography variant="subtitle2">russotry@russo.com</Typography>
-          </ListItem>
-          <ListItem>
-            <ListItemText
-              primaryTypographyProps={{
-                variant: 'h6',
-              }}
-              primary={t('Job Description') + ':'}
-            />
-            <Typography variant="subtitle2">Project Manager</Typography>
+            {isLoaded ? (
+              <Typography variant="subtitle2">{userProfile?.email || 'Not specified'}</Typography>
+            ) : (
+              <Skeleton variant="text" width={120} height={24} />
+            )}
           </ListItem>
           <ListItem>
             <ListItemText
@@ -170,7 +212,26 @@ function Component0() {
               }}
               primary={t('Location') + ':'}
             />
-            <Typography variant="subtitle2">San Francisco, USA</Typography>
+            {isLoaded ? (
+              <Typography variant="subtitle2">{userProfile?.address?.description || 'Not specified'}</Typography>
+            ) : (
+              <Skeleton variant="text" width={120} height={24} />
+            )}
+          </ListItem>
+          <ListItem>
+            <ListItemText
+              primaryTypographyProps={{
+                variant: 'h6',
+              }}
+              primary={t('Date of Birth') + ':'}
+            />
+            {isLoaded ? (
+              <Typography variant="subtitle2">
+                {formatDateOfBirth(userProfile?.date_of_birth || '')}
+              </Typography>
+            ) : (
+              <Skeleton variant="text" width={120} height={24} />
+            )}
           </ListItem>
         </List>
       </Card>
@@ -187,6 +248,8 @@ function Component0() {
             color: theme.palette.success.main,
           },
         }}
+        component={RouterLink}
+        href={routes.blueprints["generic-admin-dashboard"].management.users.profile}
       >
         {t('View complete profile')}
       </Button>
@@ -194,4 +257,4 @@ function Component0() {
   );
 }
 
-export default Component0;
+export default UserProfileCard;

@@ -4,9 +4,20 @@ import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
 import LayersTwoToneIcon from '@mui/icons-material/LayersTwoTone';
 import { MenuItem } from 'src/router/menuItem';
 import { routes } from 'src/router/routes';
+import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 
 const useMenuItemsCollapsedShells = (t: (token: string) => string): MenuItem[] => {
   return [
+    {
+      title: t('Overview'),
+      icon: <DashboardRoundedIcon/>,
+      route: routes.blueprints['generic-admin-dashboard'].dashboards.overview,
+    },
+    {
+      title: t('Organization'),
+      icon: <DashboardRoundedIcon/>,
+      route: routes.blueprints['generic-admin-dashboard'].dashboards.organization,
+    },
     {
       title: 'Dashboards',
       icon: <DashboardTwoToneIcon />,

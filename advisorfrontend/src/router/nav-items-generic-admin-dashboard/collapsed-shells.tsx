@@ -4,45 +4,27 @@ import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
 import LayersTwoToneIcon from '@mui/icons-material/LayersTwoTone';
 import { MenuItem } from 'src/router/menuItem';
 import { routes } from 'src/router/routes';
+import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 
 const useMenuItemsCollapsedShells = (t: (token: string) => string): MenuItem[] => {
   return [
+    {
+      title: t('Overview'),
+      icon: <AssessmentOutlinedIcon />,
+      route: routes.blueprints['generic-admin-dashboard'].dashboards.overview,
+    },
     {
       title: 'Dashboards',
       icon: <DashboardTwoToneIcon />,
       route: routes.blueprints['generic-admin-dashboard'].dashboards.reports,
       subMenu: [
         {
-          title: t('Reports'),
+          title: t('Organization'),
+          route: routes.blueprints['generic-admin-dashboard'].dashboards.organization,
+        },
+        {
+          title: t('Campaign Manager'),
           route: routes.blueprints['generic-admin-dashboard'].dashboards.reports,
-        },
-        {
-          title: t('Expenses'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.expenses,
-        },
-        {
-          title: t('Statistics'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.statistics,
-        },
-        {
-          title: t('Automation'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.automation,
-        },
-        {
-          title: t('Analytics'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.analytics,
-        },
-        {
-          title: t('Hospital'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.hospital,
-        },
-        {
-          title: t('Helpdesk'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.helpdesk,
-        },
-        {
-          title: t('Monitoring'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.monitoring,
         },
       ],
     },
