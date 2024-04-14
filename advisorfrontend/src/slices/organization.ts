@@ -1,8 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface Organization {
-  id: string;
+  id: number;
   name: string;
+  logo_url: string;
+  website_url: string;
+  industry: string;
+  ad_accounts_count: number;
+  is_active: boolean;
 }
+
 interface OrganizationState {
   selectedOrganization: string | null;
   organizationData: any; // Replace 'any' with the actual type of organization data
@@ -33,8 +39,9 @@ const slice = createSlice({
 
 export const { reducer, actions } = slice;
 export const { setSelectedOrganization, setOrganizationData, setOrganizations } = actions;
+export const selectOrganizations = (state: RootState) => state.organization.organizations;
 
-import { AppThunk } from 'src/store';
+import {AppThunk, RootState} from 'src/store';
 
 export const fetchOrganizationData = (organizationId: string): AppThunk => async (dispatch) => {
   try {
@@ -53,10 +60,26 @@ export const fetchOrganizationData = (organizationId: string): AppThunk => async
 export const fetchUserOrganizations = (): AppThunk => async (dispatch) => {
   try {
     // Simulate fetching user's organizations from an API
-    const userOrganizations = [
-      { id: '1', name: 'Organization 1' },
-      { id: '2', name: 'Organization 2' },
-      { id: '3', name: 'Organization 3' },
+    const userOrganizations: Organization[] = [
+      {
+        id: 1,
+        name: 'Acme Inc.',
+        logo_url: '/placeholders/logo/google.svg',
+        website_url: 'https://acme.com',
+        industry: 'Technology',
+        ad_accounts_count: 5,
+        is_active: true,
+      },
+      {
+        id: 2,
+        name: 'Globex Corporation',
+        logo_url: '/placeholders/logo/airbnb.svg',
+        website_url: 'https://globex.com',
+        industry: 'Manufacturing',
+        ad_accounts_count: 3,
+        is_active: false,
+      },
+      // Add more sample organizations
     ];
 
     dispatch(setOrganizations(userOrganizations));

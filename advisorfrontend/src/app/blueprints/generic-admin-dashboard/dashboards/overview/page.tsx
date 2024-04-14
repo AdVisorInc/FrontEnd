@@ -22,6 +22,8 @@ import SectionHeading, {
 import {DesignServicesOutlined, SaveAltOutlined} from '@mui/icons-material';
 import PageHeading from "../../../../../components/base/page-heading";
 import {AvatarState} from "../../../../../components/base/styles/avatar";
+import RecentActivityUser
+  from "../../../../../components/application-ui/stacked-lists/recent-activity/recent-activity-user";
 function Page(): React.JSX.Element {
   const customization = useCustomization();
   const theme = useTheme();
@@ -31,47 +33,6 @@ function Page(): React.JSX.Element {
     description: 'Welcome to your dashboard',
     icon: <DeviceTabletIcon />,
   };
-  const [selectedOrganization, setSelectedOrganization] = useState('1');
-  const [selectedAccount, setSelectedAccount] = useState('1');
-
-  const handleOrganizationChange = (organizationId: string) => {
-    setSelectedOrganization(organizationId);
-    // Update the route or perform any other necessary actions
-  };
-
-  const handleAccountChange = (accountId: string) => {
-    setSelectedAccount(accountId);
-    // Update the route or perform any other necessary actions
-  };
-  const TemplateBreadcrumbs: BreadcrumbItem[] = [
-    { label: 'Home', href: '/blueprints/generic-admin-dashboard/dashboards/overview' },
-    {
-      label: 'Organization',
-      href: `/organization/${selectedOrganization}`,
-      options: [
-        { id: '1', name: 'Organization 1' },
-        { id: '2', name: 'Organization 2' },
-        { id: '3', name: 'Organization 3' },
-      ],
-      selectedOption: selectedOrganization,
-      onOptionChange: handleOrganizationChange,
-    },
-    {
-      label: 'Campaign Manager',
-      href: `/organization/${selectedOrganization}/campaign-manager`,
-    },
-    {
-      label: 'Account',
-      href: `/organization/${selectedOrganization}/campaign-manager/${selectedAccount}`,
-      options: [
-        { id: '1', name: 'Account 1' },
-        { id: '2', name: 'Account 2' },
-        { id: '3', name: 'Account 3' },
-      ],
-      selectedOption: selectedAccount,
-      onOptionChange: handleAccountChange,
-    },
-  ];
   const breadcrumbs: BreadcrumbItem[] = [
     { label: 'Home', href: '/blueprints/generic-admin-dashboard/dashboards/overview'}
   ];
@@ -124,9 +85,7 @@ function Page(): React.JSX.Element {
               xs={12}
               spacing={{ xs: 0, sm: 0}}
             >
-
-                <AlternateIconIndicatorsVertical
-                />
+            <AlternateIconIndicatorsVertical/>
             </Grid>
             <Grid
               md={12}
@@ -143,7 +102,7 @@ function Page(): React.JSX.Element {
 
             >
 
-                <RecentActivity />
+                <RecentActivityUser />
             </Grid>
             <Grid
               md={6}

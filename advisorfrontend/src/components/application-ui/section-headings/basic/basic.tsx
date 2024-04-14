@@ -35,8 +35,8 @@ export interface BreadcrumbItem {
 }
 
 interface SectionHeadingProps {
-  title: string;
-  breadcrumbs: BreadcrumbItem[];
+  title?: string;
+  breadcrumbs?: BreadcrumbItem[];
   actions?: React.ReactNode;
   subheader?: React.ReactNode;
   icon?: React.ReactNode;
