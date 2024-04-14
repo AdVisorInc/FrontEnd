@@ -18,7 +18,7 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import NotificationTabsLine from 'src/components/application-ui/tabs/line/line';
 import { ButtonSoft } from 'src/components/base/styles/button-soft';
-import DrawerContent from './drawer-content';
+import DrawerContent, {NotificationType} from './drawer-content';
 
 const Component = () => {
   const [open, setOpen] = useState<boolean>(true);
@@ -37,7 +37,48 @@ const Component = () => {
       setOpen(true);
     }, 1000);
   }, []);
-
+  const mockNotifications : NotificationType[] = [
+    {
+      id: 1,
+      user_id: '1',
+      notification_type: 'new_follower',
+      data: {
+        follower_id: '2',
+        follower_name: 'John Doe',
+        follower_avatar: '/avatars/1.png',
+      },
+      created_at: '2023-06-10T10:30:00Z',
+      read: false,
+    },
+    {
+      id: 2,
+      user_id: '1',
+      notification_type: 'organization_invite',
+      data: {
+        organization_id: '1',
+        organization_name: 'Acme Inc.',
+        inviter_id: '3',
+        inviter_name: 'Jane Smith',
+      },
+      created_at: '2023-06-09T14:45:00Z',
+      read: true,
+    },
+    {
+      id: 3,
+      user_id: '1',
+      notification_type: 'campaign_progress_update',
+      data: {
+        campaign_id: '1',
+        campaign_name: 'Summer Sale',
+        progress_percentage: 75,
+        target_amount: 10000,
+        current_amount: 7500,
+      },
+      created_at: '2023-06-08T09:15:00Z',
+      read: false,
+    },
+    // Add more mock notifications...
+  ];
   return (
     <Box
       height="100%"
@@ -157,7 +198,7 @@ const Component = () => {
                 overflow="hidden"
                 flex={1}
               >
-                <DrawerContent />
+                <DrawerContent notifications={mockNotifications} />
               </Box>
               <Divider />
               <CardActions

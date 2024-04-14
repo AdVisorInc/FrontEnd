@@ -5,6 +5,7 @@ import { createClient as createSupabaseClient } from "../utils/supabase/client";
 import { User } from "../mocks/users";
 import {PlaceType} from "../components/application-ui/dropdowns/google-maps/google-maps-dropdown";
 import { toast } from 'react-hot-toast';
+import {createUserActivity} from "./userActivities";
 interface UserProfileState {
   isLoaded: boolean;
   data: User | null;
@@ -152,6 +153,7 @@ export const fetchUserProfile = (): AppThunk => async (dispatch) => {
           color: '#fff',
         },
       });
+
     } else {
       throw new Error('User not authenticated');
     }
@@ -258,6 +260,10 @@ export const uploadProfileImage = (file: File): AppThunk => async (dispatch, get
         color: '#fff',
       },
     });
+    dispatch(createUserActivity({
+      activity_type: 'profile_image_uploaded',
+      metadata: { url: publicUrl },
+    }));
   } catch (error) {
     console.error('Error uploading profile image:', error.message);
     toast.error('Failed to upload profile image',{
@@ -319,6 +325,10 @@ export const uploadCoverImage = (file: File): AppThunk => async (dispatch, getSt
         color: '#fff',
       },
     });
+    dispatch(createUserActivity({
+      activity_type: 'cover_image_uploaded',
+      metadata: { url: publicUrl },
+    }));
   } catch (error) {
     console.error('Error uploading cover image:', error.message);
     toast.error('Failed to upload cover image',{
@@ -439,6 +449,10 @@ export const updateUserProfile = (userData: Partial<User>): AppThunk => async (d
           color: '#fff',
         },
       });
+      dispatch(createUserActivity({
+        activity_type: 'user_profile_updated',
+        metadata: { userData },
+      }));
     } else {
       throw new Error('User not authenticated');
     }

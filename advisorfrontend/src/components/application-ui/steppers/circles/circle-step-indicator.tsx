@@ -2,7 +2,7 @@ import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import { Avatar, Badge, StepIconProps, useTheme } from '@mui/material';
 import React from 'react';
 
-export const CircleStepIndicator: React.FC<StepIconProps> = (props) => {
+export const CircleStepIndicator: React.FC<StepIconProps & { completed: boolean }> = (props) => {
   const { active, completed } = props;
   const theme = useTheme();
 
