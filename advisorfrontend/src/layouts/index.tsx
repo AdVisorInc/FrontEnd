@@ -32,7 +32,9 @@ import useMenuItemsCollapsedShells from 'src/router/nav-items-generic-admin-dash
 import useMenuItemsStackedShells from 'src/router/nav-items-generic-admin-dashboard/stacked-shells';
 import useMenuItemsVerticalShells from 'src/router/nav-items-generic-admin-dashboard/vertical-shells';
 import {fetchUserProfile} from "../slices/userProfile";
-import {RootState, useDispatch, useSelector} from "../store";
+import {RootState, store, useDispatch, useSelector} from "../store";
+import { subscribeToNotifications} from "../slices/notifications";
+import {getNotificationUnsubscribe} from "../utils/notificationUtils";
 
 // import { withGuestGuard } from 'src/hocs/with-guest-guard';
 
@@ -54,6 +56,17 @@ export const Layout: FC<LayoutProps> = withAuthGuard((props) => {
       dispatch(fetchUserProfile());
     }
   }, [dispatch, userProfile]);
+  useEffect(() => {
+    dispatch(subscribeToNotifications());
+
+    return () => {
+      const unsubscribe = getNotificationUnsubscribe();
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, [dispatch]);
+
   switch (customization.layout) {
     // Vertical Shells
     case 'vertical-shells-dark':

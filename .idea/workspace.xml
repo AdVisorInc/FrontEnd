@@ -4,19 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Added Dynamic Navigation, fixed org creation">
-      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/stacked-lists/recent-activity/ad-activity.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/stacked-lists/recent-activity/recent-activity-user.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/timelines/basic/user-timeline.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/performanceMetrics.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/userActivities.ts" afterDir="false" />
+    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Fixed type issues">
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/notifications.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/utils/notificationUtils.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/overview/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/overview/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/description-grid-lists/organizations-list/organizations-list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/description-grid-lists/organizations-list/organizations-list.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/section-headings/basic/basic.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/section-headings/basic/basic.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/stats-grid-lists/alterante-icon-indicators-vertical/alternate-icon-indicators-vertical.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/stats-grid-lists/alterante-icon-indicators-vertical/alternate-icon-indicators-vertical.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/userProfile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/userProfile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/collapsed-shells/double-dark/header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/collapsed-shells/double-dark/header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/drawer-content.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/drawer-content.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/notifications-header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/notifications-header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/notifications.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/notifications.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/tabs/line/line.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/tabs/line/line.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/layouts/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/layouts/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -176,7 +173,7 @@
       <workItem from="1712240600912" duration="155000" />
       <workItem from="1712240765673" duration="1593000" />
       <workItem from="1712260370750" duration="87274000" />
-      <workItem from="1712948518760" duration="29128000" />
+      <workItem from="1712948518760" duration="35612000" />
     </task>
     <task id="LOCAL-00001" summary="Update package-lock.json">
       <option name="closed" value="true" />
@@ -298,7 +295,23 @@
       <option name="project" value="LOCAL" />
       <updated>1712965937591</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Create tables for user, organizations and campaign activity. Created recent activity component, and backend connections. &#10;&#10;[WIP] Notifications and links">
+      <option name="closed" value="true" />
+      <created>1713061003667</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1713061003667</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Fixed type issues">
+      <option name="closed" value="true" />
+      <created>1713062713767</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1713062713767</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -339,6 +352,8 @@
     <MESSAGE value="Created Layouts for organization and main overview. &#10;&#10;[WIP] Campaign management page" />
     <MESSAGE value="[WIP] organization-creation.tsx" />
     <MESSAGE value="Added Dynamic Navigation, fixed org creation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Dynamic Navigation, fixed org creation" />
+    <MESSAGE value="Create tables for user, organizations and campaign activity. Created recent activity component, and backend connections. &#10;&#10;[WIP] Notifications and links" />
+    <MESSAGE value="Fixed type issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed type issues" />
   </component>
 </project>

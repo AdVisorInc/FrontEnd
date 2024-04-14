@@ -31,6 +31,8 @@ import { usePopover } from 'src/hooks/use-popover';
 import useScrollDirection from 'src/hooks/use-scroll-direction';
 import { HEADER_HEIGHT, SIDEBAR_WIDTH } from 'src/theme/utils';
 import {MenuItem} from "../../../../router/menuItem";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../store";
 
 const HeaderWrapper = styled(AppBar)(({ theme }) => ({
   height: HEADER_HEIGHT,
@@ -62,6 +64,8 @@ export const Header: FC<HeaderProps> = (props) => {
   const notifications = useDialog();
   const widgets = useDialog();
   const popoverChat = usePopover<HTMLButtonElement>();
+  const notificationsData = useSelector((state: RootState) => state.notification.notifications);
+  const unreadCount = notificationsData.filter((notification) => !notification.read).length;
 
   const user = {
     avatar: '/avatars/3.png',
@@ -181,20 +185,22 @@ export const Header: FC<HeaderProps> = (props) => {
                   }}
                   color="inherit"
                   onClick={notifications.handleOpen}
-                >
+                >{unreadCount > 0 ?
                   <PulseBadge
-                    sx={{
-                      '& .MuiBadge-badge': {
-                        boxShadow: 'none',
-                      },
-                    }}
-                    overlap="rectangular"
-                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                    variant="dot"
-                    color="success"
-                  >
-                    <NotificationsNoneRoundedIcon />
-                  </PulseBadge>
+                  sx={{
+                    '& .MuiBadge-badge': {
+                      boxShadow: 'none',
+                    },
+                  }}
+                  overlap="rectangular"
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  variant="dot"
+                  color={unreadCount > 0 ? 'success' : 'error'}
+                >
+                  <NotificationsNoneRoundedIcon />
+                </PulseBadge> :
+                  <NotificationsNoneRoundedIcon />
+                }
                 </IconButton>
                 <LanguageDropdown
                   color="inherit"

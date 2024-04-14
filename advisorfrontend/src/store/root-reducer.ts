@@ -6,6 +6,7 @@ import {reducer as userProfileReducer} from 'src/slices/userProfile';
 import {reducer as organizationReducer} from 'src/slices/organization'
 import {reducer as performanceMetricsReducer} from 'src/slices/performanceMetrics'
 import {reducer as userActivitiesReducer} from 'src/slices/userActivities'
+import {reducer as notificationReducer} from 'src/slices/notifications'
 
 export const rootReducer = combineReducers({
   calendar: calendarReducer,
@@ -14,5 +15,6 @@ export const rootReducer = combineReducers({
   userProfile: userProfileReducer,
   organization: organizationReducer,
   performanceMetrics: performanceMetricsReducer,
-  userActivity: userActivitiesReducer
+  userActivity: userActivitiesReducer,
+  notification: notificationReducer
 });

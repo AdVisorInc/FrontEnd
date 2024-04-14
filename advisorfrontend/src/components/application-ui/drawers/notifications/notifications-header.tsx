@@ -13,17 +13,61 @@ import {
   useTheme,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import { FC } from 'react';
+import {FC, useEffect} from 'react';
 import { useTranslation } from 'react-i18next';
 import NotificationTabsLine from 'src/components/application-ui/tabs/line/line';
 import { ButtonSoft } from 'src/components/base/styles/button-soft';
-import DrawerContent from './drawer-content';
+import DrawerContent, {NotificationType} from './drawer-content';
+import {RootState, useDispatch, useSelector} from "../../../../store";
+import {fetchNotifications, subscribeToNotifications} from "../../../../slices/notifications";
+import {getNotificationUnsubscribe} from "../../../../utils/notificationUtils";
 
 interface NotificationsHeaderProps {
   onOpen?: () => void;
   onClose?: () => void;
   open?: boolean;
 }
+const mockNotifications : NotificationType[] = [
+  {
+    id: 1,
+    user_id: '1',
+    notification_type: 'new_follower',
+    data: {
+      follower_id: '2',
+      follower_name: 'John Doe',
+      follower_avatar: '/avatars/1.png',
+    },
+    created_at: '2023-06-10T10:30:00Z',
+    read: false,
+  },
+  {
+    id: 2,
+    user_id: '1',
+    notification_type: 'organization_invite',
+    data: {
+      organization_id: '1',
+      organization_name: 'Acme Inc.',
+      inviter_id: '3',
+      inviter_name: 'Jane Smith',
+    },
+    created_at: '2023-06-09T14:45:00Z',
+    read: true,
+  },
+  {
+    id: 3,
+    user_id: '1',
+    notification_type: 'campaign_progress_update',
+    data: {
+      campaign_id: '1',
+      campaign_name: 'Summer Sale',
+      progress_percentage: 75,
+      target_amount: 10000,
+      current_amount: 7500,
+    },
+    created_at: '2023-06-08T09:15:00Z',
+    read: false,
+  },
+];
 
 export const NotificationsHeader: FC<NotificationsHeaderProps> = (props) => {
   const { onClose, onOpen, open = false, ...other } = props;
@@ -37,6 +81,20 @@ export const NotificationsHeader: FC<NotificationsHeaderProps> = (props) => {
       onClose();
     }
   };
+  const dispatch = useDispatch();
+  const notifications = useSelector((state: RootState) => state.notification.notifications);
+
+  useEffect(() => {
+    dispatch(fetchNotifications());
+    dispatch(subscribeToNotifications());
+
+    return () => {
+      const unsubscribe = getNotificationUnsubscribe();
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, [dispatch]);
 
   return (
     <SwipeableDrawer
@@ -103,14 +161,15 @@ export const NotificationsHeader: FC<NotificationsHeaderProps> = (props) => {
               theme.palette.mode === 'dark' ? alpha(theme.palette.neutral[25], 0.02) : 'neutral.25',
           }}
         >
-          <NotificationTabsLine />
+          <NotificationTabsLine notifications={notifications} />
+
         </Box>
         {!smUp && <Divider />}
         <Box
           overflow="hidden"
           flex={1}
         >
-          <DrawerContent />
+          <DrawerContent notifications={notifications} />
         </Box>
         <Divider />
         <CardActions
