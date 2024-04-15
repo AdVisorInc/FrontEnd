@@ -19,9 +19,9 @@ import { DefaultizedPieValueType } from '@mui/x-charts';
 import { pieArcLabelClasses, PieChart } from '@mui/x-charts/PieChart';
 import { Fragment, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 import { AvatarState } from 'src/components/base/styles/avatar';
 import { fetchAdData } from '../../../../slices/analytics';
+import {useDispatch} from "../../../../store";
 
 type PlatformData = {
   symbol: string;
