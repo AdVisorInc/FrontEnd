@@ -11,4 +11,9 @@ const config = {
   },
 };
 
-module.exports = config;
+module.exports = {
+  config,
+  env: {
+    META_ACCESS_TOKEN: '',
+  },
+};

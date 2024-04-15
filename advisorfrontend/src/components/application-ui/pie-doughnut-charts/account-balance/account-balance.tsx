@@ -19,9 +19,9 @@ import { DefaultizedPieValueType } from '@mui/x-charts';
 import { pieArcLabelClasses, PieChart } from '@mui/x-charts/PieChart';
 import { Fragment, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 import { AvatarState } from 'src/components/base/styles/avatar';
-import { fetchAdData } from '../../../../slices/analytics';
+import { fetchSpendData } from '../../../../slices/analytics';
+import { useDispatch, useSelector } from '../../../../store';
 
 type PlatformData = {
   symbol: string;
@@ -85,19 +85,52 @@ const ListItemAvatarWrapper = styled(ListItemAvatar)(({ theme }) => ({
 function AccountBalance() {
   const { t } = useTranslation();
   const theme = useTheme();
+
   const dispatch = useDispatch();
+  const { data, isLoaded, error } = useSelector((state) => state.analytics);
 
   useEffect(() => {
-    dispatch(fetchAdData('120207851692320476')); // Replace 'your-ad-id' with the actual ID if dynamic
+    dispatch(fetchSpendData());
   }, [dispatch]);
 
-  const data = [
+  // ###########################################################################
+  // EDIT THIS BLOCK
+  if (!isLoaded) {
+    return <Box>Loading...</Box>; // Use MUI's Box for consistent styling
+  }
+
+  if (error) {
+    return <Box sx={{ color: 'error.main' }}>Error: {error}</Box>;
+  }
+
+  if (!data) {
+    return <Box>No data available.</Box>;
+  }
+
+  // ###########################################################################
+
+  const calculateChange = () => {
+    let thisMonthCurrent = 0;
+    let lastMonthCurrent = 0;
+    if (!(data.thisMonth.length === 0)) {
+      thisMonthCurrent = data.thisMonth[0].spend;
+    }
+    if (!(data.lastMonth.length === 0)) {
+      lastMonthCurrent = data.lastMonth[0].spend;
+    }
+    return [thisMonthCurrent - lastMonthCurrent, thisMonthCurrent, lastMonthCurrent];
+  };
+
+  const [change, thisMonthCurrent, lastMonthCurrent] = calculateChange();
+  const sign = change >= 0 ? '+' : '-';
+
+  const datad = [
     { label: 'Google', color: theme.palette.error.main, value: 40 },
     { label: 'Meta', color: theme.palette.success.main, value: 40 },
     { label: 'X', color: theme.palette.warning.main, value: 20 },
   ];
 
-  const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
+  const TOTAL = datad.map((item) => item.value).reduce((a, b) => a + b, 0);
 
   const getArcLabel = (params: DefaultizedPieValueType) => {
     const percent = params.value / TOTAL;
@@ -106,6 +139,10 @@ function AccountBalance() {
 
   return (
     <Card>
+      <Box
+        display="flex"
+        flexDirection="column"
+      ></Box>
       <Grid
         spacing={0}
         container
@@ -123,7 +160,7 @@ function AccountBalance() {
           >
             <Typography variant="h4">{t('Total Ad Spend')}</Typography>
             <Box>
-              <Typography variant="h1">$54,584.23</Typography>
+              <Typography variant="h1">${thisMonthCurrent}</Typography>
             </Box>
             <Box
               display="flex"
@@ -142,7 +179,12 @@ function AccountBalance() {
                 <TrendingUp />
               </AvatarState>
               <Box>
-                <Typography variant="h4">+ $3,594.00</Typography>
+                <Typography
+                  variant="h4"
+                  color={change >= 0 ? 'primary' : 'error'}
+                >
+                  {sign} ${Math.abs(change).toFixed(2)}
+                </Typography>
                 <Typography
                   variant="subtitle2"
                   noWrap
@@ -195,7 +237,7 @@ function AccountBalance() {
               <PieChart
                 series={[
                   {
-                    data,
+                    data: datad,
                     innerRadius: 55,
                     outerRadius: 100,
                     paddingAngle: 5,
