@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 const generateRandomData = (): number[] =>
   Array.from({ length: 8 }, () => Math.floor(Math.random() * 500));
 
-function Component() {
+function AudienceMetrics() {
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -36,7 +36,7 @@ function Component() {
               lineHeight={1}
               color="text.secondary"
             >
-              {t('Customers')}
+              {t('Engagement Rate')}
             </Typography>
             <Typography
               fontWeight={700}
@@ -47,7 +47,7 @@ function Component() {
                 pt: 1.5,
               }}
             >
-              653
+              0.5%
             </Typography>
             <Typography
               lineHeight={1}
@@ -106,7 +106,7 @@ function Component() {
               lineHeight={1}
               color="text.secondary"
             >
-              {t('Growth')}
+              {t('Reach')}
             </Typography>
             <Typography
               fontWeight={700}
@@ -117,7 +117,7 @@ function Component() {
                 pt: 1.5,
               }}
             >
-              $586
+              55,842
             </Typography>
             <Typography
               lineHeight={1}
@@ -176,7 +176,7 @@ function Component() {
               lineHeight={1}
               color="text.secondary"
             >
-              {t('Orders')}
+              {t('Frequency')}
             </Typography>
             <Typography
               fontWeight={700}
@@ -187,7 +187,7 @@ function Component() {
                 pt: 1.5,
               }}
             >
-              276
+              3.5
             </Typography>
             <Typography
               lineHeight={1}
@@ -337,4 +337,4 @@ function Component() {
   );
 }
 
-export default Component;
+export default AudienceMetrics;
