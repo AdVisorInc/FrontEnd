@@ -20,6 +20,7 @@ export type AppThunk<ReturnType = Promise<void>> = ThunkAction<
   unknown,
   AnyAction
 >;
+
 export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector;
 
 export const useDispatch = () => useReduxDispatch<AppDispatch>();
