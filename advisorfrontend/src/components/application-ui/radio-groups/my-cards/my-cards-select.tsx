@@ -11,7 +11,7 @@ import {
   Stack,
   Tooltip,
   Typography,
-  useTheme, Dialog, DialogTitle, DialogContent, DialogActions, Button,
+  useTheme, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField,
 } from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import toast from 'react-hot-toast';
@@ -26,7 +26,14 @@ import {
   fetchOrCreateCustomer,
   fetchPaymentMethods, removePaymentMethod, updateBillingDetails, updateDefaultPaymentMethod
 } from "../../../../slices/stripe";
-import {CardElement, CardElementComponent, useElements, useStripe} from "@stripe/react-stripe-js";
+import {
+  AddressElement, AddressElementComponent,
+  CardElement,
+  CardElementComponent, Elements, ElementsConsumer,
+  useElements,
+  useStripe
+} from "@stripe/react-stripe-js";
+import { alpha } from '@mui/material/styles';
 
 interface Item {
   id: number;
@@ -86,12 +93,21 @@ const MyCardsSelect = () => {
     setOpenDialog(false);
   };
 
-  const handleAddCard = async () => {
+  const handleAddCard = async (elements: any | null) => {
     if (!stripe || !elements) {
       return;
     }
 
     const cardElement = elements.getElement(CardElement) as CardElementComponent;
+    const addressElement = elements.getElement(AddressElement) as AddressElementComponent;
+
+    if (!addressElement) {
+      console.error('AddressElement not found');
+      return;
+    }
+
+    const { error: addressError, value: billingDetails } = await addressElement.getValue();
+
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: cardElement,
@@ -119,35 +135,34 @@ const MyCardsSelect = () => {
       toast.success('New card added successfully!');
     }
   };
-  const [billingDetails, setBillingDetails] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: {
-      line1: '',
-      city: '',
-      state: '',
-      postal_code: '',
-      country: '',
+  const stripeElementStyle = {
+    base: {
+      fontSize: '16px',
+      color: `${theme.palette.text.primary} !important`,
+      backgroundColor: `${theme.palette.background.paper} !important`,
+      '::placeholder': {
+        color: `${theme.palette.text.secondary} !important`,
+        backgroundColor: `${alpha(theme.palette.background.paper, 0.5)} !important`,
+      },
+      ':-webkit-autofill': {
+        WebkitTextFillColor: `${theme.palette.text.primary} !important`,
+      },
     },
-  });
-
-  const handleBillingDetailsChange = (field, value) => {
-    if (field === 'address') {
-      setBillingDetails((prevDetails) => ({
-        ...prevDetails,
-        address: {
-          ...prevDetails.address,
-          ...value,
-        },
-      }));
-    } else {
-      setBillingDetails((prevDetails) => ({
-        ...prevDetails,
-        [field]: value,
-      }));
-    }
+    invalid: {
+      color: `${theme.palette.error.main} !important`,
+    },
   };
+  const appearance = {
+    theme: 'stripe' as const,
+    variables: {
+      fontFamily: theme.typography.fontFamily,
+      fontSizeBase: '16px',
+      colorText: theme.palette.text.primary,
+      colorTextPlaceholder: theme.palette.text.secondary,
+      colorBackground: theme.palette.background.paper,
+    },
+  };
+
   return (
     <Grid
       container
@@ -333,34 +348,53 @@ const MyCardsSelect = () => {
           </CardActionArea>
         </CardAddActionDashed>
       </Grid>
-      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
         <DialogTitle>{t('Add a New Card')}</DialogTitle>
         <DialogContent>
-          <Box mt={2}>
-            <CardElement
-              options={{
-                style: {
-                  base: {
-                    fontSize: '16px',
-                    color: theme.palette.text.primary,
-                    '::placeholder': {
-                      color: theme.palette.text.secondary,
-                    },
-                  },
-                  invalid: {
-                    color: theme.palette.error.main,
-                  },
-                },
-              }}
-            />
-          </Box>
+          <Elements stripe={stripe} options={{ appearance }}>
+            <ElementsConsumer>
+              {({ elements }) => (
+                <>
+                  <Box mt={2}>
+                    <CardElement
+                      options={{
+                        style: {
+                          base: {
+                            fontSize: '16px',
+                            color: theme.palette.text.primary,
+                            '::placeholder': {
+                              color: theme.palette.text.secondary,
+                            },
+                          },
+                          invalid: {
+                            color: theme.palette.error.main,
+                          },
+                        },
+                      }}
+                    />
+                  </Box>
+                  <Box mt={2}>
+                    <AddressElement
+                      options={{
+                        mode: 'billing',
+                        autocomplete: {
+                          mode: 'google_maps_api',
+                          apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+                        },
+                      }}
+                    />
+                  </Box>
+                  <DialogActions>
+                    <Button onClick={handleCloseDialog}>{t('Cancel')}</Button>
+                    <Button variant="contained" onClick={() => handleAddCard(elements)}>
+                      {t('Add Card')}
+                    </Button>
+                  </DialogActions>
+                </>
+              )}
+            </ElementsConsumer>
+          </Elements>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>{t('Cancel')}</Button>
-          <Button variant="contained" onClick={handleAddCard}>
-            {t('Add Card')}
-          </Button>
-        </DialogActions>
       </Dialog>
     </Grid>
   );

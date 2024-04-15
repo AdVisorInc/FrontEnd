@@ -168,11 +168,20 @@ export const addPaymentMethod = (customerId: string, paymentMethodId: string): A
     });
   }
 };
-export const removePaymentMethod = (paymentMethodId: string): AppThunk => async (dispatch) => {
+export const removePaymentMethod = (paymentMethodId: string): AppThunk => async (dispatch, getState) => {
   try {
     const paymentMethod = await stripe.paymentMethods.detach(paymentMethodId);
     console.log('Removed payment method:', paymentMethod);
-    dispatch(fetchPaymentMethods(paymentMethod.customer as string));
+
+    // Get the customerId from the Redux state
+    const { customerId } = getState().stripe;
+
+    if (customerId) {
+      // Fetch payment methods using the customerId from the state
+      dispatch(fetchPaymentMethods(customerId));
+    } else {
+      console.warn('CustomerId not found in the state');
+    }
   } catch (error) {
     console.error('Failed to remove payment method:', error);
     toast.error('Failed to remove payment method', {
