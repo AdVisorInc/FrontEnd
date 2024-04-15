@@ -227,46 +227,55 @@ export const uploadProfileImage = (file: File): AppThunk => async (dispatch, get
   try {
     const supabaseClient = createSupabaseClient();
     const state = getState();
-    const currentProfileUrl = state.userProfile.data?.avatar_url;
     const userId = state.userProfile.data?.uuid;
 
-    console.log("UserID", userId);
+    if (userId) {
+      const { data: profileImages, error: listError } = await supabaseClient.storage
+        .from('profile-images')
+        .list(`${userId}/`);
 
-    if (currentProfileUrl) {
-      const currentFileName = currentProfileUrl.split('/').pop();
-      await supabaseClient.storage.from('profile-images').remove([`${userId}/${currentFileName}`]);
+      if (listError) {
+        throw new Error(listError.message);
+      }
+
+      if (profileImages && profileImages.length > 5) {
+        const oldestImage = profileImages.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())[0];
+        await supabaseClient.storage.from('profile-images').remove([`${userId}/${oldestImage.name}`]);
+      }
+
+      const fileName = `${Date.now()}_${file.name}`;
+      const filePath = `${userId}/${fileName}`;
+
+      const { data, error } = await supabaseClient.storage
+        .from('profile-images')
+        .upload(filePath, file);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      const { data: { publicUrl } } = supabaseClient.storage
+        .from('profile-images')
+        .getPublicUrl(filePath);
+
+      dispatch(updateProfileUrl(publicUrl));
+      toast.success('Profile image uploaded successfully', {
+        position: 'bottom-left',
+        style: {
+          background: '#4caf50',
+          color: '#fff',
+        },
+      });
+      dispatch(createUserActivity({
+        activity_type: 'profile_image_uploaded',
+        metadata: { url: publicUrl },
+      }));
+    } else {
+      throw new Error('User not authenticated');
     }
-
-    const fileName = `${Date.now()}_${file.name}`;
-    const filePath = `${userId}/${fileName}`;
-
-    const { data, error } = await supabaseClient.storage
-      .from('profile-images')
-      .upload(filePath, file);
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    const { data: { publicUrl } } = supabaseClient.storage
-      .from('profile-images')
-      .getPublicUrl(filePath);
-
-    dispatch(updateProfileUrl(publicUrl));
-    toast.success('Profile image uploaded successfully', {
-      position: 'bottom-left',
-      style: {
-        background: '#4caf50',
-        color: '#fff',
-      },
-    });
-    dispatch(createUserActivity({
-      activity_type: 'profile_image_uploaded',
-      metadata: { url: publicUrl },
-    }));
   } catch (error) {
     console.error('Error uploading profile image:', error.message);
-    toast.error('Failed to upload profile image',{
+    toast.error('Failed to upload profile image', {
       position: 'bottom-left',
       style: {
         background: '#f44336',
@@ -275,63 +284,59 @@ export const uploadProfileImage = (file: File): AppThunk => async (dispatch, get
     });
   }
 };
-
 export const uploadCoverImage = (file: File): AppThunk => async (dispatch, getState) => {
   try {
     const supabaseClient = createSupabaseClient();
     const state = getState();
-    const currentCoverUrl = state.userProfile.data?.cover_url;
     const userId = state.userProfile.data?.uuid;
 
-    console.log("Useruuid", userId);
+    if (userId) {
+      const { data: coverImages, error: listError } = await supabaseClient.storage
+        .from('cover-images')
+        .list(`${userId}/`);
 
-    if (currentCoverUrl) {
-      const currentFileName = currentCoverUrl.split('/').pop();
-      console.log("Current File Name:", currentFileName);
-
-      if (currentFileName) {
-        const { data, error } = await supabaseClient.storage
-          .from('cover-images')
-          .remove([`${userId}/${currentFileName}`]);
-        console.log(data);
-        if (error) {
-          console.error('Error deleting previous cover image:', error.message);
-        } else {
-          console.log('Previous cover image deleted successfully');
-        }
+      if (listError) {
+        throw new Error(listError.message);
       }
+
+      if (coverImages && coverImages.length > 5) {
+        const oldestImage = coverImages.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())[0];
+        await supabaseClient.storage.from('cover-images').remove([`${userId}/${oldestImage.name}`]);
+      }
+
+      const fileName = `${Date.now()}_${file.name}`;
+      const filePath = `${userId}/${fileName}`;
+
+      const { data, error } = await supabaseClient.storage
+        .from('cover-images')
+        .upload(filePath, file);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      const { data: { publicUrl } } = supabaseClient.storage
+        .from('cover-images')
+        .getPublicUrl(filePath);
+
+      dispatch(updateCoverUrl(publicUrl));
+      toast.success('Cover image uploaded successfully', {
+        position: 'bottom-left',
+        style: {
+          background: '#4caf50',
+          color: '#fff',
+        },
+      });
+      dispatch(createUserActivity({
+        activity_type: 'cover_image_uploaded',
+        metadata: { url: publicUrl },
+      }));
+    } else {
+      throw new Error('User not authenticated');
     }
-
-    const fileName = `${Date.now()}_${file.name}`;
-    const filePath = `${userId}/${fileName}`;
-
-    const { data, error } = await supabaseClient.storage
-      .from('cover-images')
-      .upload(filePath, file);
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    const { data: { publicUrl } } = supabaseClient.storage
-      .from('cover-images')
-      .getPublicUrl(filePath);
-
-    dispatch(updateCoverUrl(publicUrl));
-    toast.success('Cover image uploaded successfully',{
-      position: 'bottom-left',
-      style: {
-        background: '#4caf50',
-        color: '#fff',
-      },
-    });
-    dispatch(createUserActivity({
-      activity_type: 'cover_image_uploaded',
-      metadata: { url: publicUrl },
-    }));
   } catch (error) {
     console.error('Error uploading cover image:', error.message);
-    toast.error('Failed to upload cover image',{
+    toast.error('Failed to upload cover image', {
       position: 'bottom-left',
       style: {
         background: '#f44336',

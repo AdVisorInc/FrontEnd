@@ -124,3 +124,37 @@ export const createUserActivity = (activityData: Partial<UserActivity>): AppThun
     });
   }
 };
+export const fetchRecentUserActivities = (): AppThunk => async (dispatch) => {
+  try {
+    dispatch(slice.actions.getUserActivitiesStart());
+
+    const supabaseClient = createSupabaseClient();
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    console.log(user);
+    if (user) {
+      const { data: activities, error } = await supabaseClient
+        .from('UserActivity')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('timestamp', { ascending: false })
+        .limit(10);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      dispatch(slice.actions.getUserActivitiesSuccess(activities as UserActivity[]));
+    } else {
+      throw new Error('User not authenticated');
+    }
+  } catch (error) {
+    dispatch(slice.actions.getUserActivitiesFailure(error.message));
+    toast.error('Failed to fetch recent user activities', {
+      position: 'bottom-left',
+      style: {
+        background: '#f44336',
+        color: '#fff',
+      },
+    });
+  }
+};

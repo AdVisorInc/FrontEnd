@@ -175,7 +175,7 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({ organizationData, set
                           variant="contained"
                           color="secondary"
                           onClick={() => handleConnect(account.name)}
-                          disabled={connectingAccount !== null}
+                          disabled={connectingAccount !== null || account.name === 'google' || account.name === 'x'}
                         >
                           {t('Connect')}
                         </Button>

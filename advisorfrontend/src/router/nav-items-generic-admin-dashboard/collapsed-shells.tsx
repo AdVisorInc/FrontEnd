@@ -10,7 +10,6 @@ import {useSelector} from "../../store";
 
 const useMenuItemsCollapsedShells = (t: (token: string) => string): MenuItem[] => {
   const selectedOrganizationId = useSelector(selectSelectedOrganization);
-  console.log("Testing: ", selectedOrganizationId);
   return [
     {
       title: t('Overview'),

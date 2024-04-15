@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { Scrollbar } from 'src/components/base/scrollbar';
 import UserTimeline from "../../timelines/basic/user-timeline";
 import {RootState, useDispatch, useSelector} from "../../../../store";
-import {fetchUserActivities} from "../../../../slices/userActivities";
+import {fetchRecentUserActivities, fetchUserActivities} from "../../../../slices/userActivities";
 import TrendingUpTwoToneIcon from '@mui/icons-material/TrendingUpTwoTone';
 import TrendingDownTwoToneIcon from '@mui/icons-material/TrendingDownTwoTone';
 import PauseTwoToneIcon from '@mui/icons-material/PauseTwoTone';
@@ -43,7 +43,7 @@ function Component() {
   const [tabs, setTab] = useState<string | null>('activity');
 
   useEffect(() => {
-    dispatch(fetchUserActivities());
+    dispatch(fetchRecentUserActivities());
   }, [dispatch]);
 
   const handleViewOrientation = (_event: MouseEvent<HTMLElement>, newValue: string | null) => {
@@ -196,7 +196,7 @@ function Component() {
           </Box>
           <Divider />
           <Box p={2} sx={{ textAlign: 'center' }}>
-            <Button variant="contained" endIcon={<KeyboardArrowRightTwoToneIcon />}>
+            <Button variant="contained" disabled endIcon={<KeyboardArrowRightTwoToneIcon />}>
               {t('View all activity')}
             </Button>
           </Box>
