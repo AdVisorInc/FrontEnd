@@ -21,6 +21,7 @@ import OrganizationDetails from './organization-details';
 import ReviewOrganization from './review-organization';
 import ConnectAccounts from "./connect-accounts";
 import {ButtonSoft} from "../../base/styles/button-soft";
+import PricingAndBilling from './pricing-and-billing';
 
 interface OrganizationCreationProps {
   onClose: () => void;
@@ -38,6 +39,8 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
     skipConnectAccounts: false,
     connectedAccounts: {},
     selectedAccounts: {},
+    pricingPlan: null,
+    billingSettings: null,
   });
   const { t } = useTranslation();
   const theme = useTheme();
@@ -46,6 +49,7 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
   const steps = [
     { title: t('Organization Details'), description: 'Enter organization details.' },
     { title: t('Connect Accounts'), description: 'Connect your ad accounts (optional).' },
+    { title: t('Pricing and Billing'), description: 'Select a pricing plan and set up billing.' },
     { title: t('Review and Create'), description: 'Review and create the organization.' },
   ];
 
@@ -85,6 +89,8 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
       skipConnectAccounts: false,
       connectedAccounts: {},
       selectedAccounts: {},
+      pricingPlan: null,
+      billingSettings: null,
     });
   };
 
@@ -106,10 +112,13 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
         );
       case 2:
         return (
-          <ReviewOrganization
+          <PricingAndBilling
             organizationData={organizationData}
+            setOrganizationData={setOrganizationData}
           />
         );
+      case 3:
+        return <ReviewOrganization organizationData={organizationData} />;
       default:
         return null;
     }

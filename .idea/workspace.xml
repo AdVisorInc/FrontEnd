@@ -4,17 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Notification System Done Bitchessws">
+    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Header changed">
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/public/placeholders/logo/amex.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/public/placeholders/logo/discover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/pricing-and-billing.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/radio-groups/my-cards/template.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/stacked-lists/navigation-pills/nagigation-pills-overview.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/stripe.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/description-grid-lists/organizations-list/organizations-list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/description-grid-lists/organizations-list/organizations-list.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/dialogs/customization/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/dialogs/customization/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/notifications.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/drawers/notifications/notifications.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/contexts/customization.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/contexts/customization.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/env.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/overview/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/overview/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/connect-accounts.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/connect-accounts.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-creation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-creation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/radio-groups/my-cards/my-cards-select.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/radio-groups/my-cards/my-cards-select.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/stacked-lists/recent-activity/recent-activity-user.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/stacked-lists/recent-activity/recent-activity-user.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/timelines/basic/user-timeline.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/timelines/basic/user-timeline.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/timelines/tasks/tasks.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/timelines/tasks/tasks.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advisorfrontend/src/layouts/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/layouts/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/collapsed-shells.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/collapsed-shells.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/stacked-shells.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/stacked-shells.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/vertical-shells.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/vertical-shells.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/userActivities.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/userActivities.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/userProfile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/userProfile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +103,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -114,7 +126,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.start.executor": "Run",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "settings.qodana",
     "ts.external.directory.path": "C:\\Users\\Gustavo Aniceto\\WebstormProjects\\FrontEnd\\advisorfrontend\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -135,8 +147,8 @@
       <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\blueprints\generic-admin-dashboard\dashboards\organization\[organizationId]" />
       <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\public\placeholders\logo" />
+      <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\blueprints\generic-admin-dashboard\dashboards\organization\[organizationId]" />
       <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\blueprints\generic-admin-dashboard\dashboards\overview" />
       <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\blueprints\generic-admin-dashboard" />
       <recent name="C:\Users\Gustavo Aniceto\WebstormProjects\FrontEnd\advisorfrontend\src\app\general" />
@@ -173,7 +185,7 @@
       <workItem from="1712240600912" duration="155000" />
       <workItem from="1712240765673" duration="1593000" />
       <workItem from="1712260370750" duration="87274000" />
-      <workItem from="1712948518760" duration="40016000" />
+      <workItem from="1712948518760" duration="54810000" />
     </task>
     <task id="LOCAL-00001" summary="Update package-lock.json">
       <option name="closed" value="true" />
@@ -319,7 +331,23 @@
       <option name="project" value="LOCAL" />
       <updated>1713068372197</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Fixed routing error bitchessss">
+      <option name="closed" value="true" />
+      <created>1713125312037</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1713125312037</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Header changed">
+      <option name="closed" value="true" />
+      <created>1713126225905</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1713126225905</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -363,6 +391,8 @@
     <MESSAGE value="Create tables for user, organizations and campaign activity. Created recent activity component, and backend connections. &#10;&#10;[WIP] Notifications and links" />
     <MESSAGE value="Fixed type issues" />
     <MESSAGE value="Notification System Done Bitchessws" />
-    <option name="LAST_COMMIT_MESSAGE" value="Notification System Done Bitchessws" />
+    <MESSAGE value="Fixed routing error bitchessss" />
+    <MESSAGE value="Header changed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Header changed" />
   </component>
 </project>

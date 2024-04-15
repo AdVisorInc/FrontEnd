@@ -11,13 +11,22 @@ import {
   Stack,
   Tooltip,
   Typography,
-  useTheme,
+  useTheme, Dialog, DialogTitle, DialogContent, DialogActions, Button,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { ButtonIcon } from 'src/components/base/styles/button-icon';
 import { CardAddActionDashed } from 'src/components/base/styles/card';
+import {AppThunk, useDispatch, useSelector} from 'src/store';
+import {RootState} from "../../../../store";
+import {
+  addPaymentMethod,
+  createSetupIntent,
+  fetchOrCreateCustomer,
+  fetchPaymentMethods, removePaymentMethod, updateBillingDetails, updateDefaultPaymentMethod
+} from "../../../../slices/stripe";
+import {CardElement, CardElementComponent, useElements, useStripe} from "@stripe/react-stripe-js";
 
 interface Item {
   id: number;
@@ -29,42 +38,123 @@ interface Item {
 
 const MyCardsSelect = () => {
   const theme = useTheme();
-  const { t } = useTranslation();
+  const {t} = useTranslation();
+  const {data: user, isLoaded, error} = useSelector((state: RootState) => state.userProfile);
+  const dispatch = useDispatch();
+  const {
+    customerId,
+    setupIntentClientSecret,
+    paymentMethods
+  } = useSelector((state: RootState) => state.stripe);
+  const stripe = useStripe();
+  const elements = useElements();
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
-  const items: Item[] = [
-    {
-      id: 1,
-      image: '/placeholders/logo/visa.png',
-      cc: '6979',
-      expires: '12/25',
-      title: t('Visa'),
-    },
-    {
-      id: 2,
-      image: '/placeholders/logo/mastercard.png',
-      cc: '5724',
-      expires: '06/26',
-      title: t('Mastercard'),
-    },
-  ];
+  useEffect(() => {
+    if (user && user.email) {
+      dispatch(fetchOrCreateCustomer(user.email));
+    }
+  }, [user, dispatch]);
+  useEffect(() => {
+    if (customerId) {
+      dispatch(fetchPaymentMethods(customerId));
+      dispatch(createSetupIntent(customerId));
+    }
+  }, [customerId, dispatch]);
 
-  const [selectedValue, setSelectedValue] = useState<number>(items[0].id);
+
+  useEffect(() => {
+    if (paymentMethods.length > 0) {
+      setSelectedValue(paymentMethods[0].id);
+    }
+  }, [paymentMethods]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(parseInt(event.target.value));
+    setSelectedValue(event.target.value);
+    dispatch(updateDefaultPaymentMethod(customerId, event.target.value));
   };
-
-  const handleDelete = () => {
+  const handleDelete = async (paymentMethodId: string) => {
+    dispatch(removePaymentMethod(paymentMethodId));
     toast.success('The card has been removed successfully!');
   };
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
 
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleAddCard = async () => {
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const cardElement = elements.getElement(CardElement) as CardElementComponent;
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+      billing_details: {
+        name: billingDetails.name,
+        email: billingDetails.email,
+        phone: billingDetails.phone,
+        address: {
+          line1: billingDetails.address.line1,
+          city: billingDetails.address.city,
+          state: billingDetails.address.state,
+          postal_code: billingDetails.address.postal_code,
+          country: billingDetails.address.country,
+        },
+      },
+    });
+
+    if (error) {
+      console.error('Failed to create payment method:', error);
+      toast.error('Failed to add card. Please try again.');
+    } else {
+      dispatch(addPaymentMethod(customerId, paymentMethod.id));
+      dispatch(updateBillingDetails(customerId, billingDetails));
+      setOpenDialog(false);
+      toast.success('New card added successfully!');
+    }
+  };
+  const [billingDetails, setBillingDetails] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: {
+      line1: '',
+      city: '',
+      state: '',
+      postal_code: '',
+      country: '',
+    },
+  });
+
+  const handleBillingDetailsChange = (field, value) => {
+    if (field === 'address') {
+      setBillingDetails((prevDetails) => ({
+        ...prevDetails,
+        address: {
+          ...prevDetails.address,
+          ...value,
+        },
+      }));
+    } else {
+      setBillingDetails((prevDetails) => ({
+        ...prevDetails,
+        [field]: value,
+      }));
+    }
+  };
   return (
     <Grid
       container
       columns={24}
       spacing={2}
     >
-      {items.map((item) => (
+      {paymentMethods.map((item) => (
         <Grid
           key={item.id}
           xs={24}
@@ -118,7 +208,7 @@ const MyCardsSelect = () => {
                   elevation={8}
                   sx={{
                     display: 'flex',
-                    px: item.id === 2 ? 2 : 1,
+                    px: 2,
                     mr: 2,
                     py: 1.5,
                     img: {
@@ -127,10 +217,8 @@ const MyCardsSelect = () => {
                     },
                   }}
                 >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                  />
+                  <img src={`/placeholders/logo/${item.card.brand.toLowerCase()}.png`}
+                       alt={item.card.brand}/>
                 </Card>
                 <Box flex={1}>
                   <Typography
@@ -139,7 +227,7 @@ const MyCardsSelect = () => {
                     lineHeight={1}
                     gutterBottom
                   >
-                    •••• {item.cc}
+                    •••• {item.card.last4}
                   </Typography>
                   <Typography
                     variant="h6"
@@ -152,7 +240,7 @@ const MyCardsSelect = () => {
                       variant="h6"
                       color="text.primary"
                     >
-                      {item.expires}
+                      {item.card.exp_month}/{item.card.exp_year}
                     </Typography>
                   </Typography>
                 </Box>
@@ -171,7 +259,7 @@ const MyCardsSelect = () => {
                   size="small"
                   edge="start"
                   name="radio-buttons"
-                  inputProps={{ 'aria-label': 'Set' + item.title + 'as primary card' }}
+                  inputProps={{'aria-label': 'Set' + item.card.brand + 'as primary card'}}
                   color="primary"
                 />
                 <Typography
@@ -194,9 +282,9 @@ const MyCardsSelect = () => {
                   variant="outlined"
                   size="small"
                   color="error"
-                  onClick={() => handleDelete()}
+                  onClick={() => handleDelete(item.id)}
                 >
-                  <DeleteTwoToneIcon fontSize="small" />
+                  <DeleteTwoToneIcon fontSize="small"/>
                 </ButtonIcon>
               </Tooltip>
             </ListItemButton>
@@ -210,9 +298,9 @@ const MyCardsSelect = () => {
         <CardAddActionDashed
           variant="outlined"
           elevation={0}
-          sx={{ minWidth: 160, flex: 1 }}
+          sx={{minWidth: 160, flex: 1}}
         >
-          <CardActionArea>
+          <CardActionArea onClick={handleOpenDialog}>
             <CardContent>
               <Stack
                 spacing={0.5}
@@ -245,8 +333,39 @@ const MyCardsSelect = () => {
           </CardActionArea>
         </CardAddActionDashed>
       </Grid>
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+        <DialogTitle>{t('Add a New Card')}</DialogTitle>
+        <DialogContent>
+          <Box mt={2}>
+            <CardElement
+              options={{
+                style: {
+                  base: {
+                    fontSize: '16px',
+                    color: theme.palette.text.primary,
+                    '::placeholder': {
+                      color: theme.palette.text.secondary,
+                    },
+                  },
+                  invalid: {
+                    color: theme.palette.error.main,
+                  },
+                },
+              }}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>{t('Cancel')}</Button>
+          <Button variant="contained" onClick={handleAddCard}>
+            {t('Add Card')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 };
 
 export default MyCardsSelect;
+
+
