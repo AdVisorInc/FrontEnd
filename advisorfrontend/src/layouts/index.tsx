@@ -35,6 +35,8 @@ import {fetchUserProfile} from "../slices/userProfile";
 import {RootState, store, useDispatch, useSelector} from "../store";
 import { subscribeToNotifications} from "../slices/notifications";
 import {getNotificationUnsubscribe} from "../utils/notificationUtils";
+import {Elements} from "@stripe/react-stripe-js";
+import { loadStripe } from '@stripe/stripe-js';
 
 // import { withGuestGuard } from 'src/hocs/with-guest-guard';
 
@@ -42,6 +44,7 @@ interface LayoutProps {
   children?: ReactNode;
   menuItems?: MenuItem[];
 }
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 export const Layout: FC<LayoutProps> = withAuthGuard((props) => {
   const customization = useCustomization();
@@ -126,10 +129,13 @@ export const Layout: FC<LayoutProps> = withAuthGuard((props) => {
 
   return (
     <>
+      <Elements stripe={stripePromise}>
       <ShellComponent
         menuItems={menuItems}
         {...props}
       />
+      </Elements>
+
     </>
   );
 });

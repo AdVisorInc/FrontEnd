@@ -8,7 +8,7 @@ import {
   AppBar,
   Avatar,
   Divider,
-  IconButton,
+  IconButton, Skeleton,
   Stack,
   styled,
   Theme,
@@ -31,8 +31,8 @@ import { usePopover } from 'src/hooks/use-popover';
 import useScrollDirection from 'src/hooks/use-scroll-direction';
 import { HEADER_HEIGHT, SIDEBAR_WIDTH } from 'src/theme/utils';
 import {MenuItem} from "../../../../router/menuItem";
-import {useSelector} from "react-redux";
-import {RootState} from "../../../../store";
+import {RootState, useDispatch, useSelector} from "../../../../store";
+import {ProfileDropdown} from "../../dropdowns/profile/profile-dropdown";
 
 const HeaderWrapper = styled(AppBar)(({ theme }) => ({
   height: HEADER_HEIGHT,
@@ -67,11 +67,9 @@ export const Header: FC<HeaderProps> = (props) => {
   const notificationsData = useSelector((state: RootState) => state.notification.notifications);
   const unreadCount = notificationsData.filter((notification) => !notification.read).length;
 
-  const user = {
-    avatar: '/avatars/3.png',
-    name: 'Ethan Donovan',
-    jobTitle: 'Principal Engineer',
-  };
+
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.userProfile.data);
   return (
     <HeaderWrapper
       role="banner"
@@ -229,7 +227,6 @@ export const Header: FC<HeaderProps> = (props) => {
               }}
             />
           </Stack>
-
           <IconButton
             id="profile-button"
             sx={{
@@ -245,15 +242,23 @@ export const Header: FC<HeaderProps> = (props) => {
             onClick={popover.handleOpen}
             ref={popover.anchorRef}
           >
-            <Avatar
-              alt={user.name}
-              src={user.avatar}
-              sx={{
-                borderRadius: 'inherit',
-                height: 36,
-                width: 36,
-              }}
-            />
+            {user ? (
+              <Avatar
+                alt={`${user.first_name} ${user.last_name}`}
+                src={user.avatar_url}
+                sx={{
+                  borderRadius: 'inherit',
+                  height: 36,
+                  width: 36,
+                }}
+              />
+            ) : (
+              <Skeleton
+                variant="circular"
+                width={36}
+                height={36}
+              />
+            )}
           </IconButton>
           {!lgUp && (
             <IconButton
@@ -287,7 +292,7 @@ export const Header: FC<HeaderProps> = (props) => {
         onOpen={notifications.handleOpen}
         open={notifications.open}
       />
-      <HeaderUserDropdown
+      <ProfileDropdown
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         transformOrigin={{ vertical: 'top', horizontal: 'center' }}
         anchorEl={popover.anchorRef.current}

@@ -222,17 +222,24 @@ const TimelineBasic = () => {
         return null;
     }
   };
+  const renderActivityDate = (timestamp: string | null) => {
+    if (timestamp) {
+      return new Date(timestamp).toLocaleDateString();
+    } else {
+      return <Typography variant="body2" color="text.secondary">N/A</Typography>;
+    }
+  };
 
   return (
     <Timeline>
       {activities.map((activity) => (
         <TimelineItem key={activity.id}>
           <TimelineOppositeContent sx={{ width: '85px', flex: 'none' }} color="text.secondary">
-            {new Date(activity.timestamp).toLocaleDateString()}
+            {renderActivityDate(activity.timestamp)}
           </TimelineOppositeContent>
-          <TimelineSeparator sx={{ml: 1}}>
+          <TimelineSeparator sx={{ ml: 1 }}>
             <TimelineDot variant="outlined" color="primary" />
-            <TimelineConnector />
+            {activities.findIndex((item) => item.id === activity.id) !== activities.length - 1 && <TimelineConnector />}
           </TimelineSeparator>
           <TimelineContent sx={{ pb: 4, mt: -0.4 }}>
             {renderActivityContent(activity)}

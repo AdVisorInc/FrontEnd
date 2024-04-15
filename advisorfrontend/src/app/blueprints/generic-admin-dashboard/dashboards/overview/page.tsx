@@ -24,6 +24,7 @@ import PageHeading from "../../../../../components/base/page-heading";
 import {AvatarState} from "../../../../../components/base/styles/avatar";
 import RecentActivityUser
   from "../../../../../components/application-ui/stacked-lists/recent-activity/recent-activity-user";
+import NavigationPillsOverview from 'src/components/application-ui/stacked-lists/navigation-pills/nagigation-pills-overview';
 function Page(): React.JSX.Element {
   const customization = useCustomization();
   const theme = useTheme();
@@ -101,7 +102,6 @@ function Page(): React.JSX.Element {
                 xs={12}
 
             >
-
                 <RecentActivityUser />
             </Grid>
             <Grid
@@ -113,7 +113,7 @@ function Page(): React.JSX.Element {
               />
             </Grid>
             <Grid xs={12}>
-              <NavigationPills
+              <NavigationPillsOverview
               />
             </Grid>
           </Grid>
