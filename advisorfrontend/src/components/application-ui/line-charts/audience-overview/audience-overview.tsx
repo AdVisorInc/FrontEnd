@@ -13,13 +13,27 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { fetchPerformanceData } from 'src/slices/analytics';
+import { useDispatch, useSelector } from 'src/store';
 
 function PerformanceMetrics() {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+  const { data, isLoaded, error } = useSelector((state) => state.analyticsPerformance);
+
+  useEffect(() => {
+    dispatch(fetchPerformanceData());
+  }, [dispatch]);
+
+  if (data) {
+    console.log(data.clicks);
+  }
 
   const periods = [
     {
@@ -78,32 +92,32 @@ function PerformanceMetrics() {
   const audienceData: AudienceData[] = [
     {
       title: t('Impresions'),
-      value: '14.586',
+      value: data?.impressions,
       sparkLineData: generateRandomData(),
     },
     {
       title: t('Clicks'),
-      value: '67.492',
+      value: data?.clicks,
       sparkLineData: generateRandomData(),
     },
     {
       title: t('CTR'),
-      value: '12.847',
+      value: data?.ctr,
       sparkLineData: generateRandomData(),
     },
     {
       title: t('CPC'),
-      value: '25.694',
+      value: data?.cpc,
       sparkLineData: generateRandomData(),
     },
     {
       title: t('CPM'),
-      value: '03:21 min',
+      value: data?.cpm,
       sparkLineData: generateRandomData(),
     },
     {
       title: t('Views'),
-      value: '65.37%',
+      value: 'None',
       sparkLineData: generateRandomData(),
     },
   ];
@@ -179,87 +193,148 @@ function PerformanceMetrics() {
         title={t('Performance Metrics')}
       />
       <Divider />
-      <CardContent>
-        <Button
-          size="small"
-          variant="outlined"
-          ref={actionRef2}
-          onClick={() => setOpenMenuAudience(true)}
-          endIcon={<ExpandMoreTwoToneIcon fontSize="small" />}
-        >
-          {audience}
-        </Button>
-        <Menu
-          disableScrollLock
-          anchorEl={actionRef2.current}
-          onClose={() => setOpenMenuAudience(false)}
-          open={openAudience}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-        >
-          {audiences.map((_audience) => (
-            <MenuItem
-              key={_audience.value}
-              onClick={() => {
-                setAudience(_audience.text);
-                setOpenMenuAudience(false);
-              }}
-            >
-              {_audience.text}
-            </MenuItem>
-          ))}
-        </Menu>
-        <LineChart
-          height={260}
-          slotProps={{ legend: { hidden: true } }}
-          leftAxis={null}
-          bottomAxis={null}
-          margin={{ top: 12, bottom: 12, left: 6, right: 6 }}
-          series={[
-            {
-              data: expenseData,
-              label: 'Current period',
-              area: false,
-              color: theme.palette.primary.main,
-            },
-            {
-              data: salesData,
-              label: 'Previous period',
-              area: false,
-              showMark: false,
-              color: theme.palette.error.main,
-            },
-          ]}
-          xAxis={[
-            {
-              scaleType: 'point',
-              data: monthLabels,
-            },
-          ]}
-          sx={{
-            '.MuiLineElement-root': {
-              strokeLinecap: 'round',
 
-              '&:nth-of-type(1)': {
-                strokeWidth: 4,
-                strokeDasharray: '4 8',
+      {!isLoaded ? (
+        <CardContent>
+          <Skeleton
+            variant="text"
+            width="40%"
+            height={30}
+          />
+          <Skeleton
+            variant="rectangular"
+            height={118}
+            animation="wave"
+          />
+          <Skeleton
+            variant="text"
+            width="60%"
+            height={30}
+          />
+          <Grid
+            container
+            spacing={3}
+          >
+            {Array.from(new Array(3)).map((_, index) => (
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                key={index}
+              >
+                <Box p={2}>
+                  <Skeleton
+                    variant="text"
+                    width="80%"
+                    height={20}
+                  />
+                  <Skeleton
+                    variant="rectangular"
+                    height={60}
+                  />
+                  <Skeleton
+                    variant="text"
+                    width="50%"
+                    height={20}
+                  />
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </CardContent>
+      ) : error ? (
+        <CardContent>
+          <Typography color="error">Error: {error}</Typography>
+        </CardContent>
+      ) : !data ? (
+        <CardContent>
+          <Typography>No data available.</Typography>
+        </CardContent>
+      ) : (
+        <CardContent>
+          <Button
+            size="small"
+            variant="outlined"
+            ref={actionRef2}
+            onClick={() => setOpenMenuAudience(true)}
+            endIcon={<ExpandMoreTwoToneIcon fontSize="small" />}
+          >
+            {audience}
+          </Button>
+          <Menu
+            disableScrollLock
+            anchorEl={actionRef2.current}
+            onClose={() => setOpenMenuAudience(false)}
+            open={openAudience}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            {audiences.map((_audience) => (
+              <MenuItem
+                key={_audience.value}
+                onClick={() => {
+                  setAudience(_audience.text);
+                  setOpenMenuAudience(false);
+                }}
+              >
+                {_audience.text}
+              </MenuItem>
+            ))}
+          </Menu>
+          <LineChart
+            height={260}
+            slotProps={{ legend: { hidden: true } }}
+            leftAxis={null}
+            bottomAxis={null}
+            margin={{ top: 12, bottom: 12, left: 6, right: 6 }}
+            series={[
+              {
+                data: expenseData,
+                label: 'Current period',
+                area: false,
+                color: theme.palette.primary.main,
               },
-              '&:nth-of-type(2)': {
-                strokeOpacity: 0.8,
+              {
+                data: salesData,
+                label: 'Previous period',
+                area: false,
+                showMark: false,
+                color: theme.palette.error.main,
               },
-            },
-            '.MuiHighlightElement-root': {
-              scale: '1.2',
-            },
-          }}
-        />
-      </CardContent>
+            ]}
+            xAxis={[
+              {
+                scaleType: 'point',
+                data: monthLabels,
+              },
+            ]}
+            sx={{
+              '.MuiLineElement-root': {
+                strokeLinecap: 'round',
+
+                '&:nth-of-type(1)': {
+                  strokeWidth: 4,
+                  strokeDasharray: '4 8',
+                },
+                '&:nth-of-type(2)': {
+                  strokeOpacity: 0.8,
+                },
+              },
+              '.MuiHighlightElement-root': {
+                scale: '1.2',
+              },
+            }}
+          />
+        </CardContent>
+      )}
+
       <Divider />
       <Box
         sx={{

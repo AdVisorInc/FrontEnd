@@ -87,7 +87,7 @@ function AccountBalance() {
   const theme = useTheme();
 
   const dispatch = useDispatch();
-  const { data, isLoaded, error } = useSelector((state) => state.analytics);
+  const { data, isLoaded, error } = useSelector((state) => state.analyticsSpend);
 
   useEffect(() => {
     dispatch(fetchSpendData());
@@ -106,7 +106,6 @@ function AccountBalance() {
   if (!data) {
     return <Box>No data available.</Box>;
   }
-
   // ###########################################################################
 
   const calculateChange = () => {
