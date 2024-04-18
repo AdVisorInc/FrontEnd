@@ -15,6 +15,8 @@ interface StripeState {
   invoices: Stripe.Invoice[];
   upcomingInvoice: Stripe.UpcomingInvoice | null;
   subscriptions: Stripe.Subscription[];
+  products: Stripe.Product[];
+  prices: Stripe.Price[];
   billingDetails: {
     name: string | null;
     email: string | null;
@@ -31,9 +33,11 @@ const initialState: StripeState = {
   paymentMethods: [],
   cards: [],
   invoices: [],
+  products: [],
   upcomingInvoice: null,
   subscriptions: [],
   billingDetails: null,
+  prices: [],
 };
 
 const slice = createSlice({
@@ -66,6 +70,12 @@ const slice = createSlice({
     },
     updateSubscriptions(state, action: PayloadAction<Stripe.Subscription[]>) {
       state.subscriptions = action.payload;
+    },
+    updateProducts(state, action: PayloadAction<Stripe.Product[]>) {
+      state.products = action.payload;
+    },
+    updatePrices(state, action: PayloadAction<Stripe.Price[]>) {
+      state.prices = action.payload;
     },
     updateBillingDetails(state, action: PayloadAction<{
       name: string | null;
@@ -257,7 +267,63 @@ export const fetchSubscriptions = (customerId: string): AppThunk => async (dispa
     dispatch(slice.actions.setLoading(false));
   }
 };
+export const fetchProducts = (): AppThunk => async (dispatch) => {
+  dispatch(slice.actions.setLoading(true));
+  try {
+    const products = await stripe.products.list({
+      expand: ['data.default_price'],
+      active: true,
+    });
+    dispatch(slice.actions.updateProducts(products.data));
 
+    // Fetch prices for each product
+    const pricePromises = products.data.map((product) =>
+      stripe.prices.list({ product: product.id })
+    );
+    const priceResponses = await Promise.all(pricePromises);
+    const prices = priceResponses.flatMap((response) => response.data);
+    dispatch(slice.actions.updatePrices(prices));
+  } catch (error) {
+    dispatch(slice.actions.setError('Failed to fetch products and prices'));
+    toast.error('Failed to fetch products and prices');
+  } finally {
+    dispatch(slice.actions.setLoading(false));
+  }
+};
+export const fetchPrices = (productIds: string[]): AppThunk => async (dispatch) => {
+  dispatch(slice.actions.setLoading(true));
+  try {
+    console.log("Oi",productIds)
+    const prices = await Promise.all(
+      productIds.map((productId) =>
+        stripe.prices.list({ product: productId, expand: ['data.product'] })
+      )
+    );
+    const flattenedPrices = prices.flatMap((price) => price.data);
+    dispatch(slice.actions.updatePrices(flattenedPrices));
+  } catch (error) {
+    dispatch(slice.actions.setError('Failed to fetch prices'));
+    toast.error('Failed to fetch prices');
+  } finally {
+    dispatch(slice.actions.setLoading(false));
+  }
+};
+export const createSubscription = (customerId: string, priceId: string): AppThunk => async (dispatch) => {
+  dispatch(slice.actions.setLoading(true));
+  try {
+    const subscription = await stripe.subscriptions.create({
+      customer: customerId,
+      items: [{ price: priceId }],
+    });
+    dispatch(fetchSubscriptions(customerId));
+    toast.success('Subscription created successfully');
+  } catch (error) {
+    dispatch(slice.actions.setError('Failed to create subscription'));
+    toast.error('Failed to create subscription');
+  } finally {
+    dispatch(slice.actions.setLoading(false));
+  }
+};
 export const fetchBillingDetails = (customerId: string): AppThunk => async (dispatch) => {
   dispatch(slice.actions.setLoading(true));
   try {

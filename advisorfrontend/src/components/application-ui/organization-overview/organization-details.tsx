@@ -7,9 +7,13 @@ import AvatarUploadLogo from '../upload/avatar/avatar-upload-logo';
 interface OrganizationDetailsProps {
   organizationData: any;
   setOrganizationData: (data: any) => void;
+  validationErrors: {
+    name: boolean;
+    description: boolean;
+  };
 }
 
-const OrganizationDetails: React.FC<OrganizationDetailsProps> = ({ organizationData, setOrganizationData }) => {
+const OrganizationDetails: React.FC<OrganizationDetailsProps> = ({ organizationData, setOrganizationData, validationErrors }) => {
   const { t } = useTranslation();
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +35,8 @@ const OrganizationDetails: React.FC<OrganizationDetailsProps> = ({ organizationD
           fullWidth
           value={organizationData.name}
           onChange={handleNameChange}
+          error={validationErrors.name}
+          helperText={validationErrors.name && 'Please enter an organization name'}
         />
       </Grid>
       <Grid item xs={12}>
@@ -41,6 +47,8 @@ const OrganizationDetails: React.FC<OrganizationDetailsProps> = ({ organizationD
           rows={3}
           value={organizationData.description}
           onChange={handleDescriptionChange}
+          error={validationErrors.description}
+          helperText={validationErrors.description && 'Please enter an organization description'}
         />
       </Grid>
     </Grid>

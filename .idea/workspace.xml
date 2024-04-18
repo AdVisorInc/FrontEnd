@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Added Stripe Actions">
+    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Fixed billing in stripe">
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/radio-groups/my-cards/my-cards-select-for-subscription.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/radio-groups/my-cards/my-cards-select.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/radio-groups/my-cards/my-cards-select.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-creation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-creation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-details.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-details.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/pricing-and-billing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/pricing-and-billing.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/review-organization.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/review-organization.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/stripe.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/stripe.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +89,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -95,24 +99,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "full-refactor",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Gustavo Aniceto/WebstormProjects",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "npm.start.executor": "Run",
-    "settings.editor.selected.configurable": "settings.qodana",
-    "ts.external.directory.path": "C:\\Users\\Gustavo Aniceto\\WebstormProjects\\FrontEnd\\advisorfrontend\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;full-refactor&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Gustavo Aniceto/WebstormProjects&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.start.executor&quot;: &quot;Run&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.qodana&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Gustavo Aniceto\\WebstormProjects\\FrontEnd\\advisorfrontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -167,7 +171,9 @@
       <workItem from="1712240600912" duration="155000" />
       <workItem from="1712240765673" duration="1593000" />
       <workItem from="1712260370750" duration="87274000" />
-      <workItem from="1712948518760" duration="58288000" />
+      <workItem from="1712948518760" duration="58516000" />
+      <workItem from="1713389370437" duration="4180000" />
+      <workItem from="1713462315933" duration="4845000" />
     </task>
     <task id="LOCAL-00001" summary="Update package-lock.json">
       <option name="closed" value="true" />
@@ -345,7 +351,23 @@
       <option name="project" value="LOCAL" />
       <updated>1713149524433</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Fixed billing in stripe">
+      <option name="closed" value="true" />
+      <created>1713153185409</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1713153185409</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Fixed billing in stripe">
+      <option name="closed" value="true" />
+      <created>1713153224245</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1713153224245</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -392,6 +414,7 @@
     <MESSAGE value="Fixed routing error bitchessss" />
     <MESSAGE value="Header changed" />
     <MESSAGE value="Added Stripe Actions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Stripe Actions" />
+    <MESSAGE value="Fixed billing in stripe" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed billing in stripe" />
   </component>
 </project>

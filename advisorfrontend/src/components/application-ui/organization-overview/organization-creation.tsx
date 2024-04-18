@@ -22,10 +22,13 @@ import ReviewOrganization from './review-organization';
 import ConnectAccounts from "./connect-accounts";
 import {ButtonSoft} from "../../base/styles/button-soft";
 import PricingAndBilling from './pricing-and-billing';
+import { createSubscription } from 'src/slices/stripe';
+import {useDispatch} from "../../../store";
 
 interface OrganizationCreationProps {
   onClose: () => void;
 }
+
 
 const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) => {
   const [activeStep, setActiveStep] = useState(0);
@@ -45,29 +48,85 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
+  const dispatch = useDispatch();
   const steps = [
     { title: t('Organization Details'), description: 'Enter organization details.' },
     { title: t('Connect Accounts'), description: 'Connect your ad accounts (optional).' },
     { title: t('Pricing and Billing'), description: 'Select a pricing plan and set up billing.' },
     { title: t('Review and Create'), description: 'Review and create the organization.' },
   ];
+  const [validationErrors, setValidationErrors] = useState({
+    organizationDetails: {
+      name: false,
+      description: false,
+    },
+    pricingAndBilling: {
+      pricingPlan: false,
+      billingSettings: false,
+    },
+  });
+  const handleOrganizationDataChange = (newData: any) => {
+    setOrganizationData(newData);
+    validateOrganizationDetails(newData);
+    validatePricingAndBilling(newData);
+  };
+
+  const validateOrganizationDetails = (data: any) => {
+    const { name, description } = data;
+    const errors = {
+      name: name.trim() === '',
+      description: description.trim() === '',
+    };
+    setValidationErrors((prevState) => ({
+      ...prevState,
+      organizationDetails: errors,
+    }));
+  };
+
+  const validatePricingAndBilling = (data: any) => {
+    const { pricingPlan, billingSettings } = data;
+    const errors = {
+      pricingPlan: !pricingPlan,
+      billingSettings: pricingPlan && pricingPlan.name !== 'Free Plan' && !billingSettings?.selectedCard,
+    };
+    setValidationErrors((prevState) => ({
+      ...prevState,
+      pricingAndBilling: errors,
+    }));
+  };
 
   const handleNext = () => {
-    if (activeStep === steps.length - 1) {
+    if (activeStep === 0) {
+      if (!validationErrors.organizationDetails.name && !validationErrors.organizationDetails.description) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    } else if (activeStep === 2) {
+      if (!validationErrors.pricingAndBilling.pricingPlan && !validationErrors.pricingAndBilling.billingSettings) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    } else if (activeStep === steps.length - 1) {
       setIsLoading(true);
-      // Simulate organization creation process
-      setTimeout(() => {
+      // Create subscription using the selected pricing plan and billing settings
+      if (organizationData.pricingPlan && organizationData.billingSettings?.selectedCard) {
+        dispatch(
+          createSubscription(
+            organizationData.billingSettings.selectedCard.id,
+            organizationData.pricingPlan.id
+          )
+        )
+          .then(() => {
+            setIsLoading(false);
+            setIsSuccess(true);
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+          })
+          .catch(() => {
+            setIsLoading(false);
+            setIsError(true);
+          });
+      } else {
         setIsLoading(false);
-        // Simulate success or error scenario
-        const random = Math.random();
-        if (random < 0.8) {
-          setIsSuccess(true);
-          setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        } else {
-          setIsError(true);
-        }
-      }, 2000);
+        setIsError(true);
+      }
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
@@ -100,7 +159,8 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
         return (
           <OrganizationDetails
             organizationData={organizationData}
-            setOrganizationData={setOrganizationData}
+            setOrganizationData={handleOrganizationDataChange}
+            validationErrors={validationErrors.organizationDetails}
           />
         );
       case 1:
@@ -114,7 +174,8 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
         return (
           <PricingAndBilling
             organizationData={organizationData}
-            setOrganizationData={setOrganizationData}
+            setOrganizationData={handleOrganizationDataChange}
+            validationErrors={validationErrors.pricingAndBilling}
           />
         );
       case 3:
@@ -228,6 +289,10 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
               onClick={handleNext}
               variant={activeStep === steps.length - 1 ? 'contained' : 'outlined'}
               color="primary"
+              disabled={
+                (activeStep === 0 && (validationErrors.organizationDetails.name || validationErrors.organizationDetails.description)) ||
+                (activeStep === 2 && (validationErrors.pricingAndBilling.pricingPlan || validationErrors.pricingAndBilling.billingSettings))
+              }
             >
               {activeStep === steps.length - 1 ? t('Finish') : t('Next')}
             </Button>
