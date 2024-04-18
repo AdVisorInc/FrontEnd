@@ -31,10 +31,6 @@ function PerformanceMetrics() {
     dispatch(fetchPerformanceData());
   }, [dispatch]);
 
-  if (data) {
-    console.log(data.clicks);
-  }
-
   const periods = [
     {
       value: 'today',
@@ -92,32 +88,32 @@ function PerformanceMetrics() {
   const audienceData: AudienceData[] = [
     {
       title: t('Impresions'),
-      value: data?.impressions,
+      value: data?.impressions ? data?.impressions : 'N/A',
       sparkLineData: generateRandomData(),
     },
     {
       title: t('Clicks'),
-      value: data?.clicks,
+      value: data?.clicks ? data?.clicks : 'N/A',
       sparkLineData: generateRandomData(),
     },
     {
       title: t('CTR'),
-      value: data?.ctr,
+      value: data?.ctr ? parseFloat(data.ctr).toFixed(2) + '%' : 'N/A',
       sparkLineData: generateRandomData(),
     },
     {
       title: t('CPC'),
-      value: data?.cpc,
+      value: data?.cpc ? '$' + parseFloat(data.cpc).toFixed(2) : 'N/A',
       sparkLineData: generateRandomData(),
     },
     {
       title: t('CPM'),
-      value: data?.cpm,
+      value: data?.cpm ? '$' + parseFloat(data.cpm).toFixed(2) : 'N/A',
       sparkLineData: generateRandomData(),
     },
     {
       title: t('Views'),
-      value: 'None',
+      value: 'N/A',
       sparkLineData: generateRandomData(),
     },
   ];

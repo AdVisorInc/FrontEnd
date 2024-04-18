@@ -69,7 +69,7 @@ function ConversionMetrics() {
               }}
               variant="h2"
             >
-              12,54k
+              N/A
             </Typography>
             <Typography
               variant="subtitle2"
@@ -133,7 +133,7 @@ function ConversionMetrics() {
               color="error.main"
               variant="h2"
             >
-              +35.6%
+              N/A
             </Typography>
             <Typography
               variant="subtitle2"
@@ -196,7 +196,7 @@ function ConversionMetrics() {
               color="warning.main"
               variant="h2"
             >
-              +12,45%
+              N/A
             </Typography>
             <Typography
               variant="subtitle2"

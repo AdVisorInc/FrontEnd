@@ -1,5 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { reducer as analyticsReducer, performanceReducer } from 'src/slices/analytics';
+import {
+  reducer as analyticsReducer,
+  audienceReducer,
+  performanceReducer,
+} from 'src/slices/analytics';
 import { reducer as calendarReducer } from 'src/slices/calendar';
 import { reducer as mailboxReducer } from 'src/slices/mailbox';
 import { reducer as notificationReducer } from 'src/slices/notifications';
@@ -17,6 +21,7 @@ export const rootReducer = combineReducers({
   userProfile: userProfileReducer,
   analyticsSpend: analyticsReducer,
   analyticsPerformance: performanceReducer,
+  analyticsAudience: audienceReducer,
   organization: organizationReducer,
   performanceMetrics: performanceMetricsReducer,
   userActivity: userActivitiesReducer,

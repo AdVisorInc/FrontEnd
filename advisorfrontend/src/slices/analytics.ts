@@ -74,8 +74,43 @@ const performanceSlice = createSlice({
   },
 });
 
+interface AudienceData {
+  reach: any; // Replace `any` with the specific data type expected from the API for reach
+  frequency: any; // Replace `any` with the specific data type expected from the API for frequency
+}
+
+interface AudienceDataState {
+  isLoaded: boolean;
+  data: AudienceData | null;
+  error: string | null;
+}
+
+const initialAudienceState: AudienceDataState = {
+  isLoaded: false,
+  data: null,
+  error: null,
+};
+
+const audienceSlice = createSlice({
+  name: 'audienceSlice',
+  initialState: initialAudienceState,
+  reducers: {
+    getAudienceDataSuccess(state, action: PayloadAction<AudienceData>) {
+      state.isLoaded = true;
+      state.data = action.payload;
+      state.error = null;
+    },
+    getAudienceDataFailure(state, action: PayloadAction<string>) {
+      state.isLoaded = false;
+      state.data = null;
+      state.error = action.payload;
+    },
+  },
+});
+
 export const { reducer, actions } = spendSlice;
 export const { actions: performanceActions, reducer: performanceReducer } = performanceSlice;
+export const { actions: audienceActions, reducer: audienceReducer } = audienceSlice;
 
 export const fetchSpendData = (): AppThunk => async (dispatch) => {
   try {
@@ -142,5 +177,33 @@ export const fetchPerformanceData = (): AppThunk => async (dispatch) => {
   } catch (error) {
     dispatch(performanceSlice.actions.getPerformanceMetricsFailure(error.message));
     toast.error('Failed to load performance data');
+  }
+};
+
+export const fetchAudienceData = (): AppThunk => async (dispatch) => {
+  try {
+    const urlBase = 'https://graph.facebook.com/v19.0/120207851692320476/insights';
+    const accessToken = process.env.META_ACCESS_TOKEN;
+    const fields = 'fields=reach,frequency';
+
+    const response = await fetch(
+      `${urlBase}?date_preset=this_month&access_token=${accessToken}&${fields}`
+    );
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error ? data.error.message : 'Failed to fetch audience data');
+    }
+
+    const audienceData: AudienceData = {
+      reach: data.data[0].reach,
+      frequency: data.data[0].frequency,
+    };
+
+    dispatch(audienceActions.getAudienceDataSuccess(audienceData));
+    toast.success('Audience data loaded successfully');
+  } catch (error) {
+    dispatch(audienceActions.getAudienceDataFailure(error.message || 'An error occurred'));
+    toast.error('Failed to load audience data');
   }
 };

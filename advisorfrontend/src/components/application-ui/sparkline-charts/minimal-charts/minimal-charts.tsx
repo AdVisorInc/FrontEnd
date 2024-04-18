@@ -2,7 +2,10 @@ import KeyboardArrowDownTwoToneIcon from '@mui/icons-material/KeyboardArrowDownT
 import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone';
 import { alpha, Box, Card, Unstable_Grid2 as Grid, Typography, useTheme } from '@mui/material';
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { fetchAudienceData } from 'src/slices/analytics';
+import { useDispatch, useSelector } from 'src/store';
 
 const generateRandomData = (): number[] =>
   Array.from({ length: 8 }, () => Math.floor(Math.random() * 500));
@@ -11,11 +14,19 @@ function AudienceMetrics() {
   const { t } = useTranslation();
   const theme = useTheme();
 
+  const dispatch = useDispatch();
+  const { data, isLoaded, error } = useSelector((state) => state.analyticsAudience);
+
+  useEffect(() => {
+    dispatch(fetchAudienceData());
+  }, [dispatch]);
+
   return (
     <Grid
       container
       spacing={{ xs: 2, sm: 3 }}
     >
+      {/* 
       <Grid
         xs={12}
         md={6}
@@ -86,10 +97,11 @@ function AudienceMetrics() {
           </Box>
         </Card>
       </Grid>
+      */}
       <Grid
         xs={12}
-        md={6}
-        lg={3}
+        md={9}
+        lg={6}
       >
         <Card
           sx={{
@@ -117,7 +129,7 @@ function AudienceMetrics() {
                 pt: 1.5,
               }}
             >
-              55,842
+              {data?.reach ? data?.reach : 'N/A'}
             </Typography>
             <Typography
               lineHeight={1}
@@ -158,8 +170,8 @@ function AudienceMetrics() {
       </Grid>
       <Grid
         xs={12}
-        md={6}
-        lg={3}
+        md={9}
+        lg={6}
       >
         <Card
           sx={{
@@ -187,7 +199,7 @@ function AudienceMetrics() {
                 pt: 1.5,
               }}
             >
-              3.5
+              {data?.frequency ? parseFloat(data.frequency).toFixed(2) : 'N/A'}
             </Typography>
             <Typography
               lineHeight={1}
@@ -244,6 +256,7 @@ function AudienceMetrics() {
           </Box>
         </Card>
       </Grid>
+      {/*
       <Grid
         xs={12}
         md={6}
@@ -333,6 +346,7 @@ function AudienceMetrics() {
           </Box>
         </Card>
       </Grid>
+            */}
     </Grid>
   );
 }
