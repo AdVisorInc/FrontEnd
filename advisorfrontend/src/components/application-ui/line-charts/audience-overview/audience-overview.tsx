@@ -27,10 +27,6 @@ function PerformanceMetrics() {
   const dispatch = useDispatch();
   const { data, isLoaded, error } = useSelector((state) => state.analyticsPerformance);
 
-  useEffect(() => {
-    dispatch(fetchPerformanceData());
-  }, [dispatch]);
-
   const periods = [
     {
       value: 'today',
@@ -41,14 +37,46 @@ function PerformanceMetrics() {
       text: t('Yesterday'),
     },
     {
+      value: 'this_month',
+      text: t('This month'),
+    },
+    {
       value: 'last_month',
       text: t('Last month'),
+    },
+    {
+      value: 'this_year',
+      text: t('This year'),
     },
     {
       value: 'last_year',
       text: t('Last year'),
     },
   ];
+
+  const periodsToText = {
+    today: t('Today'),
+    yesterday: t('Yesterday'),
+    this_month: t('This month'),
+    last_month: t('Last month'),
+    this_year: t('This year'),
+    last_year: t('Last year'),
+  };
+
+  const [selectedPeriod, setSelectedPeriod] = useState(periods[2].value);
+
+  useEffect(() => {
+    if (selectedPeriod) {
+      dispatch(fetchPerformanceData(selectedPeriod)); // Modify the function to accept period as parameter
+    }
+  }, [dispatch, selectedPeriod]); // Include selectedPeriod in dependency array
+
+  // Handle period menu selection
+  const handlePeriodChange = (period) => {
+    setSelectedPeriod(period.value);
+    setOpenMenuPeriod(false);
+  };
+
   const audiences = [
     {
       value: 'impressions',
@@ -84,6 +112,8 @@ function PerformanceMetrics() {
 
   const generateRandomData = (): number[] =>
     Array.from({ length: 12 }, () => Math.floor(Math.random() * 1000));
+
+  console.log(generateRandomData());
 
   const audienceData: AudienceData[] = [
     {
@@ -139,7 +169,6 @@ function PerformanceMetrics() {
   const actionRef2 = useRef<any>(null);
   const [openPeriod, setOpenMenuPeriod] = useState<boolean>(false);
   const [openAudience, setOpenMenuAudience] = useState<boolean>(false);
-  const [period, setPeriod] = useState<string>(periods[3].text);
   const [audience, setAudience] = useState<string>(audiences[1].text);
   const theme = useTheme();
   const colWidth = { xs: 12, sm: 6, md: 4, lg: 4 } as const;
@@ -156,7 +185,7 @@ function PerformanceMetrics() {
               onClick={() => setOpenMenuPeriod(true)}
               endIcon={<ExpandMoreTwoToneIcon fontSize="small" />}
             >
-              {period}
+              {periodsToText[selectedPeriod]}
             </Button>
             <Menu
               disableScrollLock
@@ -176,8 +205,7 @@ function PerformanceMetrics() {
                 <MenuItem
                   key={_period.value}
                   onClick={() => {
-                    setPeriod(_period.text);
-                    setOpenMenuPeriod(false);
+                    handlePeriodChange(_period);
                   }}
                 >
                   {_period.text}

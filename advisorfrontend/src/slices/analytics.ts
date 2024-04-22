@@ -149,36 +149,58 @@ export const fetchSpendData = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const fetchPerformanceData = (): AppThunk => async (dispatch) => {
-  try {
-    const urlBase = 'https://graph.facebook.com/v19.0/120207851692320476/insights';
-    const accessToken = process.env.META_ACCESS_TOKEN;
-    const fields = 'fields=impressions,clicks,cpc,ctr,cpm';
+export const fetchPerformanceData =
+  (period: string): AppThunk =>
+  async (dispatch) => {
+    try {
+      const urlBase = 'https://graph.facebook.com/v19.0/120207851692320476/insights';
+      const accessToken = process.env.META_ACCESS_TOKEN;
+      const fields = 'fields=impressions,clicks,cpc,ctr,cpm';
+      let datePreset: string;
 
-    // FETCH CURRENT PERFORMANCE DATA
-    const responseCurrent = await fetch(
-      `${urlBase}?date_preset=this_month&access_token=${accessToken}&${fields}`
-    );
-    const dataCurrent = await responseCurrent.json();
-    if (!responseCurrent.ok) {
-      throw new Error(dataCurrent.error.message);
+      // Define the API parameter based on the period
+      switch (period) {
+        case 'today':
+          datePreset = 'today';
+          break;
+        case 'yesterday':
+          datePreset = 'yesterday';
+          break;
+        case 'last_month':
+          datePreset = 'last_month';
+          break;
+        case 'last_year':
+          datePreset = 'last_year';
+          break;
+        default:
+          datePreset = 'this_month'; // Default case if somehow an incorrect period is passed
+          break;
+      }
+
+      // FETCH CURRENT PERFORMANCE DATA
+      const responseCurrent = await fetch(
+        `${urlBase}?date_preset=${datePreset}&access_token=${accessToken}&${fields}`
+      );
+      const dataCurrent = await responseCurrent.json();
+      if (!responseCurrent.ok) {
+        throw new Error(dataCurrent.error.message);
+      }
+
+      const performanceData: PerformanceData = {
+        impressions: dataCurrent.data[0].impressions,
+        clicks: dataCurrent.data[0].clicks,
+        cpc: dataCurrent.data[0].cpc,
+        ctr: dataCurrent.data[0].ctr,
+        cpm: dataCurrent.data[0].cpm,
+      };
+
+      dispatch(performanceSlice.actions.getPerformanceMetricsSuccess(performanceData));
+      toast.success('Performance data loaded successfully');
+    } catch (error) {
+      dispatch(performanceSlice.actions.getPerformanceMetricsFailure(error.message));
+      toast.error('Failed to load performance data');
     }
-
-    const performanceData: PerformanceData = {
-      impressions: dataCurrent.data[0].impressions,
-      clicks: dataCurrent.data[0].clicks,
-      cpc: dataCurrent.data[0].cpc,
-      ctr: dataCurrent.data[0].ctr,
-      cpm: dataCurrent.data[0].cpm,
-    };
-
-    dispatch(performanceSlice.actions.getPerformanceMetricsSuccess(performanceData));
-    toast.success('Performance data loaded successfully');
-  } catch (error) {
-    dispatch(performanceSlice.actions.getPerformanceMetricsFailure(error.message));
-    toast.error('Failed to load performance data');
-  }
-};
+  };
 
 export const fetchAudienceData = (): AppThunk => async (dispatch) => {
   try {
