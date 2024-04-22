@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import {
   reducer as analyticsReducer,
   audienceReducer,
+  performanceGraphReducer,
   performanceReducer,
 } from 'src/slices/analytics';
 import { reducer as calendarReducer } from 'src/slices/calendar';
@@ -21,6 +22,7 @@ export const rootReducer = combineReducers({
   userProfile: userProfileReducer,
   analyticsSpend: analyticsReducer,
   analyticsPerformance: performanceReducer,
+  analyticsPerformanceGraph: performanceGraphReducer,
   analyticsAudience: audienceReducer,
   organization: organizationReducer,
   performanceMetrics: performanceMetricsReducer,

@@ -16,16 +16,31 @@ import {
 import Skeleton from '@mui/material/Skeleton';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
+import {
+  eachDayOfInterval,
+  endOfMonth,
+  endOfYear,
+  format,
+  startOfDay,
+  startOfMonth,
+  startOfYear,
+  subDays,
+  subMonths,
+  subYears,
+} from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { fetchPerformanceData } from 'src/slices/analytics';
+import { fetchPerformanceData, fetchPerformanceGraphData } from 'src/slices/analytics';
 import { useDispatch, useSelector } from 'src/store';
 
 function PerformanceMetrics() {
   const { t } = useTranslation();
-
+  const [audienceInitial, setInitialAudience] = useState('Impressions'); // Initially selected audience
   const dispatch = useDispatch();
   const { data, isLoaded, error } = useSelector((state) => state.analyticsPerformance);
+  const { dataGraph, isLoadedGraph, errorGraph } = useSelector(
+    (state) => state.analyticsPerformanceGraph
+  );
 
   const periods = [
     {
@@ -64,17 +79,82 @@ function PerformanceMetrics() {
   };
 
   const [selectedPeriod, setSelectedPeriod] = useState(periods[2].value);
+  const [selectedAudienceData, setSelectedAudienceData] = useState([]);
+  const [xAxisLabels, setXAxisLabels] = useState([]);
+
+  const generateDateLabels = (period) => {
+    const today = new Date();
+    let start, end;
+
+    switch (selectedPeriod) {
+      case 'today':
+        start = end = startOfDay(today);
+        break;
+      case 'yesterday':
+        start = end = startOfDay(subDays(today, 1));
+        break;
+      case 'this_month':
+        start = startOfMonth(today);
+        end = new Date();
+        break;
+      case 'last_month':
+        start = startOfDay(startOfMonth(subMonths(today, 1)));
+        end = endOfMonth(start);
+        break;
+      case 'this_year':
+        start = startOfDay(startOfYear(today));
+        end = today;
+        break;
+      case 'last_year':
+        start = startOfDay(startOfYear(subYears(today, 1)));
+        end = endOfYear(start);
+        break;
+      default:
+        start = startOfDay(today.setDate(1));
+        end = today;
+    }
+
+    const dates = eachDayOfInterval({ start, end }).map((day) => format(day, 'MMM d'));
+    setXAxisLabels(dates);
+  };
 
   useEffect(() => {
     if (selectedPeriod) {
-      dispatch(fetchPerformanceData(selectedPeriod)); // Modify the function to accept period as parameter
+      dispatch(fetchPerformanceData(selectedPeriod));
+      dispatch(fetchPerformanceGraphData(selectedPeriod));
     }
-  }, [dispatch, selectedPeriod]); // Include selectedPeriod in dependency array
+  }, [selectedPeriod, dispatch]); // Include selectedPeriod in dependency array
+
+  useEffect(() => {
+    if (dataGraph) {
+      updateChartData('impressions'); // Default to impressions or any other metric
+    }
+  }, [dataGraph, xAxisLabels]);
+
+  // Effect to set initial data for selectedAudienceData
+  useEffect(() => {
+    if (dataGraph && audienceInitial) {
+      updateChartData(audienceInitial.toLowerCase());
+    }
+  }, [dataGraph, audienceInitial]);
+
+  useEffect(() => {
+    generateDateLabels(selectedPeriod);
+  }, [selectedPeriod]);
 
   // Handle period menu selection
   const handlePeriodChange = (period) => {
     setSelectedPeriod(period.value);
     setOpenMenuPeriod(false);
+  };
+
+  const updateChartData = (metric) => {
+    const rawData = dataGraph[metric] || [];
+    const paddedData = new Array(xAxisLabels.length - rawData.length).fill(null); // Create an array of nulls for padding
+    const metricData = paddedData.concat(rawData); // Concatenate paddedData and rawData to align with xAxisLabels
+    console.log(metricData);
+    console.log('HERE');
+    setSelectedAudienceData(metricData);
   };
 
   const audiences = [
@@ -110,46 +190,41 @@ function PerformanceMetrics() {
     sparkLineData: number[];
   }
 
-  const generateRandomData = (): number[] =>
-    Array.from({ length: 12 }, () => Math.floor(Math.random() * 1000));
-
-  console.log(generateRandomData());
-
   const audienceData: AudienceData[] = [
     {
       title: t('Impresions'),
       value: data?.impressions ? data?.impressions : 'N/A',
-      sparkLineData: generateRandomData(),
+      sparkLineData: dataGraph?.impressions ? dataGraph?.impressions : [0],
     },
     {
       title: t('Clicks'),
       value: data?.clicks ? data?.clicks : 'N/A',
-      sparkLineData: generateRandomData(),
+      sparkLineData: dataGraph?.clicks ? dataGraph?.clicks : [0],
     },
     {
       title: t('CTR'),
       value: data?.ctr ? parseFloat(data.ctr).toFixed(2) + '%' : 'N/A',
-      sparkLineData: generateRandomData(),
+      sparkLineData: dataGraph?.ctr ? dataGraph?.ctr : [0],
     },
     {
       title: t('CPC'),
       value: data?.cpc ? '$' + parseFloat(data.cpc).toFixed(2) : 'N/A',
-      sparkLineData: generateRandomData(),
+      sparkLineData: dataGraph?.cpc ? dataGraph?.cpc : [0],
     },
     {
       title: t('CPM'),
       value: data?.cpm ? '$' + parseFloat(data.cpm).toFixed(2) : 'N/A',
-      sparkLineData: generateRandomData(),
+      sparkLineData: dataGraph?.cpm ? dataGraph?.cpm : [0],
     },
     {
       title: t('Views'),
       value: 'N/A',
-      sparkLineData: generateRandomData(),
+      sparkLineData: [0],
     },
   ];
 
-  const salesData = generateRandomData();
-  const expenseData = generateRandomData();
+  const salesData = [0];
+  const expenseData = [0];
   const monthLabels = [
     'Jan',
     'Feb',
@@ -305,6 +380,8 @@ function PerformanceMetrics() {
                 key={_audience.value}
                 onClick={() => {
                   setAudience(_audience.text);
+                  //setSelectedAudienceData(dataGraph ? dataGraph[_audience.value] : []);
+                  updateChartData(_audience.value);
                   setOpenMenuAudience(false);
                 }}
               >
@@ -320,23 +397,16 @@ function PerformanceMetrics() {
             margin={{ top: 12, bottom: 12, left: 6, right: 6 }}
             series={[
               {
-                data: expenseData,
+                data: selectedAudienceData,
                 label: 'Current period',
                 area: false,
                 color: theme.palette.primary.main,
-              },
-              {
-                data: salesData,
-                label: 'Previous period',
-                area: false,
-                showMark: false,
-                color: theme.palette.error.main,
               },
             ]}
             xAxis={[
               {
                 scaleType: 'point',
-                data: monthLabels,
+                data: xAxisLabels,
               },
             ]}
             sx={{

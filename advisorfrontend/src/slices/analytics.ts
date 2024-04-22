@@ -74,6 +74,43 @@ const performanceSlice = createSlice({
   },
 });
 
+interface PerformanceGraphData {
+  impressions: any;
+  clicks: any;
+  cpc: any;
+  ctr: any;
+  cpm: any;
+}
+
+interface PerformaceGraphDataState {
+  isLoadedGraph: boolean;
+  dataGraph: PerformanceGraphData | null;
+  errorGraph: string | null;
+}
+
+const initialPerformanceGraphState: PerformaceGraphDataState = {
+  isLoadedGraph: false,
+  dataGraph: null,
+  errorGraph: null,
+};
+
+const performanceGraphSlice = createSlice({
+  name: 'performanceGraphSlice',
+  initialState: initialPerformanceGraphState,
+  reducers: {
+    getPerformanceGraphMetricsSuccess(state, action: PayloadAction<PerformanceGraphData>) {
+      state.isLoadedGraph = true;
+      state.dataGraph = action.payload;
+      state.errorGraph = null;
+    },
+    getPerformanceGraphMetricsFailure(state, action: PayloadAction<string>) {
+      state.isLoadedGraph = false;
+      state.dataGraph = null;
+      state.errorGraph = action.payload;
+    },
+  },
+});
+
 interface AudienceData {
   reach: any; // Replace `any` with the specific data type expected from the API for reach
   frequency: any; // Replace `any` with the specific data type expected from the API for frequency
@@ -111,6 +148,8 @@ const audienceSlice = createSlice({
 export const { reducer, actions } = spendSlice;
 export const { actions: performanceActions, reducer: performanceReducer } = performanceSlice;
 export const { actions: audienceActions, reducer: audienceReducer } = audienceSlice;
+export const { actions: performanceGraphActions, reducer: performanceGraphReducer } =
+  performanceGraphSlice;
 
 export const fetchSpendData = (): AppThunk => async (dispatch) => {
   try {
@@ -229,3 +268,65 @@ export const fetchAudienceData = (): AppThunk => async (dispatch) => {
     toast.error('Failed to load audience data');
   }
 };
+
+export const fetchPerformanceGraphData =
+  (period: string): AppThunk =>
+  async (dispatch) => {
+    try {
+      const urlBase = 'https://graph.facebook.com/v19.0/120207851692320476/insights';
+      const accessToken = process.env.META_ACCESS_TOKEN;
+      const fields = 'fields=impressions,clicks,cpc,ctr,cpm';
+      let datePreset: string;
+      let timeIncrement = '1'; // Daily increments
+
+      // Define the API parameter based on the period
+      switch (period) {
+        case 'today':
+        case 'yesterday':
+          datePreset = period;
+          break;
+        case 'last_month':
+        case 'last_year':
+        case 'this_month':
+          datePreset = period;
+          break;
+        default:
+          datePreset = 'this_month'; // Default case if somehow an incorrect period is passed
+          break;
+      }
+
+      // FETCH CURRENT PERFORMANCE DATA
+      const responseCurrent = await fetch(
+        `${urlBase}?date_preset=${datePreset}&access_token=${accessToken}&${fields}&time_increment=${timeIncrement}`
+      );
+      const dataCurrent = await responseCurrent.json();
+      if (!responseCurrent.ok) {
+        throw new Error(dataCurrent.error.message);
+      }
+
+      // Map and process each item to transform strings to numbers as appropriate
+      const transformedData = dataCurrent.data.map((dayData: any) => ({
+        impressions: parseInt(dayData.impressions, 10),
+        clicks: parseInt(dayData.clicks, 10),
+        cpc: dayData.cpc ? parseFloat(parseFloat(dayData.cpc).toFixed(2)) : 0, // Handle missing 'cpc' by defaulting to 0
+        ctr: parseFloat(parseFloat(dayData.ctr).toFixed(2)),
+        cpm: parseFloat(parseFloat(dayData.cpm).toFixed(2)),
+      }));
+
+      // Segregate data into the PerformanceGraphData format
+      const PerformanceGraphData = transformedData.reduce((acc, item) => {
+        Object.keys(item).forEach((key) => {
+          (acc[key] = acc[key] || []).push(item[key]);
+        });
+        return acc;
+      }, {});
+
+      dispatch(
+        performanceGraphSlice.actions.getPerformanceGraphMetricsSuccess(PerformanceGraphData)
+      );
+      toast.success('Performance data loaded successfully');
+    } catch (error) {
+      dispatch(performanceGraphSlice.actions.getPerformanceGraphMetricsFailure(error.message));
+      toast.error('Failed to load performance data');
+    }
+  };
