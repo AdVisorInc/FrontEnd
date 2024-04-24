@@ -311,6 +311,7 @@ export const fetchPerformanceGraphData =
         cpc: dayData.cpc ? parseFloat(parseFloat(dayData.cpc).toFixed(2)) : 0, // Handle missing 'cpc' by defaulting to 0
         ctr: parseFloat(parseFloat(dayData.ctr).toFixed(2)),
         cpm: parseFloat(parseFloat(dayData.cpm).toFixed(2)),
+        date: dayData.date_start,
       }));
 
       // Segregate data into the PerformanceGraphData format

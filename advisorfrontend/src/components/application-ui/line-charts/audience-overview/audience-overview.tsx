@@ -32,6 +32,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { fetchPerformanceData, fetchPerformanceGraphData } from 'src/slices/analytics';
 import { useDispatch, useSelector } from 'src/store';
+import { date } from 'zod';
 
 function PerformanceMetrics() {
   const { t } = useTranslation();
@@ -118,6 +119,9 @@ function PerformanceMetrics() {
     setXAxisLabels(dates);
   };
 
+  console.log(dataGraph);
+  console.log('HERE');
+
   useEffect(() => {
     if (selectedPeriod) {
       dispatch(fetchPerformanceData(selectedPeriod));
@@ -127,9 +131,9 @@ function PerformanceMetrics() {
 
   useEffect(() => {
     if (dataGraph) {
-      updateChartData('impressions'); // Default to impressions or any other metric
+      setXAxisLabels(dataGraph['date']);
     }
-  }, [dataGraph, xAxisLabels]);
+  }, [dataGraph]);
 
   // Effect to set initial data for selectedAudienceData
   useEffect(() => {
@@ -138,10 +142,6 @@ function PerformanceMetrics() {
     }
   }, [dataGraph, audienceInitial]);
 
-  useEffect(() => {
-    generateDateLabels(selectedPeriod);
-  }, [selectedPeriod]);
-
   // Handle period menu selection
   const handlePeriodChange = (period) => {
     setSelectedPeriod(period.value);
@@ -149,12 +149,10 @@ function PerformanceMetrics() {
   };
 
   const updateChartData = (metric) => {
-    const rawData = dataGraph[metric] || [];
-    const paddedData = new Array(xAxisLabels.length - rawData.length).fill(null); // Create an array of nulls for padding
-    const metricData = paddedData.concat(rawData); // Concatenate paddedData and rawData to align with xAxisLabels
-    console.log(metricData);
-    console.log('HERE');
-    setSelectedAudienceData(metricData);
+    const rawData = dataGraph[metric] || [0];
+    //const paddedData = new Array(xAxisLabels.length - rawData.length).fill(null); // Create an array of nulls for padding
+    //const metricData = paddedData.concat(rawData); // Concatenate paddedData and rawData to align with xAxisLabels
+    setSelectedAudienceData(rawData);
   };
 
   const audiences = [
@@ -244,7 +242,7 @@ function PerformanceMetrics() {
   const actionRef2 = useRef<any>(null);
   const [openPeriod, setOpenMenuPeriod] = useState<boolean>(false);
   const [openAudience, setOpenMenuAudience] = useState<boolean>(false);
-  const [audience, setAudience] = useState<string>(audiences[1].text);
+  const [audience, setAudience] = useState<string>(audiences[0].text);
   const theme = useTheme();
   const colWidth = { xs: 12, sm: 6, md: 4, lg: 4 } as const;
 
