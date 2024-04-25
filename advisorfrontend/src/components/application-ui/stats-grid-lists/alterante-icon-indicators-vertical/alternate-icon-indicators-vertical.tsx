@@ -14,6 +14,7 @@ import TouchAppIcon from '@mui/icons-material/TouchApp';
 import PaidIcon from '@mui/icons-material/Paid';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import CountUp from "react-countup";
 
 function Component() {
   const { t } = useTranslation();
@@ -54,11 +55,22 @@ function Component() {
               >
                 {t('Overall ROI')}
               </Typography>
+
               <Typography
                 variant="h3"
                 fontWeight={600}
               >
-                {roi}%
+                <CountUp
+                  start={0}
+                  end={roi}
+                  duration={3}
+                  separator=""
+                  delay={2}
+                  decimals={0}
+                  decimal=","
+                  prefix=""
+                  suffix="%"
+                />
               </Typography>
             </Box>
             <Avatar
@@ -125,7 +137,17 @@ function Component() {
                 variant="h3"
                 fontWeight={600}
               >
-                {ctr}%
+                <CountUp
+                  start={0}
+                  end={ctr}
+                  duration={3}
+                  separator=""
+                  delay={2}
+                  decimals={0}
+                  decimal=","
+                  prefix=""
+                  suffix="%"
+                />
               </Typography>
             </Box>
             <Avatar
@@ -192,7 +214,17 @@ function Component() {
                 variant="h3"
                 fontWeight={600}
               >
-                ${costPerConversion}
+                <CountUp
+                  start={0}
+                  end={costPerConversion}
+                  duration={3}
+                  separator=""
+                  delay={2}
+                  decimals={0}
+                  decimal=","
+                  prefix="$"
+                  suffix=""
+                />
               </Typography>
             </Box>
             <Avatar

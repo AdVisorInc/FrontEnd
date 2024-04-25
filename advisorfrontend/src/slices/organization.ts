@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk, RootState } from 'src/store';
 import { createClient as createSupabaseClient } from '../utils/supabase/client';
-import { sendEmail } from '../utils/email';
+import toast from "react-hot-toast";
 
 interface Organization {
   id: number;
@@ -10,17 +10,19 @@ interface Organization {
   logo_url: string;
   website_url: string;
   industry: string;
-  ad_accounts_count: number;
   is_active: boolean;
+  stripe_customer_id: string;
+  created_at: string;
+  updated_at: string;
   owner_id: string;
+  settings?: Record<string, string>;
 }
 
-interface Billing {
+interface OrganizationSetting {
   id: number;
   organization_id: number;
-  plan: string;
-  subscription_id: string;
-  status: string;
+  setting_key: string;
+  setting_value: string;
   created_at: string;
   updated_at: string;
 }
@@ -29,12 +31,37 @@ interface OrganizationState {
   selectedOrganization: number | null;
   organizationData: Organization | null;
   organizations: Organization[];
+  createOrganizationLoading: boolean;
+  createOrganizationSuccess: boolean;
+  createOrganizationError: string | null;
+  updateOrganizationLogoLoading: boolean;
+  updateOrganizationLogoSuccess: boolean;
+  updateOrganizationLogoError: string | null;
+}
+
+interface CreateOrganizationData extends Partial<Organization> {
+  pricingPlan?: {
+    id: string;
+    name: string;
+  };
+  billingSettings?: {
+    selectedCard?: {
+      id: string;
+    };
+  };
+  avatar?: File;
 }
 
 const initialState: OrganizationState = {
   selectedOrganization: null,
   organizationData: null,
   organizations: [],
+  createOrganizationLoading: false,
+  createOrganizationSuccess: false,
+  createOrganizationError: null,
+  updateOrganizationLogoLoading: false,
+  updateOrganizationLogoSuccess: false,
+  updateOrganizationLogoError: null,
 };
 
 const slice = createSlice({
@@ -50,159 +77,215 @@ const slice = createSlice({
     setOrganizations(state, action: PayloadAction<Organization[]>) {
       state.organizations = action.payload;
     },
+    createOrganizationStart(state) {
+      state.createOrganizationLoading = true;
+      state.createOrganizationSuccess = false;
+      state.createOrganizationError = null;
+    },
+    createOrganizationSuccess(state) {
+      state.createOrganizationLoading = false;
+      state.createOrganizationSuccess = true;
+      state.createOrganizationError = null;
+    },
+    createOrganizationFailure(state, action: PayloadAction<string>) {
+      console.log('Organization creation failed:', action.payload);
+      state.createOrganizationLoading = false;
+      state.createOrganizationSuccess = false;
+      state.createOrganizationError = action.payload;
+    },
+    updateOrganizationLogoStart(state) {
+      state.updateOrganizationLogoLoading = true;
+      state.updateOrganizationLogoSuccess = false;
+      state.updateOrganizationLogoError = null;
+    },
+    updateOrganizationLogoSuccess(state, action: PayloadAction<string>) {
+      if (state.organizationData) {
+        state.organizationData.logo_url = action.payload;
+      }
+      state.updateOrganizationLogoLoading = false;
+      state.updateOrganizationLogoSuccess = true;
+      state.updateOrganizationLogoError = null;
+    },
+    updateOrganizationLogoFailure(state, action: PayloadAction<string>) {
+      state.updateOrganizationLogoLoading = false;
+      state.updateOrganizationLogoSuccess = false;
+      state.updateOrganizationLogoError = action.payload;
+    },
   },
 });
 
 export const { reducer, actions } = slice;
-export const { setSelectedOrganization, setOrganizationData, setOrganizations } = actions;
+export const {
+  setSelectedOrganization,
+  setOrganizationData,
+  setOrganizations,
+  createOrganizationStart,
+  createOrganizationSuccess,
+  createOrganizationFailure,
+  updateOrganizationLogoStart,
+  updateOrganizationLogoSuccess,
+  updateOrganizationLogoFailure,
+} = actions;
 
 export const selectOrganizations = (state: RootState) => state.organization.organizations;
 export const selectSelectedOrganization = (state: RootState) => state.organization.selectedOrganization;
-
-// Create a new organization
-export const createOrganization = (organizationData: Partial<Organization>): AppThunk => async (dispatch) => {
+export const selectCreateOrganizationLoading = (state: RootState) => state.organization.createOrganizationLoading;
+export const selectCreateOrganizationSuccess = (state: RootState) => state.organization.createOrganizationSuccess;
+export const selectCreateOrganizationError = (state: RootState) => state.organization.createOrganizationError;
+export const createOrganization = (organizationData: CreateOrganizationData): AppThunk => async (dispatch) => {
   try {
+    dispatch(createOrganizationStart());
+    console.log("Starting organization creation");
+
     const supabaseClient = createSupabaseClient();
     const { data: { user } } = await supabaseClient.auth.getUser();
 
     if (user) {
       // Check if the organization name is available
-      const { data: existingOrg, error: existingOrgError } = await supabaseClient
-        .from('Organization')
-        .select('id')
-        .eq('name', organizationData.name)
-        .single();
+      const isNameAvailable = await checkOrganizationNameAvailability(organizationData.name);
+      console.log("Organization name availability:", isNameAvailable);
 
-      if (existingOrgError && existingOrgError.code !== 'PGRST116') {
-        throw new Error(existingOrgError.message);
-      }
-
-      if (existingOrg) {
+      if (!isNameAvailable) {
         throw new Error('Organization name is already taken');
       }
 
-      const { data: organization, error: insertOrgError } = await supabaseClient
-        .from('Organization')
-        .insert({ ...organizationData, owner_id: user.id })
+      // Fetch the owner role ID from the Role table
+      const { data: ownerRole, error: ownerRoleError } = await supabaseClient
+        .from('Role')
+        .select('id')
+        .eq('name', 'Owner')
         .single();
 
-      if (insertOrgError) {
-        throw new Error(insertOrgError.message);
+      console.log("Owner role:", ownerRole);
+
+      if (ownerRoleError) {
+        throw new Error(`Failed to fetch owner role: ${ownerRoleError.message}`);
       }
 
-      const { error: insertMemberError } = await supabaseClient
-        .from('OrganizationMember')
-        .insert({
-          organization_id: organization.id,
-          user_id: user.id,
-          role_id: 1, // Assuming role_id 1 is for the owner role
-        });
-
-      if (insertMemberError) {
-        throw new Error(insertMemberError.message);
+      // Start a new transaction
+      const { data: transactionId, error: startTransactionError } = await supabaseClient.rpc('create_organization_transaction');
+      console.log("Transaction Started", transactionId)
+      if (startTransactionError) {
+        throw new Error(`Failed to start transactions: ${startTransactionError.message}`);
       }
 
-      const { error: insertBillingError } = await supabaseClient
-        .from('Billing')
-        .insert({
-          organization_id: organization.id,
-          plan: 'free', // Set the default plan for new organizations
-          status: 'active',
-        });
+      try {
+        // Create the organization record in the database
+        const { data: insertedOrganization, error: insertOrgError } = await supabaseClient
+          .from('Organization')
+          .insert({
+            name: organizationData.name,
+            description: organizationData.description,
+            logo_url: '', // Set initial logo URL to empty string
+            owner_id: user.id,
+            is_active: true,
+          })
+          .select()
+          .single();
 
-      if (insertBillingError) {
-        throw new Error(insertBillingError.message);
+        console.log("Inserted organization:", insertedOrganization);
+
+        if (insertOrgError) {
+          throw new Error(`Failed to insert organization: ${insertOrgError.message}`);
+        }
+
+        const organization = insertedOrganization as Organization;
+
+        const { data: insertedMember, error: insertMemberError } = await supabaseClient
+          .from('OrganizationMember')
+          .insert({
+            organization_id: organization.id,
+            user_id: user.id,
+            role_id: ownerRole.id,
+          })
+          .select();
+
+        if (insertMemberError) {
+          throw new Error(`Failed to insert organization member: ${insertMemberError.message}`);
+        }
+
+        console.log("Inserted organization member:", insertedMember);
+
+        // Store organization settings
+        const { data: insertedSettings, error: insertSettingsError } = await supabaseClient
+          .from('OrganizationSetting')
+          .insert([
+            {
+              organization_id: organization.id,
+              setting_key: 'pricing_plan',
+              setting_value: JSON.stringify(organizationData.pricingPlan),
+            },
+            {
+              organization_id: organization.id,
+              setting_key: 'billing_card_id',
+              setting_value: organizationData.billingSettings?.selectedCard?.id || '',
+            },
+          ])
+          .select();
+
+        if (insertSettingsError) {
+          throw new Error(`Failed to insert organization settings: ${insertSettingsError.message}`);
+        }
+
+        console.log("Inserted organization settings:", insertedSettings);
+
+        // Commit the transaction
+        const { data: transactionStatus, error: transactionStatusError } = await supabaseClient.rpc('get_transaction_status', { transaction_id: transactionId });
+
+        if (transactionStatusError) {
+          throw new Error(`Failed to get transaction status: ${transactionStatusError.message}`);
+        }
+
+        if (transactionStatus === 'open') {
+          // Commit the transaction if it's still open
+          const { error: commitTransactionError } = await supabaseClient.rpc('commit_transaction', { transaction_id: transactionId });
+
+          if (commitTransactionError) {
+            throw new Error(`Failed to commit transaction: ${commitTransactionError.message}`);
+          }
+        } else {
+          console.warn(`Transaction ${transactionId} is already ${transactionStatus}, skipping commit.`);
+        }
+
+        // Handle organization logo upload
+        if (organizationData.avatar) {
+          dispatch(updateOrganizationLogo(organization.id, organizationData.avatar));
+        }
+
+        dispatch(setOrganizationData(organization));
+        dispatch(createOrganizationSuccess());
+        dispatch(createOrganizationActivity(organization.id, user.id, 'organization_created'));
+      } catch (error) {
+        // Check the transaction status before rolling back
+        const { data: transactionStatus, error: transactionStatusError } = await supabaseClient.rpc('get_transaction_status', { transaction_id: transactionId });
+
+        if (transactionStatusError) {
+          console.error(`Failed to get transactionn status: ${transactionStatusError.message}`);
+        } else if (transactionStatus === 'open') {
+          // Rollback the transaction if it's still open
+          console.error('Error occurred during organization creation, rolling back transaction:', error);
+          await supabaseClient.rpc('rollback_transaction', { transaction_id: transactionId });
+        } else {
+          console.warn(`Transaction ${transactionId} is already ${transactionStatus}, skipping rollback.`);
+        }
+
+        throw error;
       }
-
-      dispatch(setOrganizationData(organization));
-      dispatch(createOrganizationActivity(organization.id, user.id, 'organization_created'));
     } else {
       throw new Error('User not authenticated');
     }
   } catch (error) {
+    dispatch(createOrganizationFailure(error.message));
     console.error('Error creating organization:', error);
-    throw error;
+    toast.error('Failed to create organization', {
+      position: 'bottom-left',
+      style: {
+        background: '#f44336',
+        color: '#fff',
+      },
+    });
   }
 };
-
-// Update an organization
-export const updateOrganization = (organizationId: number, organizationData: Partial<Organization>): AppThunk => async (dispatch) => {
-  try {
-    const supabaseClient = createSupabaseClient();
-    const { data: { user } } = await supabaseClient.auth.getUser();
-
-    if (user) {
-      await dispatch(enforcePermissions(organizationId, user.id, 'update_organization'));
-
-      const { data, error } = await supabaseClient
-        .from('Organization')
-        .update(organizationData)
-        .eq('id', organizationId)
-        .single();
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      dispatch(setOrganizationData(data));
-      dispatch(createOrganizationActivity(organizationId, user.id, 'organization_updated', organizationData));
-    } else {
-      throw new Error('User not authenticated');
-    }
-  } catch (error) {
-    console.error('Error updating organization:', error);
-    throw error;
-  }
-};
-
-// Delete an organization
-export const deleteOrganization = (organizationId: number): AppThunk => async (dispatch) => {
-  try {
-    const supabaseClient = createSupabaseClient();
-    const { data: { user } } = await supabaseClient.auth.getUser();
-
-    if (user) {
-      await dispatch(enforcePermissions(organizationId, user.id, 'delete_organization'));
-
-      const { error: deleteOrgError } = await supabaseClient
-        .from('Organization')
-        .delete()
-        .eq('id', organizationId);
-
-      if (deleteOrgError) {
-        throw new Error(deleteOrgError.message);
-      }
-
-      const { error: deleteMembersError } = await supabaseClient
-        .from('OrganizationMember')
-        .delete()
-        .eq('organization_id', organizationId);
-
-      if (deleteMembersError) {
-        throw new Error(deleteMembersError.message);
-      }
-
-      const { error: deleteBillingError } = await supabaseClient
-        .from('Billing')
-        .delete()
-        .eq('organization_id', organizationId);
-
-      if (deleteBillingError) {
-        throw new Error(deleteBillingError.message);
-      }
-
-      dispatch(fetchUserOrganizations());
-      dispatch(createOrganizationActivity(organizationId, user.id, 'organization_deleted'));
-    } else {
-      throw new Error('User not authenticated');
-    }
-  } catch (error) {
-    console.error('Error deleting organization:', error);
-    throw error;
-  }
-};
-
-// Fetch user's organizations
 export const fetchUserOrganizations = (): AppThunk => async (dispatch) => {
   try {
     const supabaseClient = createSupabaseClient();
@@ -214,8 +297,8 @@ export const fetchUserOrganizations = (): AppThunk => async (dispatch) => {
         .select(`
           organization:organization_id (
             *,
-            billing:Billing(*),
-            owner:owner_id(*)
+            owner:owner_id(*),
+            settings:OrganizationSetting(*)
           )
         `)
         .eq('user_id', user.id);
@@ -224,10 +307,13 @@ export const fetchUserOrganizations = (): AppThunk => async (dispatch) => {
         throw new Error(error.message);
       }
 
-      const organizations = data.map((member) => ({
+      const organizations = data.map((member: any) => ({
         ...member.organization,
-        billing: member.organization.billing,
         owner: member.organization.owner,
+        settings: member.organization.settings.reduce((acc: Record<string, string>, setting: OrganizationSetting) => {
+          acc[setting.setting_key] = setting.setting_value;
+          return acc;
+        }, {}),
       }));
 
       dispatch(setOrganizations(organizations));
@@ -236,151 +322,6 @@ export const fetchUserOrganizations = (): AppThunk => async (dispatch) => {
     }
   } catch (error) {
     console.error('Error fetching user organizations:', error);
-    throw error;
-  }
-};
-
-// Invite a member to an organization
-export const inviteMember = (organizationId: number, email: string, roleId: number): AppThunk => async (dispatch) => {
-  try {
-    const supabaseClient = createSupabaseClient();
-    const { data: { user } } = await supabaseClient.auth.getUser();
-
-    if (user) {
-      await dispatch(enforcePermissions(organizationId, user.id, 'invite_member'));
-
-      const { data: invitedUser, error: userError } = await supabaseClient
-        .from('User')
-        .select('id, email')
-        .eq('email', email)
-        .single();
-
-      if (userError && userError.code !== 'PGRST116') {
-        throw new Error(userError.message);
-      }
-
-      if (invitedUser) {
-        const { error: memberError } = await supabaseClient
-          .from('OrganizationMember')
-          .insert({
-            organization_id: organizationId,
-            user_id: invitedUser.id,
-            role_id: roleId,
-          });
-
-        if (memberError) {
-          throw new Error(memberError.message);
-        }
-
-        // Send invitation email
-        await sendEmail({
-          to: invitedUser.email,
-          subject: 'Organization Invitation',
-          body: `You have been invited to join an organization on our platform.`,
-        });
-      } else {
-        // TODO: Handle invitation for non-registered users (e.g., send invitation link)
-        console.log('User not found. Sending invitation link...');
-      }
-
-      dispatch(fetchUserOrganizations());
-      dispatch(createOrganizationActivity(organizationId, user.id, 'member_invited', { email }));
-    } else {
-      throw new Error('User not authenticated');
-    }
-  } catch (error) {
-    console.error('Error inviting member:', error);
-    throw error;
-  }
-};
-
-// Update billing information for an organization
-export const updateBilling = (organizationId: number, billingData: Partial<Billing>): AppThunk => async (dispatch) => {
-  try {
-    const supabaseClient = createSupabaseClient();
-    const { data: { user } } = await supabaseClient.auth.getUser();
-
-    if (user) {
-      await dispatch(enforcePermissions(organizationId, user.id, 'update_billing'));
-
-      const { data: billing, error: selectError } = await supabaseClient
-        .from('Billing')
-        .select('id')
-        .eq('organization_id', organizationId)
-        .single();
-
-      if (selectError && selectError.code !== 'PGRST116') {
-        throw new Error(selectError.message);
-      }
-
-      if (billing) {
-        const { error: updateError } = await supabaseClient
-          .from('Billing')
-          .update(billingData)
-          .eq('id', billing.id);
-
-        if (updateError) {
-          throw new Error(updateError.message);
-        }
-      } else {
-        const { error: insertError } = await supabaseClient
-          .from('Billing')
-          .insert({
-            organization_id: organizationId,
-            ...billingData,
-          });
-
-        if (insertError) {
-          throw new Error(insertError.message);
-        }
-      }
-
-      // TODO: Handle billing update with Stripe
-
-      dispatch(fetchUserOrganizations());
-      dispatch(createOrganizationActivity(organizationId, user.id, 'billing_updated', billingData));
-    } else {
-      throw new Error('User not authenticated');
-    }
-  } catch (error) {
-    console.error('Error updating billing:', error);
-    throw error;
-  }
-};
-
-// Enforce role-based permissions for organization members
-export const enforcePermissions = (organizationId: number, userId: string, permissionName: string): AppThunk => async (dispatch) => {
-  try {
-    const supabaseClient = createSupabaseClient();
-
-    const { data: member, error: memberError } = await supabaseClient
-      .from('OrganizationMember')
-      .select(`
-        role:Role (
-          permissions:RolePermission (
-            permission:Permission (
-              name
-            )
-          )
-        )
-      `)
-      .eq('organization_id', organizationId)
-      .eq('user_id', userId)
-      .single();
-
-    if (memberError) {
-      throw new Error(memberError.message);
-    }
-
-    const hasPermission = member.role.permissions.some(
-      (rolePermission) => rolePermission.permission.name === permissionName
-    );
-
-    if (!hasPermission) {
-      throw new Error('User does not have the required permission');
-    }
-  } catch (error) {
-    console.error('Error enforcing permissions:', error);
     throw error;
   }
 };
@@ -409,104 +350,84 @@ export const createOrganizationActivity = (organizationId: number, userId: strin
   }
 };
 
-// Update billing plan for an organization
-export const updateBillingPlan = (organizationId: number, plan: string): AppThunk => async (dispatch) => {
+export const updateOrganizationLogo = (organizationId: number, file: File): AppThunk => async (dispatch, getState) => {
   try {
+    dispatch(updateOrganizationLogoStart());
     const supabaseClient = createSupabaseClient();
-    const { data: { user } } = await supabaseClient.auth.getUser();
 
-    if (user) {
-      await dispatch(enforcePermissions(organizationId, user.id, 'update_billing_plan'));
+    const { data: logoImages, error: listError } = await supabaseClient.storage
+      .from('organization-logos')
+      .list(`${organizationId}/`);
 
-      const { data: billing, error: fetchError } = await supabaseClient
-        .from('Billing')
-        .select('id, plan')
-        .eq('organization_id', organizationId)
-        .single();
-
-      if (fetchError && fetchError.code !== 'PGRST116') {
-        throw new Error(fetchError.message);
-      }
-
-      if (billing) {
-        if (billing.plan === plan) {
-          throw new Error('The selected plan is already active');
-        }
-
-        const { error: updateError } = await supabaseClient
-          .from('Billing')
-          .update({ plan })
-          .eq('id', billing.id);
-
-        if (updateError) {
-          throw new Error(updateError.message);
-        }
-      } else {
-        const { error: insertError } = await supabaseClient
-          .from('Billing')
-          .insert({
-            organization_id: organizationId,
-            plan,
-            status: 'active',
-          });
-
-        if (insertError) {
-          throw new Error(insertError.message);
-        }
-      }
-
-      // TODO: Handle billing plan update with Stripe
-
-      dispatch(createOrganizationActivity(organizationId, user.id, 'billing_plan_updated', { plan }));
-    } else {
-      throw new Error('User not authenticated');
+    if (listError) {
+      throw new Error(listError.message);
     }
+    console.log(logoImages)
+    if (logoImages && logoImages.length > 0) {
+      await supabaseClient.storage.from('organization-logos').remove(logoImages.map((image) => `${organizationId}/${image.name}`));
+    }
+    const fileName = `${Date.now()}_${file.name}`;
+    const filePath = `${organizationId}/${fileName}`;
+
+    const { data, error } = await supabaseClient.storage
+      .from('organization-logos')
+      .upload(filePath, file);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    const { data: { publicUrl } } = supabaseClient.storage
+      .from('organization-logos')
+      .getPublicUrl(filePath);
+
+    const { error: updateError } = await supabaseClient
+      .from('Organization')
+      .update({ logo_url: publicUrl })
+      .eq('id', organizationId);
+
+    if (updateError) {
+      throw new Error(updateError.message);
+    }
+
+    dispatch(updateOrganizationLogoSuccess(publicUrl));
+    toast.success('Organization logo updated successfully', {
+      position: 'bottom-left',
+      style: {
+        background: '#4caf50',
+        color: '#fff',
+      },
+    });
+    dispatch(createOrganizationActivity(organizationId, getState().userProfile.data?.uuid || '', 'organization_logo_updated', { url: publicUrl }));
   } catch (error) {
-    console.error('Error updating billing plan:', error);
-    throw error;
+    dispatch(updateOrganizationLogoFailure(error.message));
+    console.error('Error updating organization logo:', error.message);
+    toast.error('Failed to update organization logo', {
+      position: 'bottom-left',
+      style: {
+        background: '#f44336',
+        color: '#fff',
+      },
+    });
   }
 };
 
-// Cancel billing subscription for an organization
-export const cancelBillingSubscription = (organizationId: number): AppThunk => async (dispatch) => {
+export const checkOrganizationNameAvailability = async (name: string): Promise<boolean> => {
   try {
     const supabaseClient = createSupabaseClient();
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const { data: existingOrg, error: existingOrgError } = await supabaseClient
+      .from('Organization')
+      .select('id')
+      .eq('name', name)
+      .single();
 
-    if (user) {
-      await dispatch(enforcePermissions(organizationId, user.id, 'cancel_billing_subscription'));
-
-      const { data: billing, error: fetchError } = await supabaseClient
-        .from('Billing')
-        .select('id, status')
-        .eq('organization_id', organizationId)
-        .single();
-
-      if (billing) {
-        if (billing.status === 'canceled') {
-          throw new Error('The billing subscription is already canceled');
-        }
-
-        const { error: updateError } = await supabaseClient
-          .from('Billing')
-          .update({ status: 'canceled' })
-          .eq('id', billing.id);
-
-        if (updateError) {
-          throw new Error(updateError.message);
-        }
-
-        // TODO: Handle subscription cancellation with Stripe
-
-        dispatch(createOrganizationActivity(organizationId, user.id, 'billing_subscription_canceled'));
-      } else {
-        throw new Error('No active billing subscription found');
-      }
-    } else {
-      throw new Error('User not authenticated');
+    if (existingOrgError && existingOrgError.code !== 'PGRST116') {
+      throw new Error(existingOrgError.message);
     }
+
+    return !existingOrg;
   } catch (error) {
-    console.error('Error canceling billing subscription:', error);
+    console.error('Error checking organization name availability:', error);
     throw error;
   }
 };

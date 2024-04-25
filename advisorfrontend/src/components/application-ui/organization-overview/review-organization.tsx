@@ -87,20 +87,21 @@ const ReviewOrganization: React.FC<ReviewOrganizationProps> = ({ organizationDat
                       isConnected ? (
                         <Grid item xs={12} sm={6} md={4} key={platform}>
                           <Card>
-                            {organizationData.selectedAccounts ? (
-
-                              <CardContent>
+                            <CardContent>
                               <Box display="flex" alignItems="center">
-                                <Avatar src={accounts.find((acc) => acc.name === platform).icon} sx={{ mr: 2 }} />
+                                <Avatar src={accounts.find((acc) => acc.name === platform)?.icon} sx={{ mr: 2 }} />
                                 <Typography variant="subtitle1">{platform} Ads</Typography>
                               </Box>
-                              <Typography variant="body2" color="text.secondary">
-                                {organizationData.selectedAccounts[platform].length} account(s) connected
-                              </Typography>
-                            </CardContent>
+                              {organizationData.selectedAccounts && organizationData.selectedAccounts[platform]?.length > 0 ? (
+                                <Typography variant="body2" color="text.secondary">
+                                  {organizationData.selectedAccounts[platform].length} account(s) connected
+                                </Typography>
                               ) : (
-                              <Typography>No selected accounts.</Typography>
-                            )}
+                                <Typography variant="body2" color="text.secondary">
+                                  No accounts selected
+                                </Typography>
+                              )}
+                            </CardContent>
                           </Card>
                         </Grid>
                       ) : null

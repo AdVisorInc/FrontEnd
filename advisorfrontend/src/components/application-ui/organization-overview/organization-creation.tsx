@@ -23,14 +23,22 @@ import ConnectAccounts from "./connect-accounts";
 import {ButtonSoft} from "../../base/styles/button-soft";
 import PricingAndBilling from './pricing-and-billing';
 import { createSubscription } from 'src/slices/stripe';
-import {useDispatch} from "../../../store";
-
+import {useDispatch, useSelector} from "../../../store";
+import {
+  checkOrganizationNameAvailability,
+  createOrganization,
+  selectCreateOrganizationLoading,
+  selectCreateOrganizationSuccess,
+  selectCreateOrganizationError,
+} from 'src/slices/organization';
 interface OrganizationCreationProps {
   onClose: () => void;
 }
 
 
 const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) => {
+  const [selectedLogo, setSelectedLogo] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [activeStep, setActiveStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -49,6 +57,9 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const dispatch = useDispatch();
+  const createOrganizationLoading = useSelector(selectCreateOrganizationLoading);
+  const createOrganizationSuccess = useSelector(selectCreateOrganizationSuccess);
+  const createOrganizationError = useSelector(selectCreateOrganizationError);
   const steps = [
     { title: t('Organization Details'), description: 'Enter organization details.' },
     { title: t('Connect Accounts'), description: 'Connect your ad accounts (optional).' },
@@ -66,7 +77,11 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
     },
   });
   const handleOrganizationDataChange = (newData: any) => {
-    setOrganizationData(newData);
+    setOrganizationData({
+      ...organizationData,
+      ...newData,
+      avatar: newData.avatar || organizationData.avatar,
+    });
     validateOrganizationDetails(newData);
     validatePricingAndBilling(newData);
   };
@@ -94,43 +109,36 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
       pricingAndBilling: errors,
     }));
   };
-
-  const handleNext = () => {
+  const handleNext = async () => {
     if (activeStep === 0) {
-      if (!validationErrors.organizationDetails.name && !validationErrors.organizationDetails.description) {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      validateOrganizationDetails(organizationData);
+      if (!validationErrors.organizationDetails.name && !validationErrors.organizationDetails.description && organizationData.name.trim() !== '') {
+        const isNameAvailable = await checkOrganizationNameAvailability(organizationData.name);
+        if (isNameAvailable) {
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        } else {
+          setValidationErrors((prevState) => ({
+            ...prevState,
+            organizationDetails: {
+              ...prevState.organizationDetails,
+              name: true,
+            },
+          }));
+        }
       }
     } else if (activeStep === 2) {
+      validatePricingAndBilling(organizationData);
       if (!validationErrors.pricingAndBilling.pricingPlan && !validationErrors.pricingAndBilling.billingSettings) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
     } else if (activeStep === steps.length - 1) {
-      setIsLoading(true);
-      // Create subscription using the selected pricing plan and billing settings
-      if (organizationData.pricingPlan && organizationData.billingSettings?.selectedCard) {
-        dispatch(
-          createSubscription(
-            organizationData.billingSettings.selectedCard.id,
-            organizationData.pricingPlan.id
-          )
-        )
-          .then(() => {
-            setIsLoading(false);
-            setIsSuccess(true);
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-          })
-          .catch(() => {
-            setIsLoading(false);
-            setIsError(true);
-          });
-      } else {
-        setIsLoading(false);
-        setIsError(true);
-      }
+      console.log('Dispatching createOrganization action');
+      dispatch(createOrganization(organizationData));
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
+
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -161,6 +169,10 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
             organizationData={organizationData}
             setOrganizationData={handleOrganizationDataChange}
             validationErrors={validationErrors.organizationDetails}
+            selectedLogo={selectedLogo}
+            setSelectedLogo={setSelectedLogo}
+            loading={loading}
+            setLoading={setLoading}
           />
         );
       case 1:
@@ -179,6 +191,7 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
           />
         );
       case 3:
+        console.log(organizationData)
         return <ReviewOrganization organizationData={organizationData} />;
       default:
         return null;
@@ -209,11 +222,11 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
           ))}
         </Stepper>
       )}
-      {isLoading ? (
+      {createOrganizationLoading ? (
         <Box py={5}>
           <AlertProgressAlternate />
         </Box>
-      ) : isSuccess ? (
+      ) : createOrganizationSuccess ? (
         <Box py={5}>
           <AlertCompletedAlternate />
           <Divider sx={{ my: 2 }} />
@@ -230,7 +243,7 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
             </Button>
           </Box>
         </Box>
-      ) : isError ? (
+      ) : createOrganizationError ? (
         <Box py={5}>
           <AlertFailed />
           <Divider sx={{ my: 2 }} />
@@ -250,7 +263,7 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
       ) : activeStep === steps.length ? (
         <Box py={5}>
           <AlertCompletedAlternate />
-          <Divider sx={{my: 2 }} />
+          <Divider sx={{ my: 2 }} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button
               variant="contained"
@@ -290,6 +303,7 @@ const OrganizationCreation: React.FC<OrganizationCreationProps> = ({ onClose }) 
               variant={activeStep === steps.length - 1 ? 'contained' : 'outlined'}
               color="primary"
               disabled={
+                loading ||
                 (activeStep === 0 && (validationErrors.organizationDetails.name || validationErrors.organizationDetails.description)) ||
                 (activeStep === 2 && (validationErrors.pricingAndBilling.pricingPlan || validationErrors.pricingAndBilling.billingSettings))
               }
