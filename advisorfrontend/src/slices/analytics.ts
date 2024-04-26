@@ -277,41 +277,59 @@ export const fetchPerformanceGraphData =
       const accessToken = process.env.META_ACCESS_TOKEN;
       const fields = 'fields=impressions,clicks,cpc,ctr,cpm';
       let datePreset: string;
-      let timeIncrement = '1'; // Daily increments
+      let queryParams: string;
+      let isHourlyBreakdown = false;
 
       // Define the API parameter based on the period
       switch (period) {
         case 'today':
         case 'yesterday':
           datePreset = period;
+          queryParams = `breakdowns=hourly_stats_aggregated_by_advertiser_time_zone`;
+          isHourlyBreakdown = true;
           break;
         case 'last_month':
         case 'last_year':
         case 'this_month':
           datePreset = period;
+          queryParams = `time_increment=1`;
           break;
         default:
           datePreset = 'this_month'; // Default case if somehow an incorrect period is passed
+          queryParams = `time_increment=1`;
           break;
       }
 
       // FETCH CURRENT PERFORMANCE DATA
       const responseCurrent = await fetch(
-        `${urlBase}?date_preset=${datePreset}&access_token=${accessToken}&${fields}&time_increment=${timeIncrement}`
+        `${urlBase}?date_preset=${datePreset}&access_token=${accessToken}&${fields}&${queryParams}`
       );
       const dataCurrent = await responseCurrent.json();
       if (!responseCurrent.ok) {
         throw new Error(dataCurrent.error.message);
       }
 
+      //console.log(dataCurrent);
+      //console.log('HERE');
+
       // Map and process each item to transform strings to numbers as appropriate
-      const transformedData = dataCurrent.data.map((dayData: any) => ({
-        impressions: parseInt(dayData.impressions, 10),
-        clicks: parseInt(dayData.clicks, 10),
-        cpc: dayData.cpc ? parseFloat(parseFloat(dayData.cpc).toFixed(2)) : 0, // Handle missing 'cpc' by defaulting to 0
-        ctr: parseFloat(parseFloat(dayData.ctr).toFixed(2)),
-        cpm: parseFloat(parseFloat(dayData.cpm).toFixed(2)),
-        date: dayData.date_start,
+      //const transformedData = dataCurrent.data.map((dayData: any) => ({
+      //  impressions: parseInt(dayData.impressions, 10),
+      //  clicks: parseInt(dayData.clicks, 10),
+      //  cpc: dayData.cpc ? parseFloat(parseFloat(dayData.cpc).toFixed(2)) : 0, // Handle missing 'cpc' by defaulting to 0
+      //  ctr: parseFloat(parseFloat(dayData.ctr).toFixed(2)),
+      //  cpm: parseFloat(parseFloat(dayData.cpm).toFixed(2)),
+      //  date: dayData.date_start,
+      //}));
+
+      let transformedData = dataCurrent.data.map((dataItem: any) => ({
+        impressions: parseInt(dataItem.impressions, 10),
+        clicks: parseInt(dataItem.clicks, 10),
+        cpc: dataItem.cpc ? parseFloat(parseFloat(dataItem.cpc).toFixed(2)) : 0,
+        ctr: parseFloat(parseFloat(dataItem.ctr).toFixed(2)),
+        cpm: parseFloat(parseFloat(dataItem.cpm).toFixed(2)),
+        date: dataItem.date_start,
+        hour: dataItem.hourly_stats_aggregated_by_advertiser_time_zone, // directly use the hour string
       }));
 
       // Segregate data into the PerformanceGraphData format

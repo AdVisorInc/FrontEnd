@@ -83,45 +83,6 @@ function PerformanceMetrics() {
   const [selectedAudienceData, setSelectedAudienceData] = useState([]);
   const [xAxisLabels, setXAxisLabels] = useState([]);
 
-  const generateDateLabels = (period) => {
-    const today = new Date();
-    let start, end;
-
-    switch (selectedPeriod) {
-      case 'today':
-        start = end = startOfDay(today);
-        break;
-      case 'yesterday':
-        start = end = startOfDay(subDays(today, 1));
-        break;
-      case 'this_month':
-        start = startOfMonth(today);
-        end = new Date();
-        break;
-      case 'last_month':
-        start = startOfDay(startOfMonth(subMonths(today, 1)));
-        end = endOfMonth(start);
-        break;
-      case 'this_year':
-        start = startOfDay(startOfYear(today));
-        end = today;
-        break;
-      case 'last_year':
-        start = startOfDay(startOfYear(subYears(today, 1)));
-        end = endOfYear(start);
-        break;
-      default:
-        start = startOfDay(today.setDate(1));
-        end = today;
-    }
-
-    const dates = eachDayOfInterval({ start, end }).map((day) => format(day, 'MMM d'));
-    setXAxisLabels(dates);
-  };
-
-  console.log(dataGraph);
-  console.log('HERE');
-
   useEffect(() => {
     if (selectedPeriod) {
       dispatch(fetchPerformanceData(selectedPeriod));
@@ -131,9 +92,13 @@ function PerformanceMetrics() {
 
   useEffect(() => {
     if (dataGraph) {
-      setXAxisLabels(dataGraph['date']);
+      if (selectedPeriod === 'today' || selectedPeriod === 'yesterday') {
+        setXAxisLabels(dataGraph['hour']);
+      } else {
+        setXAxisLabels(dataGraph['date']);
+      }
     }
-  }, [dataGraph]);
+  }, [dataGraph, selectedPeriod]);
 
   // Effect to set initial data for selectedAudienceData
   useEffect(() => {
@@ -150,8 +115,6 @@ function PerformanceMetrics() {
 
   const updateChartData = (metric) => {
     const rawData = dataGraph[metric] || [0];
-    //const paddedData = new Array(xAxisLabels.length - rawData.length).fill(null); // Create an array of nulls for padding
-    //const metricData = paddedData.concat(rawData); // Concatenate paddedData and rawData to align with xAxisLabels
     setSelectedAudienceData(rawData);
   };
 
