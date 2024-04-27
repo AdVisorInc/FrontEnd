@@ -1,6 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import {
   reducer as analyticsReducer,
+  audienceGraphReducer,
   audienceReducer,
   performanceGraphReducer,
   performanceReducer,
@@ -24,6 +25,7 @@ export const rootReducer = combineReducers({
   analyticsPerformance: performanceReducer,
   analyticsPerformanceGraph: performanceGraphReducer,
   analyticsAudience: audienceReducer,
+  analyticsAudienceGraph: audienceGraphReducer,
   organization: organizationReducer,
   performanceMetrics: performanceMetricsReducer,
   userActivity: userActivitiesReducer,

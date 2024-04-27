@@ -145,11 +145,46 @@ const audienceSlice = createSlice({
   },
 });
 
+interface AudienceGraphData {
+  reach: any[];
+  frequency: any[];
+}
+
+interface AudienceGraphDataState {
+  isLoadedGraph: boolean;
+  dataGraph: AudienceGraphData | null;
+  errorGraph: string | null;
+}
+
+const initialAudienceGraphState: AudienceGraphDataState = {
+  isLoadedGraph: false,
+  dataGraph: null,
+  errorGraph: null,
+};
+
+const audienceGraphSlice = createSlice({
+  name: 'audienceGraphSlice',
+  initialState: initialAudienceGraphState,
+  reducers: {
+    getAudienceGraphMetricsSuccess(state, action: PayloadAction<AudienceGraphData>) {
+      state.isLoadedGraph = true;
+      state.dataGraph = action.payload;
+      state.errorGraph = null;
+    },
+    getAudienceGraphMetricsFailure(state, action: PayloadAction<string>) {
+      state.isLoadedGraph = false;
+      state.dataGraph = null;
+      state.errorGraph = action.payload;
+    },
+  },
+});
+
 export const { reducer, actions } = spendSlice;
 export const { actions: performanceActions, reducer: performanceReducer } = performanceSlice;
 export const { actions: audienceActions, reducer: audienceReducer } = audienceSlice;
 export const { actions: performanceGraphActions, reducer: performanceGraphReducer } =
   performanceGraphSlice;
+export const { actions: audienceGraphActions, reducer: audienceGraphReducer } = audienceGraphSlice;
 
 export const fetchSpendData = (): AppThunk => async (dispatch) => {
   try {
@@ -349,3 +384,32 @@ export const fetchPerformanceGraphData =
       toast.error('Failed to load performance data');
     }
   };
+
+export const fetchAudienceGraphData = (): AppThunk => async (dispatch) => {
+  try {
+    const urlBase = 'https://graph.facebook.com/v19.0/120207851692320476/insights';
+    const accessToken = process.env.META_ACCESS_TOKEN;
+    const fields = 'fields=reach,frequency';
+    const datePreset = 'last_7d';
+    const queryParams = `time_increment=1`;
+
+    const response = await fetch(
+      `${urlBase}?date_preset=${datePreset}&${queryParams}&access_token=${accessToken}&${fields}`
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error.message);
+    }
+
+    const transformedData = {
+      reach: data.data.map((item: any) => parseInt(item.reach, 10)),
+      frequency: data.data.map((item: any) => parseFloat(item.frequency).toFixed(2)),
+    };
+
+    dispatch(audienceGraphSlice.actions.getAudienceGraphMetricsSuccess(transformedData));
+    toast.success('Audience data loaded successfully');
+  } catch (error) {
+    dispatch(audienceGraphSlice.actions.getAudienceGraphMetricsFailure(error.message));
+    toast.error('Failed to load audience data');
+  }
+};
