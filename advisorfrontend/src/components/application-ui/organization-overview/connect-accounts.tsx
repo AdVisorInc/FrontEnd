@@ -20,7 +20,6 @@ import {
 import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useFacebook from 'use-facebook';
 import { AvatarState } from '../../base/styles/avatar';
 
 interface ConnectAccountsProps {
@@ -48,7 +47,7 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({
   ];
 
   const options = { appId: '734253658867683' };
-  const { isFacebookSDKReady } = useFacebook(options);
+  //const { isFacebookSDKReady } = useFacebook(options);
 
   const handleAccountSelection = (platform, account) => {
     setOrganizationData({
@@ -65,9 +64,7 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({
   };
 
   const handleConnect = (account) => {
-    if (isFacebookSDKReady) {
-      FB.login();
-    }
+
   };
 
   return (
