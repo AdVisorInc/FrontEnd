@@ -76,7 +76,7 @@ export interface OrganizationMember {
     name: string;
     permissions: string[];
   };
-  status: 'pending' | 'active' | 'inactive';
+  status: 'pending' | 'active' | 'inactive' | 'expired';
   invited_at: string;
   joined_at: string;
   last_active_at: string;
@@ -470,11 +470,16 @@ export const fetchOrganizationMembers = (organizationId: number): AppThunk => as
     }
 
     const organizationMembers: OrganizationMember[] = data.map((member) => {
-      let status: 'pending' | 'active' | 'inactive' = member.invitation?.status || 'inactive';
+      let status: 'pending' | 'active' | 'inactive' | 'expired' = member.invitation?.status || 'inactive';
 
       if (member.user_id === userId && member.role.name === 'Owner') {
         status = 'active';
       }
+
+      if (member.invitation?.status === 'expired') {
+        status = 'expired';
+      }
+
 
       return {
         id: member.id,

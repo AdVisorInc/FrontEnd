@@ -116,8 +116,6 @@ function OrganizationsList() {
       return a.name.localeCompare(b.name);
     } else if (selectedSort === 'Sort by status') {
       return a.is_active === b.is_active ? 0 : a.is_active ? -1 : 1;
-    } else if (selectedSort === 'Sort by hosts') {
-      return a.ad_accounts_count - b.ad_accounts_count;
     }
     return 0;
   });
@@ -331,7 +329,7 @@ function OrganizationsList() {
                   sx={{
                     mt: 3,
                   }}
-                  onClick={() => handleViewOrganization(org.id)}
+                  onClick={() => handleViewOrganization(String(org.id))}
                 >
                   {t('View details')}
                 </Button>
@@ -343,9 +341,7 @@ function OrganizationsList() {
                   justifyContent: 'space-between',
                 }}
               >
-                <Typography variant="subtitle2">
-                  <b>{org.ad_accounts_count}</b> {t('ad accounts')}
-                </Typography>
+
                 <Typography
                   sx={{
                     display: 'flex',

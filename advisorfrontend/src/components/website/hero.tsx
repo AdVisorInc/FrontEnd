@@ -206,7 +206,10 @@ const HomepageHero = () => {
                 <Typography variant="h1" gutterBottom color="text.primary">
                   AdVisor: The Ultimate AI-Driven Ad Optimization Platform
                 </Typography>
-                <Typography variant="h4" component="p" fontWeight={400} color="neutral.500">
+                <Typography variant="subtitle2" gutterBottom color="text.secondary" sx={{ mb: 2 }}>
+                  Powered By Aniceto Holdings LLC
+                </Typography>
+                <Typography variant="h4" component="p" fontWeight={400} color="neutral.300">
                   Harness the power of AI and machine learning to streamline your ad campaigns across
                   multiple platforms. AdVisor saves you time, optimizes your budget allocation, and
                   provides actionable insights to boost your marketing ROI by up to 30%.

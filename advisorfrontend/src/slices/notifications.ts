@@ -109,19 +109,21 @@ export const fetchNotifications = (): AppThunk => async (dispatch) => {
     });
   }
 };
-export const createNotification = (userId: string, type: string, data: any): AppThunk => async (dispatch) => {
+export const createNotification = (userId: string, notification_type: string, data: any): AppThunk => async (dispatch) => {
   try {
     const supabaseClient = createSupabaseClient();
 
     const { data: notification, error } = await supabaseClient
-      .from('Notification')
+      .from('Notifications')
       .insert({
         user_id: userId,
-        type,
+        notification_type,
         data,
       })
+      .select()
       .single();
-
+    console.log(notification)
+    console.log("error", error)
     if (error) {
       throw new Error(error.message);
     }

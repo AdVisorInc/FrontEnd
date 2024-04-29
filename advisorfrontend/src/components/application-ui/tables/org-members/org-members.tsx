@@ -37,7 +37,12 @@ import { ChangeEvent, useEffect, useState } from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { RootState, useDispatch, useSelector } from 'src/store';
 import { fetchOrganizationMembers, OrganizationMember, removeMember } from 'src/slices/organization';
-import { sendInvitation, cancelInvitation, resendInvitation } from "../../../../slices/invitations";
+import {
+  cancelInvitation,
+  resetInvitationSentSuccess,
+  sendInvitation,
+  updateInvitationStatus
+} from "../../../../slices/invitations";
 import InviteMemberDialog from "../../organization-overview/InviteMemberDialog";
 
 const OrgMembers = () => {
@@ -54,13 +59,23 @@ const OrgMembers = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedEmployee, setSelectedEmployee] = useState<string | null>(null);
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
-
+  const invitationSentSuccess = useSelector((state: RootState) => state.invitations.invitationSentSuccess);
+  console.log(organizationMembers)
   useEffect(() => {
     if (selectedOrganizationId) {
       dispatch(fetchOrganizationMembers(selectedOrganizationId));
     }
   }, [dispatch, selectedOrganizationId]);
-
+  useEffect(() => {
+    if (selectedOrganizationId) {
+      dispatch(fetchOrganizationMembers(selectedOrganizationId));
+    }
+  }, [dispatch, selectedOrganizationId, invitationSentSuccess]);
+  useEffect(() => {
+    if (invitationSentSuccess) {
+      dispatch(resetInvitationSentSuccess());
+    }
+  }, [dispatch, invitationSentSuccess]);
   const handleQueryChange = (event: ChangeEvent<HTMLInputElement>): void => {
     event.persist();
     setQuery(event.target.value);
@@ -117,10 +132,10 @@ const OrgMembers = () => {
   };
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, userId: string) => {
+    console.log('Opening menu for user:', userId);
     setAnchorEl(event.currentTarget);
     setSelectedEmployee(userId);
   };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
     setSelectedEmployee(null);
@@ -129,22 +144,25 @@ const OrgMembers = () => {
   const handleResendInvitation = async (userId: string) => {
     const member = organizationMembers.find((m) => m.user_id === userId);
     if (member && selectedOrganizationId) {
-      await dispatch(resendInvitation(member.invitation_id));
+      await dispatch(sendInvitation(selectedOrganizationId, member.user.email, member.role.id, user?.first_name || ''));
       handleMenuClose();
     }
   };
 
   const handleCancelInvitation = async (userId: string) => {
     const member = organizationMembers.find((m) => m.user_id === userId);
-    if (member && selectedOrganizationId) {
+    if (member && member.invitation_id) {
+      console.log('Canceling invitation for user:', userId);
       await dispatch(cancelInvitation(member.invitation_id));
+      console.log('Invitation canceled, fetching updated members');
+      await dispatch(fetchOrganizationMembers(selectedOrganizationId));
       handleMenuClose();
     }
   };
-
   const handleRemoveMember = async (userId: string) => {
     if (selectedOrganizationId) {
       await dispatch(removeMember(selectedOrganizationId, userId));
+      await dispatch(fetchOrganizationMembers(selectedOrganizationId));
       handleMenuClose();
     }
   };
@@ -157,7 +175,8 @@ const OrgMembers = () => {
   const selectedAllMembers = selectedEmployees.length === organizationMembers.length;
 
   const canInviteMembers = organizationMembers.some((member) => member.role.permissions.includes('manage_members'));
-  const canLeaveTeam = !organizationMembers.some((member) => member.user_id === user?.id && member.role.name === 'Owner');
+  const canLeaveTeam = !organizationMembers.some((member) => member.user_id === user?.id && member.role.name === 'Owner') || organizationMembers.length === 1;
+
 
   const handleInviteClick = () => {
     setInviteDialogOpen(true);
@@ -167,9 +186,9 @@ const OrgMembers = () => {
     setInviteDialogOpen(false);
   };
 
-  const handleSendInvitation = async (email: string, roleId: number) => {
+  const handleSendInvitation = async (email: string, roleId: number, inviterName: string) => {
     if (selectedOrganizationId) {
-      await dispatch(sendInvitation(selectedOrganizationId, email, roleId));
+      await dispatch(sendInvitation(selectedOrganizationId, email, roleId, inviterName));
       handleInviteDialogClose();
     }
   };
@@ -263,12 +282,13 @@ const OrgMembers = () => {
               </TableHead>
               <TableBody>
                 {paginatedMembers.map((member) => {
+                  console.log('Member:', member);
                   const isMemberSelected = selectedEmployees.includes(member.user.id);
-                  const canChangeRole = (member.user_id !== user?.id || member.role.name !== 'Owner') && member.role.name !== 'Owner';
+                  const canChangeRole = (member.user_id !== user?.id || member.role.name !== 'Owner') && member.role.name !== 'Owner' && member.status !== 'expired' && member.status !== 'pending';
                   const isInvitationPending = member.status === 'pending';
 
                   return (
-                    <TableRow hover key={member.user.id} selected={isMemberSelected}>
+                    <TableRow hover key={member.user_id} selected={isMemberSelected}>
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isMemberSelected}
@@ -307,51 +327,52 @@ const OrgMembers = () => {
                         <IconButton
                           size="small"
                           sx={{ color: 'primary.main' }}
-                          onClick={(event) => handleMenuOpen(event, member.user.id)}
+                          onClick={(event) => handleMenuOpen(event, member.user_id)}
                           disabled={!isInvitationPending}
                         >
                           <MoreVertIcon />
                         </IconButton>
-                        <Menu
-                          anchorEl={anchorEl}
-                          open={selectedEmployee === member.user.id}
-                          onClose={handleMenuClose}
-                          transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                          }}
-                          anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
-                          }}
-                        >
-                          {isInvitationPending && (
-                            <>
-                              <MenuItem onClick={() => handleResendInvitation(member.user.id)}>
-                                <ListItemIcon>
-                                  <EmailOutlinedIcon />
-                                </ListItemIcon>
-                                <Typography variant="body2">{t('Resend Invitation')}</Typography>
-                              </MenuItem>
-                              <MenuItem onClick={() => handleCancelInvitation(member.user.id)}>
-                                <ListItemIcon>
-                                  <CloseIcon />
-                                </ListItemIcon>
-                                <Typography variant="body2">{t('Cancel Invitation')}</Typography>
-                              </MenuItem>
-                            </>
-                          )}
-                          {!isInvitationPending && (
-                            <>
-                              <MenuItem onClick={() => handleRemoveMember(member.user.id)}>
-                                <ListItemIcon>
-                                  <PersonRemoveOutlinedIcon />
-                                </ListItemIcon>
-                                <Typography variant="body2">{t('Remove Member')}</Typography>
-                              </MenuItem>
-                            </>
-                          )}
-                        </Menu>
+                          <Menu
+                            anchorEl={anchorEl}
+                            open={selectedEmployee === member.user.id}
+                            onClose={handleMenuClose}
+                            transformOrigin={{
+                              vertical: 'top',
+                              horizontal: 'right',
+                            }}
+                            anchorOrigin={{
+                              vertical: 'bottom',
+                              horizontal: 'right',
+                            }}
+                          >
+                            {isInvitationPending ? (
+                              [
+                                member.status === 'expired' && (
+                                  <MenuItem key="resend" onClick={() => handleResendInvitation(member.user.id)}>
+                                    <ListItemIcon>
+                                      <EmailOutlinedIcon />
+                                    </ListItemIcon>
+                                    <Typography variant="body2">{t('Resend Invitation')}</Typography>
+                                  </MenuItem>
+                                ),
+                                <MenuItem key="cancel" onClick={() => handleCancelInvitation(member.user.id)}>
+                                  <ListItemIcon>
+                                    <CloseIcon />
+                                  </ListItemIcon>
+                                  <Typography variant="body2">{t('Cancel Invitation')}</Typography>
+                                </MenuItem>,
+                              ]
+                            ) : (
+                              [
+                                <MenuItem key="remove" onClick={() => handleRemoveMember(member.user.id)}>
+                                  <ListItemIcon>
+                                    <PersonRemoveOutlinedIcon />
+                                  </ListItemIcon>
+                                  <Typography variant="body2">{t('Remove Member')}</Typography>
+                                </MenuItem>,
+                              ]
+                            )}
+                          </Menu>
                       </TableCell>
                     </TableRow>
                   );

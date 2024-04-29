@@ -12,6 +12,8 @@ export interface Env {
   NEXT_PUBLIC_STRIPE_SECRET_KEY?: string;
 
   NEXT_PUBLIC_STRIPE_PUBLIC_KEY?: string;
+
+  NEXT_SEND_GRID_API_KEY?: string;
 }
 
 declare global {
