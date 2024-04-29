@@ -9,6 +9,8 @@ import {reducer as performanceMetricsReducer} from 'src/slices/performanceMetric
 import {reducer as userActivitiesReducer} from 'src/slices/userActivities'
 import {reducer as notificationReducer} from 'src/slices/notifications'
 import {reducer as stripeReducer} from 'src/slices/stripe'
+import {reducer as invitationReducer} from 'src/slices/stripe'
+
 
 export const rootReducer = combineReducers({
   calendar: calendarReducer,

@@ -25,15 +25,16 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import {Fragment, useState} from 'react';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Organization } from 'src/slices/organization';
 
+// basic.tsx
 export interface BreadcrumbItem {
   label: string;
   href: string;
-  options?: Array<{ id: string; name: string }>;
-  selectedOption?: string;
-  onOptionChange?: (optionId: string) => void;
+  options?: Array<Organization>;
+  selectedOption?: number;
+  onOptionChange?: (optionId: number) => void;
 }
-
 interface SectionHeadingProps {
   title?: string;
   breadcrumbs?: BreadcrumbItem[];
@@ -54,7 +55,8 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
 
   const mdUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedOption, setSelectedOption] = useState<string | undefined>(undefined);
+  const [selectedOption, setSelectedOption] = useState<number | undefined>(undefined);
+
   const handleClick = (href: string) => {
     router.push(href);
     toast.success('Redirecting to ' + href, {
@@ -71,7 +73,7 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
     setAnchorEl(null);
   };
 
-  const handleOptionChange = (optionId: string, item: BreadcrumbItem) => {
+  const handleOptionChange = (optionId: number, item: BreadcrumbItem) => {
     if (item.onOptionChange) {
       item.onOptionChange(optionId);
     }
@@ -79,7 +81,6 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
   };
 
   const renderBreadcrumbItem = (item: BreadcrumbItem, index: number) => {
-    console.log(item.options)
     if (item.options) {
       const selectedOptionName = item.options.find((option) => option.id === item.selectedOption)?.name;
       return (
@@ -125,9 +126,8 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
             maxItems={mdUp ? 12 : 3}
           >
             {breadcrumbs.map((item, index) => (
-                renderBreadcrumbItem(item, index)
+              renderBreadcrumbItem(item, index)
             ))}
-
           </Breadcrumbs>
           <Menu
             anchorEl={anchorEl}

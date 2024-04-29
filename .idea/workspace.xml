@@ -4,15 +4,318 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Fixed billing in stripe">
-      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/radio-groups/my-cards/my-cards-select-for-subscription.tsx" afterDir="false" />
+    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="My god, this works. I did not have a breakdown I swear. Organization Creation DONE">
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/alerts/completed-alternate/alert-completed-alternet-org.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/alerts/completed-alternate/completed-alternate-org.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/alerts/failed/alert-failed-org.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/InviteMemberDialog.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/tables/org-members/org-members.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/invitations.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/next.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/organization/[organizationId]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/app/blueprints/generic-admin-dashboard/dashboards/organization/[organizationId]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/composed-blocks/multi-panel/multi-panel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/composed-blocks/multi-panel/multi-panel.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-creation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-creation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-details.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/organization-details.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/pricing-and-billing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/pricing-and-billing.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/review-organization.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/review-organization.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/section-headings/basic/basic.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/section-headings/basic/basic.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/collapsed-shells.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/collapsed-shells.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/vertical-shells.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/router/nav-items-generic-admin-dashboard/vertical-shells.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/notifications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/notifications.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/stripe.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/stripe.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/userProfile.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/userProfile.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/loose-envify" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/loose-envify.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/loose-envify.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/dist/react-stripe.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/dist/react-stripe.esm.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/dist/react-stripe.esm.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/dist/react-stripe.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/dist/react-stripe.umd.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/dist/react-stripe.umd.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/dist/react-stripe.umd.min.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/dist/react-stripe.umd.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/CustomCheckout.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/CustomCheckout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/Elements.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/Elements.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/EmbeddedCheckout.client.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/EmbeddedCheckout.server.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/EmbeddedCheckout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/EmbeddedCheckoutProvider.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/EmbeddedCheckoutProvider.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/createElementComponent.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/createElementComponent.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/components/useStripe.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/types/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/utils/extractAllowedOptionsUpdates.test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/utils/extractAllowedOptionsUpdates.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/utils/guards.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/utils/isEqual.test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/utils/isEqual.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/utils/isServer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/utils/parseStripeProp.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/utils/registerWithStripeJs.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/utils/useAttachEvent.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/utils/usePrevious.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/react-stripe-js/src/utils/usePrevious.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/bank-accounts.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/bank-accounts.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/cards.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/cards.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/confirmation-tokens.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/confirmation-tokens.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/financial-connections.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/financial-connections.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/index.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/orders.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/orders.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/payment-intents.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/payment-intents.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/payment-methods.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/payment-methods.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/setup-intents.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/setup-intents.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/shared.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/shared.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/sources.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/sources.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/tokens.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/tokens.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/verification-sessions.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/api/verification-sessions.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/index.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/index.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/pure.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/pure.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/pure.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/pure.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/shared.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/shared.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/checkout.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/checkout.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/confirmation-tokens.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/confirmation-tokens.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/custom-checkout.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/custom-checkout.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements-group.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements-group.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/address.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/address.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/affirm-message.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/affirm-message.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/afterpay-clearpay-message.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/afterpay-clearpay-message.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/apple-pay.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/apple-pay.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/au-bank-account.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/au-bank-account.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/base.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/base.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/card-cvc.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/card-cvc.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/card-expiry.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/card-expiry.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/card-number.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/card-number.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/card.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/card.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/eps-bank.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/eps-bank.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/express-checkout.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/express-checkout.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/fpx-bank.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/fpx-bank.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/iban.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/iban.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/ideal-bank.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/ideal-bank.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/index.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/index.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/issuing-card-copy-button.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/issuing-card-copy-button.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/issuing-card-cvc-display.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/issuing-card-cvc-display.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/issuing-card-expiry-display.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/issuing-card-expiry-display.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/issuing-card-number-display.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/issuing-card-number-display.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/issuing-card-pin-display.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/issuing/issuing-card-pin-display.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/link-authentication.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/link-authentication.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/p24-bank.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/p24-bank.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/payment-method-messaging.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/payment-method-messaging.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/payment-request-button.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/payment-request-button.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/payment.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/payment.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/shipping-address.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/elements/shipping-address.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/embedded-checkout.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/embedded-checkout.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/ephemeral-keys.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/ephemeral-keys.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/financial-connections.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/financial-connections.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/index.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/orders.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/orders.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/payment-intents.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/payment-intents.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/payment-request.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/payment-request.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/setup-intents.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/setup-intents.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/stripe.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/stripe.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/token-and-sources.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/stripe-js/token-and-sources.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/utils.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/dist/utils.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/lib/index.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/lib/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/lib/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/lib/index.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/pure/index.d.mts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/pure/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/pure/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/pure/index.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/src/index.test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/src/pure.test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/src/pure.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/src/shared.test.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@stripe/stripe-js/src/shared.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/js-tokens/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/js-tokens/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/js-tokens/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/js-tokens/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/js-tokens/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/cli.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/custom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/loose-envify.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/replace.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/object-assign/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/object-assign/license" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/object-assign/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/object-assign/readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/checkPropTypes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/factory.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/factoryWithThrowingShims.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/factoryWithTypeCheckers.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/lib/ReactPropTypesSecret.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/lib/has.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/prop-types.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/prop-types.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom-server-legacy.browser.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom-server-legacy.browser.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom-server-legacy.node.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom-server-legacy.node.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom-server.browser.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom-server.browser.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom-server.node.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom-server.node.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom-test-utils.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom-test-utils.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/cjs/react-dom.profiling.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/profiling.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/server.browser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/server.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/server.node.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/test-utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/umd/react-dom-server-legacy.browser.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/umd/react-dom-server-legacy.browser.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/umd/react-dom-server.browser.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/umd/react-dom-server.browser.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/umd/react-dom-test-utils.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/umd/react-dom-test-utils.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/umd/react-dom.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/umd/react-dom.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-dom/umd/react-dom.profiling.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/build-info.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/cjs/react-is.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/cjs/react-is.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/umd/react-is.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/umd/react-is.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/cjs/react-jsx-dev-runtime.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/cjs/react-jsx-dev-runtime.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/cjs/react-jsx-dev-runtime.profiling.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/cjs/react-jsx-runtime.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/cjs/react-jsx-runtime.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/cjs/react-jsx-runtime.profiling.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/cjs/react.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/cjs/react.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/cjs/react.shared-subset.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/cjs/react.shared-subset.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/jsx-dev-runtime.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/jsx-runtime.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/react.shared-subset.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/umd/react.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/umd/react.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react/umd/react.profiling.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/cjs/scheduler-unstable_mock.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/cjs/scheduler-unstable_mock.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/cjs/scheduler-unstable_post_task.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/cjs/scheduler-unstable_post_task.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/cjs/scheduler.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/cjs/scheduler.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/umd/scheduler-unstable_mock.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/umd/scheduler-unstable_mock.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/umd/scheduler.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/umd/scheduler.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/umd/scheduler.profiling.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/unstable_mock.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/scheduler/unstable_post_task.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +408,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;full-refactor&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Gustavo Aniceto/WebstormProjects&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Gustavo Aniceto/WebstormProjects/BackEnd&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -173,7 +476,10 @@
       <workItem from="1712260370750" duration="87274000" />
       <workItem from="1712948518760" duration="58516000" />
       <workItem from="1713389370437" duration="4180000" />
-      <workItem from="1713462315933" duration="4845000" />
+      <workItem from="1713462315933" duration="4883000" />
+      <workItem from="1713815111828" duration="5873000" />
+      <workItem from="1713821694156" duration="15750000" />
+      <workItem from="1714179700867" duration="14912000" />
     </task>
     <task id="LOCAL-00001" summary="Update package-lock.json">
       <option name="closed" value="true" />
@@ -367,7 +673,23 @@
       <option name="project" value="LOCAL" />
       <updated>1713153224245</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Organization Creation, Billing and started slice">
+      <option name="closed" value="true" />
+      <created>1713469121039</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1713469121040</updated>
+    </task>
+    <task id="LOCAL-00026" summary="My god, this works. I did not have a breakdown I swear. Organization Creation DONE">
+      <option name="closed" value="true" />
+      <created>1714009153730</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1714009153730</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -415,6 +737,8 @@
     <MESSAGE value="Header changed" />
     <MESSAGE value="Added Stripe Actions" />
     <MESSAGE value="Fixed billing in stripe" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed billing in stripe" />
+    <MESSAGE value="Organization Creation, Billing and started slice" />
+    <MESSAGE value="My god, this works. I did not have a breakdown I swear. Organization Creation DONE" />
+    <option name="LAST_COMMIT_MESSAGE" value="My god, this works. I did not have a breakdown I swear. Organization Creation DONE" />
   </component>
 </project>

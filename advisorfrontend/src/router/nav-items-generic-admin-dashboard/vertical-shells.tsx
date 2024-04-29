@@ -57,7 +57,7 @@ const useMenuItemsVerticalShells = (t: (token: string) => string): MenuItem[] =>
               title: t('Organization'),
               icon: <DashboardRoundedIcon/>,
               route: selectedOrganizationId
-                ? routes.blueprints['generic-admin-dashboard'].dashboards.organization.replace('[organizationId]', selectedOrganizationId)
+                ? routes.blueprints['generic-admin-dashboard'].dashboards.organization.replace('[organizationId]', String(selectedOrganizationId))
                 : routes.blueprints['generic-admin-dashboard'].dashboards.organization,
             },
           ],

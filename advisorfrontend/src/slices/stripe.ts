@@ -308,9 +308,17 @@ export const fetchPrices = (productIds: string[]): AppThunk => async (dispatch) 
     dispatch(slice.actions.setLoading(false));
   }
 };
-export const createSubscription = (customerId: string, priceId: string): AppThunk => async (dispatch) => {
+export const createSubscription = (customerId: string, productId: string): AppThunk => async (dispatch) => {
   dispatch(slice.actions.setLoading(true));
   try {
+    const prices = await stripe.prices.list({ product: productId, active: true, limit: 1 });
+
+    if (prices.data.length === 0) {
+      throw new Error('No active price found for the product');
+    }
+
+    const priceId = prices.data[0].id;
+
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
       items: [{ price: priceId }],
@@ -323,8 +331,7 @@ export const createSubscription = (customerId: string, priceId: string): AppThun
   } finally {
     dispatch(slice.actions.setLoading(false));
   }
-};
-export const fetchBillingDetails = (customerId: string): AppThunk => async (dispatch) => {
+};export const fetchBillingDetails = (customerId: string): AppThunk => async (dispatch) => {
   dispatch(slice.actions.setLoading(true));
   try {
     const response = await stripe.customers.retrieve(customerId);
