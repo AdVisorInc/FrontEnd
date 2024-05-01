@@ -47,7 +47,7 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({
   ];
 
   const options = { appId: '734253658867683', version: 'v19.0' };
-  const { isFacebookSDKReady } = useFacebook(options);
+  //const { isFacebookSDKReady } = useFacebook(options);
 
   const handleAccountSelection = (platform, account) => {
     setOrganizationData({
