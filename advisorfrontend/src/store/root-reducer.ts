@@ -1,5 +1,11 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { reducer as analyticsReducer } from 'src/slices/analytics';
+import {
+  reducer as analyticsReducer,
+  audienceGraphReducer,
+  audienceReducer,
+  performanceGraphReducer,
+  performanceReducer,
+} from 'src/slices/analytics';
 import { reducer as calendarReducer } from 'src/slices/calendar';
 import { reducer as mailboxReducer } from 'src/slices/mailbox';
 import { reducer as projectsBoardReducer } from 'src/slices/projects_board';
@@ -17,11 +23,16 @@ export const rootReducer = combineReducers({
   projectsBoard: projectsBoardReducer,
   mailbox: mailboxReducer,
   userProfile: userProfileReducer,
+  analyticsSpend: analyticsReducer,
+  analyticsPerformance: performanceReducer,
+  analyticsPerformanceGraph: performanceGraphReducer,
+  analyticsAudience: audienceReducer,
+  analyticsAudienceGraph: audienceGraphReducer,
   analytics: analyticsReducer,
   invitations: invitationReducer,
   organization: organizationReducer,
   performanceMetrics: performanceMetricsReducer,
   userActivity: userActivitiesReducer,
   notification: notificationReducer,
-  stripe: stripeReducer
+  stripe: stripeReducer,
 });

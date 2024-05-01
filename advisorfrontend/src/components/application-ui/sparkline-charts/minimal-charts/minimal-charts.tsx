@@ -1,21 +1,55 @@
 import KeyboardArrowDownTwoToneIcon from '@mui/icons-material/KeyboardArrowDownTwoTone';
 import KeyboardArrowUpTwoToneIcon from '@mui/icons-material/KeyboardArrowUpTwoTone';
-import { alpha, Box, Card, Unstable_Grid2 as Grid, Typography, useTheme } from '@mui/material';
+import {
+  alpha,
+  Box,
+  Card,
+  CircularProgress,
+  Unstable_Grid2 as Grid,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-
-const generateRandomData = (): number[] =>
-  Array.from({ length: 8 }, () => Math.floor(Math.random() * 500));
+import { fetchAudienceData, fetchAudienceGraphData } from 'src/slices/analytics';
+import { useDispatch, useSelector } from 'src/store';
 
 function AudienceMetrics() {
   const { t } = useTranslation();
   const theme = useTheme();
+
+  const dispatch = useDispatch();
+  const { data, isLoaded, error } = useSelector((state) => state.analyticsAudience);
+  const { dataGraph, isLoadedGraph, errorGraph } = useSelector(
+    (state) => state.analyticsAudienceGraph
+  );
+
+  useEffect(() => {
+    dispatch(fetchAudienceData());
+    dispatch(fetchAudienceGraphData());
+  }, [dispatch]);
+
+  if (dataGraph) {
+    console.log(dataGraph.reach);
+    console.log('here');
+  }
+
+  if (!isLoaded || !isLoadedGraph) {
+    return <CircularProgress />;
+  }
+
+  // Error handling
+  if (error || errorGraph) {
+    return <Typography color="error">{error || errorGraph}</Typography>;
+  }
 
   return (
     <Grid
       container
       spacing={{ xs: 2, sm: 3 }}
     >
+      {/* 
       <Grid
         xs={12}
         md={6}
@@ -86,10 +120,11 @@ function AudienceMetrics() {
           </Box>
         </Card>
       </Grid>
+      */}
       <Grid
         xs={12}
-        md={6}
-        lg={3}
+        md={9}
+        lg={6}
       >
         <Card
           sx={{
@@ -117,7 +152,7 @@ function AudienceMetrics() {
                 pt: 1.5,
               }}
             >
-              55,842
+              {data?.reach ? data?.reach : 'N/A'}
             </Typography>
             <Typography
               lineHeight={1}
@@ -145,7 +180,7 @@ function AudienceMetrics() {
               height={100}
               colors={[theme.palette.success.main]}
               margin={{ top: 0, bottom: 0, left: 0, right: 3 }}
-              data={generateRandomData()}
+              data={dataGraph?.reach ? dataGraph?.reach : [0]}
               sx={{
                 '.MuiBarElement-root': {
                   fillOpacity: theme.palette.mode === 'dark' ? 0.76 : 1,
@@ -158,8 +193,8 @@ function AudienceMetrics() {
       </Grid>
       <Grid
         xs={12}
-        md={6}
-        lg={3}
+        md={9}
+        lg={6}
       >
         <Card
           sx={{
@@ -187,7 +222,7 @@ function AudienceMetrics() {
                 pt: 1.5,
               }}
             >
-              3.5
+              {data?.frequency ? parseFloat(data.frequency).toFixed(2) : 'N/A'}
             </Typography>
             <Typography
               lineHeight={1}
@@ -212,7 +247,7 @@ function AudienceMetrics() {
               height={100}
               colors={[theme.palette.error.main]}
               margin={{ top: 0, bottom: 0, left: 0, right: 3 }}
-              data={generateRandomData()}
+              data={dataGraph?.frequency ? dataGraph?.frequency : [0]}
               area
               sx={{
                 '.MuiLineElement-root': {
@@ -244,6 +279,7 @@ function AudienceMetrics() {
           </Box>
         </Card>
       </Grid>
+      {/*
       <Grid
         xs={12}
         md={6}
@@ -333,6 +369,7 @@ function AudienceMetrics() {
           </Box>
         </Card>
       </Grid>
+            */}
     </Grid>
   );
 }

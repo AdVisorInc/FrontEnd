@@ -1,15 +1,16 @@
 import AppsTwoToneIcon from '@mui/icons-material/AppsTwoTone';
+import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import BusinessCenterTwoToneIcon from '@mui/icons-material/BusinessCenterTwoTone';
 import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
 import LayersTwoToneIcon from '@mui/icons-material/LayersTwoTone';
 import { MenuItem } from 'src/router/menuItem';
 import { routes } from 'src/router/routes';
-import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import { selectSelectedOrganization } from 'src/slices/organization';
-import {useSelector} from "../../store";
+import { useSelector } from '../../store';
 
 const useMenuItemsCollapsedShells = (t: (token: string) => string): MenuItem[] => {
   const selectedOrganizationId = useSelector(selectSelectedOrganization);
+  console.log('Testing: ', selectedOrganizationId);
   return [
     {
       title: t('Overview'),
@@ -29,7 +30,7 @@ const useMenuItemsCollapsedShells = (t: (token: string) => string): MenuItem[] =
             : routes.blueprints['generic-admin-dashboard'].dashboards.organization,       },
         {
           title: t('Campaign Manager'),
-          route: routes.blueprints['generic-admin-dashboard'].dashboards.reports,
+          route: routes.blueprints['generic-admin-dashboard'].dashboards.analytics,
         },
       ],
     },
