@@ -5,7 +5,7 @@
   "homepage": "https://advisr.app",
   "private": true,
   "scripts": {
-    "dev": "next",
+    "dev": "next dev --experimental-https",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
