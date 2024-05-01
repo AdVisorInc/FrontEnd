@@ -11,47 +11,48 @@ import ApplicationUiStackedListsMessenger from 'src/components/application-ui/st
 import ApplicationUiStackedListsPortfolio from 'src/components/application-ui/stacked-lists/portfolio/portfolio';
 import ApplicationUiStackedListsRecentActivity from 'src/components/application-ui/stacked-lists/recent-activity/recent-activity';
 
+import WeeklySales from 'src/components/application-ui/area-charts/weekly-sales/weekly-sales'
+import OrdersList from '../application-ui/tables/orders-list/orders-list'
+import RevenueProgress from '../application-ui/horizontal-lists/revenue-progress/revenue-progress'
+
 type MarqueeDirection = 'left' | 'right' | 'up' | 'down';
 
 interface CarouselProps {
   marqueeDirection?: MarqueeDirection;
 }
 
+function withOverlay<T>(WrappedComponent: React.ComponentType<T>): React.ComponentType<T> {
+  // The returned component accepts all props of type T
+  const WithOverlayComponent: React.ComponentType<T> = (props: T): React.ReactElement => {
+    return (
+      <div style={{ pointerEvents: 'none' }}>
+        <WrappedComponent {...props} />
+      </div>
+    );
+  };
+
+  return WithOverlayComponent;
+}
+
+const WeeklySalesWithOverlay = withOverlay(WeeklySales);
+const OrdersListWithOverlay = withOverlay(OrdersList);
+const RevenueProgressWithOverlay = withOverlay(RevenueProgress);
+
 const components: {
   element: JSX.Element;
   width: number;
 }[] = [
   {
-    element: <ApplicationUiGaugeIndicatorsServerStatus />,
+    element: <WeeklySalesWithOverlay />,
     width: 1080,
   },
   {
-    element: <ApplicationUiStackedListsPortfolio />,
-    width: 580,
+    element: <OrdersListWithOverlay />,
+    width: 1080,
   },
   {
-    element: <ApplicationUiStackedListsRecentActivity />,
-    width: 520,
-  },
-  {
-    element: <ApplicationUiLineChartsSales />,
-    width: 648,
-  },
-  {
-    element: <ApplicationUiSparklineChartsCryptoWatchlist />,
-    width: 920,
-  },
-  {
-    element: <ApplicationUiLineChartsAudienceOverview />,
-    width: 740,
-  },
-  {
-    element: <ApplicationUiStackedListsLandingPages />,
-    width: 640,
-  },
-  {
-    element: <ApplicationUiStackedListsMessenger />,
-    width: 440,
+    element: <RevenueProgressWithOverlay />,
+    width: 1080,
   },
 ];
 

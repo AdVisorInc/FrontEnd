@@ -216,11 +216,10 @@ const HomepageHero = () => {
                 </Typography>
                 <Box mt={4}>
                   <Typography variant="h6" fontWeight={500} color="text.secondary">
-                    "AdVisor has revolutionized our ad optimization process. We've seen a significant
-                    increase in conversions and ROI since implementing their platform."
+                    "Since using AdVisor, I've streamlined my ad campaigns and drastically increased my marketing ROI, optimizing my budget allocation effortlessly. The actionable insights it provides are invaluable, allowing me to focus more on growing my business."
                   </Typography>
                   <Typography variant="subtitle1" color="text.secondary">
-                    - John Doe, Marketing Manager at XYZ Company
+                    - Jessica H., Owner, Bloom Boutique
                   </Typography>
                 </Box>
               </Grid>
@@ -232,7 +231,7 @@ const HomepageHero = () => {
                 component={RouterLink}
                 href={routes.components.index}
               >
-                Request a Demo
+                Get Started
               </Button>
               <Link
                 href="#discover-more"
