@@ -7,7 +7,7 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  Unstable_Grid2 as Grid,
+  Grid,
   Menu,
   MenuItem,
   Typography,

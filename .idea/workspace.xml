@@ -4,22 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Organization Creation completed, invitation and notification in pg.">
+    <list default="true" id="0a7a4df1-627a-49e1-aaa1-b10404cc8ac5" name="Changes" comment="Added some things for invitation-members, modded landing page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/env.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/alerts/completed-alternate/completed-alternate-org.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/description-grid-lists/organizations-list/organizations-list.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/description-grid-lists/organizations-list/organizations-list.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/InviteMemberDialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/organization-overview/InviteMemberDialog.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/radio-groups/my-cards/my-cards-select-for-subscription.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/radio-groups/my-cards/my-cards-select-for-subscription.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/radio-groups/my-cards/my-cards-select.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/radio-groups/my-cards/my-cards-select.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/tables/org-members/org-members.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/tables/org-members/org-members.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/website/hero.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/website/hero.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/invitations.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/invitations.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/notifications.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/notifications.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/organization.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/store/root-reducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/next.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/line-charts/audience-overview/audience-overview.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/line-charts/audience-overview/audience-overview.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/pie-doughnut-charts/account-balance/account-balance.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/components/application-ui/pie-doughnut-charts/account-balance/account-balance.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/advisorfrontend/src/slices/analytics.ts" beforeDir="false" afterPath="$PROJECT_DIR$/advisorfrontend/src/slices/analytics.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +173,8 @@
       <workItem from="1713462315933" duration="4883000" />
       <workItem from="1713815111828" duration="5873000" />
       <workItem from="1713821694156" duration="15750000" />
-      <workItem from="1714179700867" duration="30110000" />
+      <workItem from="1714179700867" duration="32648000" />
+      <workItem from="1714532926057" duration="745000" />
     </task>
     <task id="LOCAL-00001" summary="Update package-lock.json">
       <option name="closed" value="true" />
@@ -401,7 +392,31 @@
       <option name="project" value="LOCAL" />
       <updated>1714349824417</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Added some things for invitation-members, modded landing page">
+      <option name="closed" value="true" />
+      <created>1714426728661</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1714426728661</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Added some things for invitation-members, modded landing page">
+      <option name="closed" value="true" />
+      <created>1714431403163</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1714431403163</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Added some things for invitation-members, modded landing page">
+      <option name="closed" value="true" />
+      <created>1714431682277</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1714431682277</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -452,6 +467,7 @@
     <MESSAGE value="Organization Creation, Billing and started slice" />
     <MESSAGE value="My god, this works. I did not have a breakdown I swear. Organization Creation DONE" />
     <MESSAGE value="Organization Creation completed, invitation and notification in pg." />
-    <option name="LAST_COMMIT_MESSAGE" value="Organization Creation completed, invitation and notification in pg." />
+    <MESSAGE value="Added some things for invitation-members, modded landing page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added some things for invitation-members, modded landing page" />
   </component>
 </project>

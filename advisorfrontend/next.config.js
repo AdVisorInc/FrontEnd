@@ -10,11 +10,9 @@ const config = {
 
     return config;
   },
-};
-
-module.exports = {
-  config,
   env: {
-    META_ACCESS_TOKEN: '',
+    NEXT_META_ACCESS_TOKEN: process.env.NEXT_META_ACCESS_TOKEN,
   },
 };
+
+module.exports = config;

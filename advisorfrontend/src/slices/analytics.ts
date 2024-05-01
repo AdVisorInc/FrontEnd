@@ -189,7 +189,7 @@ export const { actions: audienceGraphActions, reducer: audienceGraphReducer } = 
 export const fetchSpendData = (): AppThunk => async (dispatch) => {
   try {
     const urlBase = 'https://graph.facebook.com/v19.0/120207851692320476/insights';
-    const accessToken = process.env.META_ACCESS_TOKEN;
+    const accessToken = process.env.NEXT_META_ACCESS_TOKEN;
     const fields = 'fields=spend';
 
     // FETCH THIS MONTH DATA
@@ -228,10 +228,10 @@ export const fetchPerformanceData =
   async (dispatch) => {
     try {
       const urlBase = 'https://graph.facebook.com/v19.0/120207851692320476/insights';
-      const accessToken = process.env.META_ACCESS_TOKEN;
+      const accessToken = process.env.NEXT_META_ACCESS_TOKEN;
       const fields = 'fields=impressions,clicks,cpc,ctr,cpm';
       let datePreset: string;
-
+      console.log("Testing 12", accessToken)
       // Define the API parameter based on the period
       switch (period) {
         case 'today':
@@ -279,7 +279,7 @@ export const fetchPerformanceData =
 export const fetchAudienceData = (): AppThunk => async (dispatch) => {
   try {
     const urlBase = 'https://graph.facebook.com/v19.0/120207851692320476/insights';
-    const accessToken = process.env.META_ACCESS_TOKEN;
+    const accessToken = process.env.NEXT_META_ACCESS_TOKEN;
     const fields = 'fields=reach,frequency';
 
     const response = await fetch(
@@ -309,7 +309,7 @@ export const fetchPerformanceGraphData =
   async (dispatch) => {
     try {
       const urlBase = 'https://graph.facebook.com/v19.0/120207851692320476/insights';
-      const accessToken = process.env.META_ACCESS_TOKEN;
+      const accessToken = process.env.NEXT_META_ACCESS_TOKEN;
       const fields = 'fields=impressions,clicks,cpc,ctr,cpm';
       let datePreset: string;
       let queryParams: string;
@@ -388,11 +388,10 @@ export const fetchPerformanceGraphData =
 export const fetchAudienceGraphData = (): AppThunk => async (dispatch) => {
   try {
     const urlBase = 'https://graph.facebook.com/v19.0/120207851692320476/insights';
-    const accessToken = process.env.META_ACCESS_TOKEN;
+    const accessToken = process.env.NEXT_META_ACCESS_TOKEN;
     const fields = 'fields=reach,frequency';
     const datePreset = 'last_7d';
     const queryParams = `time_increment=1`;
-
     const response = await fetch(
       `${urlBase}?date_preset=${datePreset}&${queryParams}&access_token=${accessToken}&${fields}`
     );
