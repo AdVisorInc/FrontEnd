@@ -20,7 +20,6 @@ import {
 import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import useFacebook from 'use-facebook';
 import { AvatarState } from '../../base/styles/avatar';
 
 interface ConnectAccountsProps {
@@ -64,11 +63,7 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({
     });
   };
 
-  const handleConnect = (account) => {
-    if (isFacebookSDKReady) {
-      FB.login();
-    }
-  };
+  const handleConnect = (account) => {};
 
   return (
     <Grid

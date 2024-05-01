@@ -46,6 +46,7 @@ import {
   useStripe,
 } from '@stripe/react-stripe-js';
 import { alpha } from '@mui/material/styles';
+import {StripeCardElement} from "@stripe/stripe-js";
 
 interface Item {
   id: number;
@@ -58,7 +59,9 @@ interface MyCardsSelectForSubscriptionProps {
   selectedCard: any;
   onCardSelect: (card: any) => void;
 }
-
+interface CustomAddressElementComponent extends AddressElementComponent {
+  getValue: () => Promise<{ error?: any; value?: any }>;
+}
 const MyCardsSelectForSubscription: React.FC<MyCardsSelectForSubscriptionProps> = ({
                                                                                      selectedCard,
                                                                                      onCardSelect,
@@ -110,15 +113,15 @@ const MyCardsSelectForSubscription: React.FC<MyCardsSelectForSubscriptionProps> 
       return;
     }
 
-    const cardElement = elements.getElement(CardElement) as CardElementComponent;
-    const addressElement = elements.getElement(AddressElement) as AddressElementComponent;
+    const cardElement = elements.getElement(CardElement) as StripeCardElement;
+    const addressElement = elements.getElement(AddressElement);
 
     if (!addressElement) {
       console.error('AddressElement not found');
       return;
     }
 
-    const { error: addressError, value: billingDetails } = await addressElement.getValue();
+    const { error: addressError, value: billingDetails } = await (addressElement as CustomAddressElementComponent).getValue();
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',

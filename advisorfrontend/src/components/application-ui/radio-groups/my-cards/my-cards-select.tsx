@@ -34,6 +34,7 @@ import {
   useStripe
 } from "@stripe/react-stripe-js";
 import { alpha } from '@mui/material/styles';
+import {StripeCardElement} from "@stripe/stripe-js";
 
 interface Item {
   id: number;
@@ -98,15 +99,15 @@ const MyCardsSelect = () => {
       return;
     }
 
-    const cardElement = elements.getElement(CardElement) as CardElementComponent;
-    const addressElement = elements.getElement(AddressElement) as AddressElementComponent;
+    const cardElement = elements.getElement(CardElement) as StripeCardElement;
+    const addressElement = elements.getElement(AddressElement);
 
     if (!addressElement) {
       console.error('AddressElement not found');
       return;
     }
 
-    const { error: addressError, value: billingDetails } = await addressElement.getValue();
+    const { error: addressError, value: billingDetails } = await (addressElement as any).getValue();
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
