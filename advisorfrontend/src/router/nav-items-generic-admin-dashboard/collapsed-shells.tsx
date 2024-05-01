@@ -21,21 +21,13 @@ const useMenuItemsCollapsedShells = (t: (token: string) => string): MenuItem[] =
       title: 'Dashboards',
       icon: <DashboardTwoToneIcon />,
       route: selectedOrganizationId
-        ? routes.blueprints['generic-admin-dashboard'].dashboards.organization.replace(
-            '[organizationId]',
-            selectedOrganizationId
-          )
-        : routes.blueprints['generic-admin-dashboard'].dashboards.organization,
-      subMenu: [
+        ? routes.blueprints['generic-admin-dashboard'].dashboards.organization.replace('[organizationId]', String(selectedOrganizationId))
+        : routes.blueprints['generic-admin-dashboard'].dashboards.organization,    subMenu: [
         {
           title: t('Organization'),
           route: selectedOrganizationId
-            ? routes.blueprints['generic-admin-dashboard'].dashboards.organization.replace(
-                '[organizationId]',
-                selectedOrganizationId
-              )
-            : routes.blueprints['generic-admin-dashboard'].dashboards.organization,
-        },
+            ? routes.blueprints['generic-admin-dashboard'].dashboards.organization.replace('[organizationId]', String(selectedOrganizationId))
+            : routes.blueprints['generic-admin-dashboard'].dashboards.organization,       },
         {
           title: t('Campaign Manager'),
           route: routes.blueprints['generic-admin-dashboard'].dashboards.analytics,

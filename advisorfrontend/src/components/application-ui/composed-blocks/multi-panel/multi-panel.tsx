@@ -23,15 +23,10 @@ import {
 } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import TimelineBasic from 'src/components/application-ui/timelines/basic/basic';
-import LoginFormBasic from 'src/components/application-ui/user-auth/login/login-form';
 import { TabsAlternate } from 'src/components/base/styles/tabs';
-import EmployeeStatus from "../../tables/employee-status/employee-status";
-import Users from '../../horizontal-lists/top-users/top-users';
-import Company from "../../form-layouts/company/company";
-import CompanyCard from "../../image-grid-lists/company-card/company-card";
 import OrganizationOverview from "../../organization-overview/organization-overview";
 import SettingsTab from "../../organization-overview/settings-tab";
+import OrgMembers from "../../tables/org-members/org-members";
 
 const BoxComposedContent = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -302,7 +297,7 @@ function Component() {
           <Divider />
           <Box p={{ xs: 2, sm: 3 }}>
             {currentTab === 0 && <OrganizationOverview />}
-            {currentTab === 1 && <EmployeeStatus />}
+            {currentTab === 1 && <OrgMembers />}
             {currentTab === 2 && <SettingsTab />}
           </Box>
         </Grid>

@@ -41,6 +41,7 @@ import {
   CardElementComponent,
 } from '@stripe/react-stripe-js';
 import Stripe from "stripe";
+import {StripeCardElement} from "@stripe/stripe-js";
 
 const MyCardsSelect = () => {
   const theme = useTheme();
@@ -97,7 +98,7 @@ const MyCardsSelect = () => {
       return;
     }
 
-    const cardElement = elements.getElement(CardElement) as CardElementComponent;
+    const cardElement = elements.getElement(CardElement) as StripeCardElement;
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: cardElement,

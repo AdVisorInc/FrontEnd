@@ -22,6 +22,8 @@ import { useTranslation } from 'react-i18next';
 import { AvatarState } from 'src/components/base/styles/avatar';
 import { fetchSpendData } from '../../../../slices/analytics';
 import { useDispatch, useSelector } from '../../../../store';
+import { fetchAdData } from '../../../../slices/analytics';
+import {useDispatch} from "../../../../store";
 
 type PlatformData = {
   symbol: string;

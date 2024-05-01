@@ -6,16 +6,25 @@ import { User } from "../mocks/users";
 import {PlaceType} from "../components/application-ui/dropdowns/google-maps/google-maps-dropdown";
 import { toast } from 'react-hot-toast';
 import {createUserActivity} from "./userActivities";
+
+export interface SearchUser {
+  uuid: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  avatar_url: string;
+}
 interface UserProfileState {
   isLoaded: boolean;
   data: User | null;
   error: string | null;
+  searchResults: SearchUser[];
 }
-
 const initialState: UserProfileState = {
   isLoaded: false,
   data: null,
   error: null,
+  searchResults: [],
 };
 
 const slice = createSlice({
@@ -48,6 +57,8 @@ const slice = createSlice({
         // @ts-ignore
         state.data = { ...state.data, ...action.payload };
       }
+    },setSearchResults(state, action: PayloadAction<SearchUser[]>) {
+      state.searchResults = action.payload;
     },
   },
 });
@@ -470,5 +481,25 @@ export const updateUserProfile = (userData: Partial<User>): AppThunk => async (d
         color: '#fff',
       },
     });
+  }
+};
+export const searchUsers = (query: string): AppThunk => async (dispatch) => {
+  try {
+    const supabaseClient = createSupabaseClient();
+
+    const { data: users, error } = await supabaseClient
+      .from('User')
+      .select('uuid, first_name, last_name, email, avatar_url')
+      .or(`first_name.ilike.%${query}%,last_name.ilike.%${query}%,email.ilike.%${query}%`)
+      .limit(10);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    dispatch(slice.actions.setSearchResults(users as SearchUser[]));
+  } catch (error) {
+    console.error('Error searching users:', error.message);
+    dispatch(slice.actions.setSearchResults([]));
   }
 };

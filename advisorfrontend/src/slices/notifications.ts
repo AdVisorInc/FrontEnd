@@ -109,7 +109,35 @@ export const fetchNotifications = (): AppThunk => async (dispatch) => {
     });
   }
 };
+export const createNotification = (userId: string, notification_type: string, data: any): AppThunk => async (dispatch) => {
+  try {
+    const supabaseClient = createSupabaseClient();
 
+    const { data: notification, error } = await supabaseClient
+      .from('Notifications')
+      .insert({
+        user_id: userId,
+        notification_type,
+        data,
+      })
+      .select()
+      .single();
+    console.log(notification)
+    console.log("error", error)
+    if (error) {
+      throw new Error(error.message);
+    }
+  } catch (error) {
+    console.error('Error creating notification:', error.message);
+    toast.error('Failed to create notification', {
+      position: 'bottom-left',
+      style: {
+        background: '#f44336',
+        color: '#fff',
+      },
+    });
+  }
+};
 export const subscribeToNotifications = (): AppThunk => async (dispatch) => {
   try {
     const supabaseClient = createSupabaseClient();

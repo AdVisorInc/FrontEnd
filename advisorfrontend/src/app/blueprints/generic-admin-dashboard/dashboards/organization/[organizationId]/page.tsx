@@ -1,31 +1,23 @@
 'use client';
 
 import DeviceTabletIcon from '@heroicons/react/24/outline/DeviceTabletIcon';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { Box, Button, Container, Unstable_Grid2 as Grid, useTheme } from '@mui/material';
-import React, {useEffect, useState} from 'react';
+import { Box, Container, Unstable_Grid2 as Grid, useTheme } from '@mui/material';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCustomization } from 'src/hooks/use-customization';
-import { Layout } from 'src/layouts';
-import MultiPanel
-  from "../../../../../../components/application-ui/composed-blocks/multi-panel/multi-panel";
-import SectionHeading, {
-  BreadcrumbItem
-} from "../../../../../../components/application-ui/section-headings/basic/basic";
-import {DesignServicesOutlined} from "@mui/icons-material";
-import {useParams} from "next/navigation";
-import {useDispatch, useSelector} from "../../../../../../store";
-import {router} from "next/client";
-import {
-  fetchOrganizationData,
-  fetchUserOrganizations,
-  setSelectedOrganization
-} from "../../../../../../slices/organization";
-import {useRouter} from "../../../../../../hooks/use-router";
+import MultiPanel from "../../../../../../components/application-ui/composed-blocks/multi-panel/multi-panel";
+import SectionHeading, { BreadcrumbItem } from "../../../../../../components/application-ui/section-headings/basic/basic";
+import { DesignServicesOutlined } from "@mui/icons-material";
+import { useParams } from "next/navigation";
+import { useDispatch, useSelector } from "../../../../../../store";
+import { useRouter } from "../../../../../../hooks/use-router";
+import { fetchOrganizationData, fetchUserOrganizations, setSelectedOrganization } from "../../../../../../slices/organization";
+
 const OrganizationPage: React.FC = () => {
   const params = useParams();
-  const organizationId = params.organizationId as string;
+  const organizationId = Number(params.organizationId);
   const selectedOrganization = useSelector((state) => state.organization.selectedOrganization);
+  const organizationData = useSelector((state) => state.organization.organizationData);
   const dispatch = useDispatch();
   const customization = useCustomization();
   const theme = useTheme();
@@ -43,7 +35,13 @@ const OrganizationPage: React.FC = () => {
     }
   }, [dispatch, organizationId]);
 
-  const handleOrganizationChange = (organizationId: string) => {
+  useEffect(() => {
+    if (selectedOrganization) {
+      dispatch(fetchOrganizationData(selectedOrganization));
+    }
+  }, [dispatch, selectedOrganization]);
+
+  const handleOrganizationChange = (organizationId: number) => {
     dispatch(setSelectedOrganization(organizationId));
     router.push(`/blueprints/generic-admin-dashboard/dashboards/organization/${organizationId}`);
   };
@@ -51,18 +49,20 @@ const OrganizationPage: React.FC = () => {
   const breadcrumbs: BreadcrumbItem[] = [
     { label: 'Home', href: '/blueprints/generic-admin-dashboard/dashboards/overview' },
     {
-      label: 'Organization',
+      label: organizationData?.name || 'Organization',
       href: `/blueprints/generic-admin-dashboard/dashboards/organization/${selectedOrganization}`,
       options: organizations,
       selectedOption: selectedOrganization,
       onOptionChange: handleOrganizationChange,
     },
   ];
+
   const pageMeta = {
     title: 'Organization',
     description: 'Something',
     icon: <DeviceTabletIcon />,
   };
+
   return (
     <>
       {pageMeta.title && (
@@ -104,13 +104,13 @@ const OrganizationPage: React.FC = () => {
             }}
           >
             <Grid xs={12}>
-              <MultiPanel/>
+              <MultiPanel />
             </Grid>
-
           </Grid>
         </Box>
       </Container>
     </>
   );
 }
+
 export default OrganizationPage;

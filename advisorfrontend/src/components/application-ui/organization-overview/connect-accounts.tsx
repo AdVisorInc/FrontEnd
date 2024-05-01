@@ -1,33 +1,36 @@
 // connect-accounts.tsx
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import DoneIcon from '@mui/icons-material/Done';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PriorityHighTwoToneIcon from '@mui/icons-material/PriorityHighTwoTone';
 import {
-  Grid,
-  Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Avatar,
+  Button,
   Card,
   CardContent,
+  Grid,
+  List,
   ListItem,
   ListItemAvatar,
-  Avatar,
   ListItemText,
-  Button,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  List,
+  Typography,
 } from '@mui/material';
-import { AvatarState } from "../../base/styles/avatar";
-import DoneIcon from "@mui/icons-material/Done";
-import PriorityHighTwoToneIcon from "@mui/icons-material/PriorityHighTwoTone";
-import CircularProgress from "@mui/material/CircularProgress";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CircularProgress from '@mui/material/CircularProgress';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { AvatarState } from '../../base/styles/avatar';
 
 interface ConnectAccountsProps {
   organizationData: any;
   setOrganizationData: (data: any) => void;
 }
 
-const ConnectAccounts: React.FC<ConnectAccountsProps> = ({ organizationData, setOrganizationData }) => {
+const ConnectAccounts: React.FC<ConnectAccountsProps> = ({
+  organizationData,
+  setOrganizationData,
+}) => {
   const { t } = useTranslation();
 
   const [connectingAccount, setConnectingAccount] = useState(null);
@@ -42,6 +45,9 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({ organizationData, set
     { name: 'meta', label: 'Meta', icon: '/placeholders/logo/meta-icon.svg' },
     { name: 'x', label: 'X', icon: '/placeholders/logo/x-icon.svg' },
   ];
+
+  const options = { appId: '734253658867683' };
+  //const { isFacebookSDKReady } = useFacebook(options);
 
   const handleAccountSelection = (platform, account) => {
     setOrganizationData({
@@ -58,47 +64,36 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({ organizationData, set
   };
 
   const handleConnect = (account) => {
-    setConnectingAccount(account);
-    setConnectionStatus((prevState) => ({
-      ...prevState,
-      [account]: 'progress',
-    }));
 
-    // Simulate connection process
-    setTimeout(() => {
-      // Simulate success or error scenario
-      const random = Math.random();
-      if (random < 0.8) {
-        setOrganizationData({
-          ...organizationData,
-          connectedAccounts: {
-            ...organizationData.connectedAccounts,
-            [account]: true,
-          },
-        });
-        setConnectionStatus((prevState) => ({
-          ...prevState,
-          [account]: 'success',
-        }));
-      } else {
-        setConnectionStatus((prevState) => ({
-          ...prevState,
-          [account]: 'failed',
-        }));
-      }
-      setConnectingAccount(null);
-    }, 2000);
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Grid
+      container
+      spacing={2}
+    >
+      <Grid
+        item
+        xs={12}
+      >
         <Typography>Connect your ad accounts to streamline your campaigns.</Typography>
       </Grid>
-      <Grid item xs={12}>
-        <Grid container spacing={2}>
+      <Grid
+        item
+        xs={12}
+      >
+        <Grid
+          container
+          spacing={2}
+        >
           {accounts.map((account) => (
-            <Grid item xs={12} sm={12} md={12} key={account.name}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              key={account.name}
+            >
               <Card>
                 <CardContent>
                   {organizationData.connectedAccounts[account.name] ? (
@@ -112,7 +107,10 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({ organizationData, set
                     >
                       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                         <ListItemAvatar>
-                          <AvatarState state="success" isSoft>
+                          <AvatarState
+                            state="success"
+                            isSoft
+                          >
                             <DoneIcon fontSize="small" />
                           </AvatarState>
                         </ListItemAvatar>
@@ -128,7 +126,9 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({ organizationData, set
                               key={acc}
                               button
                               onClick={() => handleAccountSelection(account.name, acc)}
-                              selected={organizationData.selectedAccounts[account.name]?.includes(acc)}
+                              selected={organizationData.selectedAccounts[account.name]?.includes(
+                                acc
+                              )}
                             >
                               <ListItemText primary={acc} />
                             </ListItem>
@@ -139,16 +139,26 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({ organizationData, set
                   ) : (
                     <ListItem>
                       <ListItemAvatar>
-                        {connectingAccount === account.name && connectionStatus[account.name] === 'progress' ? (
-                          <AvatarState state="warning" isSoft>
+                        {connectingAccount === account.name &&
+                        connectionStatus[account.name] === 'progress' ? (
+                          <AvatarState
+                            state="warning"
+                            isSoft
+                          >
                             <CircularProgress color="inherit" />
                           </AvatarState>
                         ) : connectionStatus[account.name] === 'success' ? (
-                          <AvatarState state="success" isSoft>
+                          <AvatarState
+                            state="success"
+                            isSoft
+                          >
                             <DoneIcon fontSize="small" />
                           </AvatarState>
                         ) : connectionStatus[account.name] === 'failed' ? (
-                          <AvatarState state="error" isSoft>
+                          <AvatarState
+                            state="error"
+                            isSoft
+                          >
                             <PriorityHighTwoToneIcon />
                           </AvatarState>
                         ) : (
@@ -161,7 +171,8 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({ organizationData, set
                       <ListItemText
                         primary={t(account.label)}
                         secondary={
-                          connectingAccount === account.name && connectionStatus[account.name] === 'progress'
+                          connectingAccount === account.name &&
+                          connectionStatus[account.name] === 'progress'
                             ? t('Connecting...')
                             : connectionStatus[account.name] === 'failed'
                               ? t('Connection failed. Please try again.')
@@ -175,7 +186,11 @@ const ConnectAccounts: React.FC<ConnectAccountsProps> = ({ organizationData, set
                           variant="contained"
                           color="secondary"
                           onClick={() => handleConnect(account.name)}
-                          disabled={connectingAccount !== null || account.name === 'google' || account.name === 'x'}
+                          disabled={
+                            connectingAccount !== null ||
+                            account.name === 'google' ||
+                            account.name === 'x'
+                          }
                         >
                           {t('Connect')}
                         </Button>

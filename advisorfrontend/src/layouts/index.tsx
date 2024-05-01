@@ -1,5 +1,7 @@
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import PropTypes from 'prop-types';
-import {useEffect, type FC, type ReactNode } from 'react';
+import { useEffect, type FC, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 // Collapsed Shells
 import { CollapsedShellsDoubleAccent } from 'src/components/application-ui/collapsed-shells/double-accent/double-accent';
@@ -31,12 +33,10 @@ import { MenuItem } from 'src/router/menuItem';
 import useMenuItemsCollapsedShells from 'src/router/nav-items-generic-admin-dashboard/collapsed-shells';
 import useMenuItemsStackedShells from 'src/router/nav-items-generic-admin-dashboard/stacked-shells';
 import useMenuItemsVerticalShells from 'src/router/nav-items-generic-admin-dashboard/vertical-shells';
-import {fetchUserProfile} from "../slices/userProfile";
-import {RootState, store, useDispatch, useSelector} from "../store";
-import { subscribeToNotifications} from "../slices/notifications";
-import {getNotificationUnsubscribe} from "../utils/notificationUtils";
-import {Elements} from "@stripe/react-stripe-js";
-import { loadStripe } from '@stripe/stripe-js';
+import { subscribeToNotifications } from '../slices/notifications';
+import { fetchUserProfile } from '../slices/userProfile';
+import { RootState, store, useDispatch, useSelector } from '../store';
+import { getNotificationUnsubscribe } from '../utils/notificationUtils';
 
 // import { withGuestGuard } from 'src/hocs/with-guest-guard';
 
@@ -72,7 +72,6 @@ export const Layout: FC<LayoutProps> = withAuthGuard((props) => {
 
   switch (customization.layout) {
     // Vertical Shells
-
 
     // Collapsed Shells
     case 'collapsed-shells-double':
@@ -130,12 +129,11 @@ export const Layout: FC<LayoutProps> = withAuthGuard((props) => {
   return (
     <>
       <Elements stripe={stripePromise}>
-      <ShellComponent
-        menuItems={menuItems}
-        {...props}
-      />
+        <ShellComponent
+          menuItems={menuItems}
+          {...props}
+        />
       </Elements>
-
     </>
   );
 });

@@ -11,28 +11,40 @@ import {
   Stack,
   Tooltip,
   Typography,
-  useTheme, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField,
+  useTheme,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
 } from '@mui/material';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import { ButtonIcon } from 'src/components/base/styles/button-icon';
 import { CardAddActionDashed } from 'src/components/base/styles/card';
-import {AppThunk, useDispatch, useSelector} from 'src/store';
-import {RootState} from "../../../../store";
+import { AppThunk, useDispatch, useSelector } from 'src/store';
+import { RootState } from '../../../../store';
 import {
   addPaymentMethod,
   createSetupIntent,
   fetchOrCreateCustomer,
-  fetchPaymentMethods, removePaymentMethod, updateBillingDetails, updateDefaultPaymentMethod
-} from "../../../../slices/stripe";
+  fetchPaymentMethods,
+  removePaymentMethod,
+  updateBillingDetails,
+  updateDefaultPaymentMethod,
+} from '../../../../slices/stripe';
 import {
-  AddressElement, AddressElementComponent,
+  AddressElement,
+  AddressElementComponent,
   CardElement,
-  CardElementComponent, Elements, ElementsConsumer,
+  CardElementComponent,
+  Elements,
+  ElementsConsumer,
   useElements,
-  useStripe
-} from "@stripe/react-stripe-js";
+  useStripe,
+} from '@stripe/react-stripe-js';
 import { alpha } from '@mui/material/styles';
 import {StripeCardElement} from "@stripe/stripe-js";
 
@@ -43,20 +55,25 @@ interface Item {
   expires: string;
   title: string;
 }
-
-const MyCardsSelect = () => {
+interface MyCardsSelectForSubscriptionProps {
+  selectedCard: any;
+  onCardSelect: (card: any) => void;
+}
+interface CustomAddressElementComponent extends AddressElementComponent {
+  getValue: () => Promise<{ error?: any; value?: any }>;
+}
+const MyCardsSelectForSubscription: React.FC<MyCardsSelectForSubscriptionProps> = ({
+                                                                                     selectedCard,
+                                                                                     onCardSelect,
+                                                                                   }) => {
   const theme = useTheme();
-  const {t} = useTranslation();
-  const {data: user, isLoaded, error} = useSelector((state: RootState) => state.userProfile);
+  const { t } = useTranslation();
+  const { data: user, isLoaded, error } = useSelector((state: RootState) => state.userProfile);
   const dispatch = useDispatch();
-  const {
-    customerId,
-    setupIntentClientSecret,
-    paymentMethods
-  } = useSelector((state: RootState) => state.stripe);
+  const { customerId, paymentMethods } = useSelector((state: RootState) => state.stripe);
+
   const stripe = useStripe();
   const elements = useElements();
-  const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
@@ -64,6 +81,7 @@ const MyCardsSelect = () => {
       dispatch(fetchOrCreateCustomer(user.email));
     }
   }, [user, dispatch]);
+
   useEffect(() => {
     if (customerId) {
       dispatch(fetchPaymentMethods(customerId));
@@ -71,21 +89,17 @@ const MyCardsSelect = () => {
     }
   }, [customerId, dispatch]);
 
-
   useEffect(() => {
-    if (paymentMethods.length > 0) {
-      setSelectedValue(paymentMethods[0].id);
+    if (paymentMethods.length > 0 && !selectedCard) {
+      onCardSelect(paymentMethods[0]);
     }
-  }, [paymentMethods]);
+  }, [paymentMethods, selectedCard, onCardSelect]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value);
-    dispatch(updateDefaultPaymentMethod(customerId, event.target.value));
+    const selectedPaymentMethod = paymentMethods.find((pm) => pm.id === event.target.value);
+    onCardSelect(selectedPaymentMethod);
   };
-  const handleDelete = async (paymentMethodId: string) => {
-    dispatch(removePaymentMethod(paymentMethodId));
-    toast.success('The card has been removed successfully!');
-  };
+
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -107,7 +121,7 @@ const MyCardsSelect = () => {
       return;
     }
 
-    const { error: addressError, value: billingDetails } = await (addressElement as any).getValue();
+    const { error: addressError, value: billingDetails } = await (addressElement as CustomAddressElementComponent).getValue();
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
@@ -136,6 +150,7 @@ const MyCardsSelect = () => {
       toast.success('New card added successfully!');
     }
   };
+
   const stripeElementStyle = {
     base: {
       fontSize: '16px',
@@ -153,6 +168,7 @@ const MyCardsSelect = () => {
       color: `${theme.palette.error.main} !important`,
     },
   };
+
   const appearance = {
     theme: 'stripe' as const,
     variables: {
@@ -165,18 +181,9 @@ const MyCardsSelect = () => {
   };
 
   return (
-    <Grid
-      container
-      columns={24}
-      spacing={2}
-    >
+    <Grid container columns={24} spacing={2}>
       {paymentMethods.map((item) => (
-        <Grid
-          key={item.id}
-          xs={24}
-          md={12}
-          lg={9}
-        >
+        <Grid key={item.id} xs={24} md={12} lg={9}>
           <Card
             elevation={0}
             sx={{
@@ -194,32 +201,22 @@ const MyCardsSelect = () => {
                   theme.palette.mode === 'dark'
                     ? theme.palette.neutral[900]
                     : theme.palette.neutral[50],
-
                 '&:hover': {
                   backgroundColor: 'background.paper',
                   boxShadow: `0 0 0 1px ${theme.palette.primary.main} inset`,
                 },
-
                 '&.Mui-selected': {
                   backgroundColor: 'background.paper',
                   boxShadow: `0 0 0 2px ${theme.palette.primary.main} inset`,
-
                   '&:hover': {
                     backgroundColor: 'background.paper',
                   },
                 },
               }}
-              selected={selectedValue === item.id}
-              onClick={() => setSelectedValue(item.id)}
+              selected={selectedCard?.id === item.id}
+              onClick={() => onCardSelect(item)}
             >
-              <Box
-                display="flex"
-                alignItems="center"
-                width="100%"
-                px={2}
-                pt={2}
-                pb={1}
-              >
+              <Box display="flex" alignItems="center" width="100%" px={2} pt={2} pb={1}>
                 <Card
                   elevation={8}
                   sx={{
@@ -233,114 +230,50 @@ const MyCardsSelect = () => {
                     },
                   }}
                 >
-                  <img src={`/placeholders/logo/${item.card.brand.toLowerCase()}.png`}
-                       alt={item.card.brand}/>
+                  <img src={`/placeholders/logo/${item.card.brand.toLowerCase()}.png`} alt={item.card.brand} />
                 </Card>
                 <Box flex={1}>
-                  <Typography
-                    variant="h4"
-                    fontWeight={500}
-                    lineHeight={1}
-                    gutterBottom
-                  >
+                  <Typography variant="h4" fontWeight={500} lineHeight={1} gutterBottom>
                     •••• {item.card.last4}
                   </Typography>
-                  <Typography
-                    variant="h6"
-                    fontWeight={500}
-                    color="text.secondary"
-                  >
+                  <Typography variant="h6" fontWeight={500} color="text.secondary">
                     {t('Expires')}:{' '}
-                    <Typography
-                      component="span"
-                      variant="h6"
-                      color="text.primary"
-                    >
+                    <Typography component="span" variant="h6" color="text.primary">
                       {item.card.exp_month}/{item.card.exp_year}
                     </Typography>
                   </Typography>
                 </Box>
               </Box>
-              <Stack
-                direction="row"
-                alignItems="center"
-                width="100%"
-                px={2}
-                py={1}
-              >
+              <Stack direction="row" alignItems="center" width="100%" px={2} py={1}>
                 <Radio
-                  checked={selectedValue === item.id}
+                  checked={selectedCard?.id === item.id}
                   onChange={handleChange}
                   value={item.id}
                   size="small"
                   edge="start"
                   name="radio-buttons"
-                  inputProps={{'aria-label': 'Set' + item.card.brand + 'as primary card'}}
+                  inputProps={{ 'aria-label': 'Select ' + item.card.brand + ' card' }}
                   color="primary"
                 />
-                <Typography
-                  variant="h6"
-                  noWrap
-                >
-                  {t('Primary')}
+                <Typography variant="h6" noWrap>
+                  {t('Select')}
                 </Typography>
               </Stack>
-              <Tooltip
-                arrow
-                title={t('Remove this card')}
-              >
-                <ButtonIcon
-                  sx={{
-                    position: 'absolute',
-                    top: theme.spacing(1),
-                    right: theme.spacing(1),
-                  }}
-                  variant="outlined"
-                  size="small"
-                  color="error"
-                  onClick={() => handleDelete(item.id)}
-                >
-                  <DeleteTwoToneIcon fontSize="small"/>
-                </ButtonIcon>
-              </Tooltip>
             </ListItemButton>
           </Card>
         </Grid>
       ))}
-      <Grid
-        xs={24}
-        lg={6}
-      >
-        <CardAddActionDashed
-          variant="outlined"
-          elevation={0}
-          sx={{minWidth: 160, flex: 1}}
-        >
+      <Grid xs={24} lg={6}>
+        <CardAddActionDashed variant="outlined" elevation={0} sx={{ minWidth: 160, flex: 1 }}>
           <CardActionArea onClick={handleOpenDialog}>
             <CardContent>
-              <Stack
-                spacing={0.5}
-                justifyContent="center"
-                direction="column"
-                alignItems="center"
-              >
-                <AddRoundedIcon
-                  sx={{
-                    color: 'primary.main',
-                  }}
-                />
+              <Stack spacing={0.5} justifyContent="center" direction="column" alignItems="center">
+                <AddRoundedIcon sx={{ color: 'primary.main' }} />
                 <Box>
-                  <Typography
-                    textAlign="center"
-                    variant="h5"
-                  >
+                  <Typography textAlign="center" variant="h5">
                     Add new card
                   </Typography>
-                  <Typography
-                    textAlign="center"
-                    variant="subtitle1"
-                    color="text.secondary"
-                  >
+                  <Typography textAlign="center" variant="subtitle1" color="text.secondary">
                     Click to add a new card
                   </Typography>
                 </Box>
@@ -401,6 +334,4 @@ const MyCardsSelect = () => {
   );
 };
 
-export default MyCardsSelect;
-
-
+export default MyCardsSelectForSubscription;
